@@ -49,6 +49,7 @@ Slideshow Model::
     - team: FK to the Team model
     - templates: CSV of template names to show. The order of appearance is considered
     - transition_interval: Seconds between template transition
+    - caching_interval: Seconds to keep a cache copy (maybe move this as query param in the /slides endpoint)
 
 Team
 ----
@@ -66,6 +67,16 @@ User Model::
     - full_name
     - email:  (used as username as well)
 
+
+Template rendering
+------------------
+
+When a request comes to render a template, a task is fired to do the following:
+
+    #the template is read from the fs along with data source details.
+    #Read data source from URLs if required. If there are several URLs, the read should be done with coroutines to speed up process
+    #Cache the result for the specified time in the slideshow
+
 API
 ---
 
@@ -75,13 +86,13 @@ Prefix: api.<hostname>/v1
 /teams CRUD [admin]
 /repositories CRUD [admin]
 /slideshows READ [user] WRITE [admin]
-/templates GET [admin]--> A list of currently available template names in the file system
-/rendered-templates/:id GET [user,admin] --> :id is formed by the team name and the name of the folder that contains the template (e.g. css-commits).
-The rendered template is within the "data" key, {"data": <rendered-html>}
+/templates READ [admin]--> A list of currently available template in the file system (name, data_src)
+/slides READ [user,admin] --> :id is formed by the team name and the name of the folder that contains the
+template (e.g. css-commits). The response is a task id
+/tasks READ [user,admin]
 
 Authentication
 --------------
-
 
 By default there is no security (no TLS, no credentials verification) as this is an internal project to use in the team, so it is trust based.
 User is identified by token to allow plugin auth backends if needed (oauth for example).
