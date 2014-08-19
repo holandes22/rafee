@@ -24,6 +24,8 @@ TEMPLATE_DEBUG = False
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = 'users.User'
+
 DJANGO_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
