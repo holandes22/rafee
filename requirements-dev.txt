@@ -1,0 +1,16 @@
+# Base
+-r requirements-prod.txt
+
+# Deploment tools
+PyYAML
+Fabric
+ansible
+
+# Testing tools
+nose
+coverage
+mock
+factory-boy
+
+# Debug tools
+ipython

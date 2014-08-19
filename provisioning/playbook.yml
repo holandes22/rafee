@@ -1,0 +1,44 @@
+---
+- hosts: all
+  vars_files:
+    - vars.yml
+  tasks:
+    - name: Generate locale {{ locale }}
+      command: /usr/sbin/locale-gen {{ locale }}
+
+    - name: Set locale to {{ locale }}
+      command: /usr/sbin/update-locale LANG={{ locale }} LC_ALL={{ locale }}
+
+    - name: Add postgres repository
+      apt_repository: repo='deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main' state=present
+
+    - name: Add postgres repository key
+      apt_key: url=http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc state=present
+
+    - name: Install required system packages.
+      apt: pkg={{ item }} state=installed update-cache=yes
+      with_items: system_packages
+
+    - name: Install required Python packages
+      pip: name={{ item }} extra_args='-U'
+      with_items: python_packages
+
+    - name: Install requirements
+      pip: requirements='/vagrant/requirements-dev.txt' virtualenv={{ virtualenv_path }}
+
+    - name: Change owner of virtualenvs folder to vagrant user
+      file: path=/home/vagrant/virtualenvs owner=vagrant group=vagrant recurse=yes
+
+    - name: Create pg Database role
+      sudo_user: postgres
+      postgresql_user: name={{ db_settings.user }}
+
+    - name: Create pg Database
+      sudo_user: postgres
+      postgresql_db: >
+          name={{ db_settings.name }}
+          encoding=UTF-8
+          owner={{ db_settings.user }}
+
+    - name: Restart postgresql server
+      service: name=postgresql state=started enabled=yes

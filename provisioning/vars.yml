@@ -1,0 +1,23 @@
+project_name: rafee
+virtualenv_path: /home/vagrant/virtualenvs/{{ project_name }}
+locale: en_US.UTF-8
+system_packages:
+    - build-essential
+    - postgresql-9.3
+    - postgresql-server-dev-9.3
+    - pgadmin3
+    - libpq-dev
+    - libevent-dev
+    - language-pack-en
+    - git
+    - vim
+    - python-pip
+    - python-dev
+python_packages:
+    - pip
+    - virtualenv
+    - psycopg2
+db_settings:
+    name: "{{ project_name }}_db"
+    user: vagrant
+    password: vagrant

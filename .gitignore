@@ -1,0 +1,15 @@
+modules/
+logs/*.log
+
+# compiled output
+*/dist
+*/tmp
+*/doc
+/static/*
+
+# misc
+.DS_Store
+Thumbs.db
+coverage
+.coverage
+vagrant_ansible_inventory_default
