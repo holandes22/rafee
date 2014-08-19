@@ -85,7 +85,7 @@ Prefix: `api.<hostname>/v1`
 
     /users CRUD [admin]
     /teams CRUD [admin]
-    /repositories CRUD [admin]
+    /repositories CRUD [admin] -> Returns a task (Since cloning can be a long running task)
     /slideshows READ [user] WRITE [admin]
     /templates READ [admin]--> A list of currently available template in the file system (name, data_src)
     /slides READ [user,admin] --> :id is formed by the team name and the name of the folder that contains the
