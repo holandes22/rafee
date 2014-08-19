@@ -22,7 +22,7 @@ Run all the actions below in a virtual env:
 Choose default option for all steps below:
 
     fab vagrant migrate  # in order to apply token migration from DRF
-    fab vagrant runserver  # choose the default dev option, runs at localhost:8888 (from VM)
+    fab vagrant runserver  # choose the default dev option, runs at http://localhost:8888 (from VM)
 
 
 ### Frontend
