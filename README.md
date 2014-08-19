@@ -4,10 +4,16 @@ rafee
 ## Setting development environment
 
 git clone and init submodules.
+You need to have the following installed in your system:
+
+- python 2.7
+- vagrant 1.6: http://www.vagrantup.com/downloads.html
+- virtualbox: https://www.virtualbox.org/wiki/Downloads
+- virtualenv (optional but highly recommended): pip install virtualenv
 
 ### Backend
 
-Run all the actions below in a virtual env.
+Run all the actions below in a virtual env:
 
     cd rafee
     pip install -r requirements-dev.txt
