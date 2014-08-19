@@ -2,7 +2,6 @@
 -r requirements-prod.txt
 
 # Deploment tools
-PyYAML
 Fabric
 ansible
 
