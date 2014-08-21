@@ -43,6 +43,9 @@ THIRD_PARTY_APPS = (
 
 LOCAL_APPS = (
     'rafee.teams',
+    'rafee.users',
+    'rafee.slideshows',
+    'rafee.repositories',
 )
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
