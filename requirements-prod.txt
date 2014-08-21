@@ -2,3 +2,4 @@ https://www.djangoproject.com/download/1.7c2/tarball/
 djangorestframework
 django-secure
 psycopg2
+gitpython==0.3.2.RC1

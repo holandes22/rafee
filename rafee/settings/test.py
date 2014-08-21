@@ -2,6 +2,9 @@ from rafee.settings.base  import *
 
 SECRET_KEY = 'fake'
 
+DEBUG = False
+TEMPLATE_DEBUG = False
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
@@ -12,3 +15,7 @@ DATABASES = {
         "PORT": "",
     },
 }
+
+PASSWORD_HASHERS = (
+    'django.contrib.auth.hashers.MD5PasswordHasher',
+)

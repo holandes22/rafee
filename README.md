@@ -27,12 +27,17 @@ Choose default option for all steps below:
 In order to run the unittests:
 
     cd rafee/rafee
-    python manage.py makemigrations --settings=rafee.settings.test && python manage.py test --settings=rafee.settings.test
+    python manage.py makemigrations --settings=rafee.settings.test && python manage.py migrate && python manage.py test --settings=rafee.settings.test
 
 or alternatively:
 
     export DJANGO_SETTINGS_MODULE=rafee.settings.test
-    python manage.py makemigrations && python manage.py test
+    python manage.py makemigrations && python manage.py migrate && python manage.py test
+
+running tests with coverage:
+
+    python manage.py makemigrations && python manage.py migrate && coverage run --source='.' manage.py test
+    coverage report
 
 ### Frontend
 
