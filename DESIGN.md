@@ -33,10 +33,10 @@ Given this is to mainly show static pages, we have some constrains to simplify t
 
 Repository Model:
 
-- url: URL from where to clone the repo
-- file_path: Where to clone
+- url: URL from where to clone the repo (local path is not supported). Unique.
 - polling_interval: A background celery task will poll the repo for changes at this interval. Minimum is 30 seconds.
 
+The repository will be cloned to a pre-defined reserved folder for rafee with write permissions to it.
 
 Slideshow
 ---------
