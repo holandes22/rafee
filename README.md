@@ -24,6 +24,15 @@ Choose default option for all steps below:
     fab vagrant migrate  # in order to apply token migration from DRF
     fab vagrant runserver  # choose the default dev option, runs at http://localhost:8888 (from VM)
 
+In order to run the unittests:
+
+    cd rafee/rafee
+    python manage.py makemigrations --settings=rafee.settings.test && python manage.py test --settings=rafee.settings.test
+
+or alternatively:
+
+    export DJANGO_SETTINGS_MODULE=rafee.settings.test
+    python manage.py makemigrations && python manage.py test
 
 ### Frontend
 
