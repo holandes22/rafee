@@ -6,7 +6,7 @@ from rafee.teams.models import Team
 
 class User(AbstractBaseUser, PermissionsMixin):
 
-    email = models.EmailField(verbose_name='email address', unique=True)
+    email = models.EmailField(primary_key=True, unique=True)
     full_name = models.CharField(max_length=200, default='')
     team = models.ForeignKey(Team, related_name='users')
     is_active = models.BooleanField(default=True)

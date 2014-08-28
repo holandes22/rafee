@@ -7,6 +7,12 @@ def nested_getattr(obj, attr):
 
 
 def get_data(obj, serializers_module=None):
+    '''
+    This func relies purely on convention.
+    It expects that the object name has serilizer named
+    <object>Serializer and that it lives in the serializer
+    module of that app
+    '''
     cls_name = obj.__class__.__name__
     if not serializers_module:
         serializers_module = importlib.import_module(
@@ -23,7 +29,8 @@ def get_data(obj, serializers_module=None):
         if isinstance(field, RelatedField):
             value = field.field_to_native(obj, field_name)
         else:
-            value = nested_getattr(obj, field_name)
+            attr = field.source if field.source else field_name
+            value = nested_getattr(obj, attr)
         data[field_name] = value
 
     return data
