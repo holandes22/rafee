@@ -85,6 +85,8 @@ XS_SHARING_ALLOWED_HEADERS = ['Content-Type', 'Authorization']
 
 # REST Framework
 
+API_PREFIX = 'v1'
+
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',
@@ -97,6 +99,7 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.IsAdminUser',
     ),
     'FILTER_BACKEND': 'rest_framework.filters.DjangoFilterBackend',
 }
