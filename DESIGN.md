@@ -16,9 +16,9 @@ File system hierarchy is as follows:
 
 `some_folder/<template_name>/`
 
-- template.<ext>: The template to render. Render engine will be determined by file type: hbs|jinja (mandatory)
-- data.json: The data to pass to the template (optional)
-- urls: A text file containing a URL per line from where data will be retrieved and passed to the template. Expected a JSON response (optional)
+- template.<ext>: The template to render. Render engine will be determined by the file extension: hbs|jinja (mandatory)
+- data.source: A text file containing a URL (only the first line will be considered) from where data will be retrieved and passed to the template. Expected a
+  JSON response (optional)
 
 
 Every folder including a template.<ext> file will be used.
@@ -91,6 +91,8 @@ Prefix: `api.<hostname>/v1`
     /slides READ [user,admin] --> :id is formed by the team name and the name of the folder that contains the
     template (e.g. css-commits). The response is a task id
     /tasks READ [user,admin]
+
+The API needs to support query params to allow filtering (for example /slideshows?team=team_id)
 
 Authentication
 --------------
