@@ -1,1 +1,5 @@
-# pip freeze output of requirements-prod.txt
+https://www.djangoproject.com/download/1.7c3/tarball/
+djangorestframework==2.3.14
+django-secure==1.0
+psycopg2==2.5.3
+gitpython==0.3.2.RC1

@@ -1,5 +1,5 @@
 # Base
--r requirements-prod.txt
+-r requirements.txt
 
 # Deploment tools
 Fabric
