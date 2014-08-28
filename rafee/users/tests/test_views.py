@@ -9,6 +9,8 @@ from rafee.test_utils.base import BaseAPITestCase
 from rafee.teams.factories import TeamFactory
 from rafee.users.factories import UserFactory
 
+from rafee.users.models import User
+
 
 class CommonUserTests(BaseAPITestCase):
 
@@ -106,8 +108,8 @@ class AdminUserTests(BaseAPITestCase):
             'is_admin': True,
         }
         response = self.client.post(reverse('user-list'), data=payload)
-        response.data.pop('id', None)  # We don't know the id beforehand
-        self.assertResponse201AndItemsEqual(payload, response)
+        user = User.objects.get(email=response.data['id'])
+        self.assertResponse201AndItemsEqual(get_data(user), response)
 
     def test_create_returns_400_if_duplicate_email(self):
         email = 'pp@pp.com'
@@ -123,7 +125,10 @@ class AdminUserTests(BaseAPITestCase):
         self.assertIn('email', response.data)
 
     def test_detail(self):
-        pass
+        user = UserFactory()
+        url = reverse('user-detail', kwargs={'email': user.email})
+        response = self.client.get(url)
+        self.assertResponse200AndItemsEqual(get_data(user), response)
 
     def test_update(self):
         pass
