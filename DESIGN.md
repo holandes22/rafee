@@ -83,10 +83,13 @@ API
 
 Prefix: `api.<hostname>/v1`
 
-    /users CRUD [admin]
+note:: WRITE superseeds READ
+
+    /users WRITE [admin]
+    /users/:id READ [user] WRITE [admin]
     /teams CRUD [admin]
     /repositories CRUD [admin] -> Returns a task (Since cloning can be a long running task)
-    /slideshows READ [user] WRITE [admin]
+    /slideshows READ [user] WRITE [admin] -> Users can only see slideshows from their teams
     /templates READ [admin]--> A list of currently available template in the file system (name, data_src)
     /slides READ [user,admin] --> :id is formed by the team name and the name of the folder that contains the
     template (e.g. css-commits). The response is a task id
