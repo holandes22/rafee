@@ -9,4 +9,4 @@ class TeamFactory(DjangoModelFactory):
     class Meta:
         model = Team
 
-    name = factory.Sequence(lambda x: 'Team{}'.format(x))
+    name = factory.Sequence(lambda x: 'Team {}'.format(x))
