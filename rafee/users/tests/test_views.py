@@ -131,16 +131,32 @@ class AdminUserTests(BaseAPITestCase):
         self.assertResponse200AndItemsEqual(get_data(user), response)
 
     def test_update(self):
-        pass
-
-    def test_update_returns_500_if_duplicate_email(self):
-        pass
+        user = UserFactory()
+        payload = {
+            'email': 'fake@email.com',
+            'full_name': user.get_full_name() + ' the third',
+            'team': TeamFactory().id,
+            'is_admin': False,
+        }
+        url = reverse('user-detail', kwargs={'email': user.email})
+        response = self.client.put(url, data=payload)
+        # email should not have been updated
+        updated_user = User.objects.get(email=user.email)
+        self.assertResponse200AndItemsEqual(get_data(updated_user), response)
 
     def test_partial_update(self):
-        pass
-
-    def test_partial_update_returns_500_if_duplicate_email(self):
-        pass
+        user = UserFactory()
+        payload = {'full_name': 'New full name'}
+        url = reverse('user-detail', kwargs={'email': user.email})
+        response = self.client.patch(url, data=payload)
+        updated_user = User.objects.get(email=user.email)
+        self.assertResponse200AndItemsEqual(get_data(updated_user), response)
 
     def test_delete(self):
-        pass
+        user = UserFactory()
+        url = reverse('user-detail', kwargs={'email': user.email})
+        response = self.client.delete(url)
+        self.assertEqual(status.HTTP_204_NO_CONTENT, response.status_code)
+        self.assertIsNone(response.data)
+        with self.assertRaises(User.DoesNotExist):
+            User.objects.get(email=user.email)
