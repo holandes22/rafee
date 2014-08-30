@@ -16,3 +16,5 @@ DATABASES = {
         'PORT': '',
     }
 }
+
+API_PREFIX = 'api/v1'
