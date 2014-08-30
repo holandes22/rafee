@@ -4,3 +4,4 @@ django-secure==1.0
 psycopg2==2.5.3
 gitpython==0.3.2.RC1
 django-filter==0.7
+django-rest-swagger==0.1.14
