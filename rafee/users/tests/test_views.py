@@ -1,10 +1,10 @@
-from nose.tools import nottest
 from django.core.urlresolvers import reverse
 
 from rest_framework import status
 
 from rafee.test_utils.data import get_data
-from rafee.test_utils.base import BaseAPITestCase, CommonTestsMixin
+from rafee.test_utils.base import BaseAPITestCase
+from rafee.test_utils.base import CommonTestsMixin, NonAdminTestsMixin
 
 from rafee.teams.factories import TeamFactory
 from rafee.users.factories import UserFactory
@@ -29,34 +29,15 @@ class CommonUserTests(CommonTestsMixin, BaseAPITestCase):
         self.assertResponse200AndItemsEqual(expected, response)
 
 
-class NonAdminUserTests(BaseAPITestCase):
+class NonAdminUserTests(NonAdminTestsMixin, BaseAPITestCase):
 
-    @nottest
-    def generic_test_list_method_returns_403(self, method):
-        url = reverse('user-list')
-        response = getattr(self.client, method)(url)
-        self.assertEqual(status.HTTP_403_FORBIDDEN, response.status_code)
+    list_url_name = 'user-list'
+    detail_url_name = 'user-detail'
 
-    def test_list_get_returns_403(self):
-        self.generic_test_list_method_returns_403('get')
-
-    def test_list_post_returns_403(self):
-        self.generic_test_list_method_returns_403('post')
-
-    @nottest
-    def generic_test_detail_method_returns_403(self, method):
-        url = reverse('user-detail', kwargs={'email': self.user.email})
-        response = getattr(self.client, method)(url)
-        self.assertEqual(status.HTTP_403_FORBIDDEN, response.status_code)
-
-    def test_update_returns_403(self):
-        self.generic_test_detail_method_returns_403('put')
-
-    def test_partial_update_returns_403(self):
-        self.generic_test_detail_method_returns_403('patch')
-
-    def test_delete_returns_403(self):
-        self.generic_test_detail_method_returns_403('delete')
+    def setUp(self):
+        self.user = UserFactory()
+        self.client.force_authenticate(self.user)
+        self.detail_url_kwargs = {'email': self.user.email}
 
 
 class AdminUserTests(BaseAPITestCase):

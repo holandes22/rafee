@@ -81,6 +81,20 @@ class BaseCommonTests(object):
             status.HTTP_405_METHOD_NOT_ALLOWED,
         )
 
+    @nottest
+    def generic_test_list_method_returns_403(self, method):
+        self.generic_test_list_returns_status_code(
+            method,
+            status.HTTP_403_FORBIDDEN,
+        )
+
+    @nottest
+    def generic_test_detail_method_returns_403(self, method):
+        self.generic_test_detail_returns_status_code(
+            method,
+            status.HTTP_403_FORBIDDEN,
+        )
+
 
 class CommonTestsMixin(BaseCommonTests):
 
@@ -120,3 +134,23 @@ class CommonTestsMixin(BaseCommonTests):
     # allowed detail tests
     def test_detail_post_returns_405(self):
         self.generic_test_detail_returns_405_if_method_not_allowed('post')
+
+
+class NonAdminTestsMixin(BaseCommonTests):
+
+    #  list tests
+    def test_list_get_returns_403(self):
+        self.generic_test_list_method_returns_403('get')
+
+    def test_list_post_returns_403(self):
+        self.generic_test_list_method_returns_403('post')
+
+    #  detail tests
+    def test_update_returns_403(self):
+        self.generic_test_detail_method_returns_403('put')
+
+    def test_partial_update_returns_403(self):
+        self.generic_test_detail_method_returns_403('patch')
+
+    def test_delete_returns_403(self):
+        self.generic_test_detail_method_returns_403('delete')
