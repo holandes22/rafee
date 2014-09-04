@@ -37,6 +37,8 @@ Repository Model:
 - polling_interval: A background celery task will poll the repo for changes at this interval. Minimum is 30 seconds.
 
 The repository will be cloned to a pre-defined reserved folder for rafee with write permissions to it.
+If the filepath already exists, adding the repo will faile
+
 
 Slideshow
 ---------
@@ -47,7 +49,7 @@ Slideshow Model:
 
     - name
     - team: FK to the Team model
-    - templates: CSV of template names to show. The order of appearance is considered
+    - templates: CSV of template names to show. The order of appearance is considered. The names are relative to the team repos.
     - transition_interval: Seconds between template transition
     - caching_interval: Seconds to keep a cache copy (maybe move this as query param in the /slides endpoint)
 
@@ -89,7 +91,7 @@ note:: WRITE superseeds READ
     /users/:id READ [user] WRITE [admin]
     /teams CRUD [admin]
     /repositories CRUD [admin] -> Returns a task (Since cloning can be a long running task)
-    /slideshows READ [user] WRITE [admin] -> Users can only see slideshows from their teams
+    /slideshows READ [user] WRITE [admin] -> Users can only see slideshows from their teams. When specifying the template names, an error will occur if the templates do not exist under the team's repos.
     /templates READ [admin]--> A list of currently available template in the file system (name, data_src)
     /slides READ [user,admin] --> :id is formed by the team name and the name of the folder that contains the
     template (e.g. css-commits). The response is a task id
