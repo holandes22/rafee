@@ -38,7 +38,6 @@ class AdminUserTests(BaseAPITestCase):
 
     def setUp(self):
         self.user = UserFactory(is_admin=True)
-        self.user.team.delete()
         self.client.force_authenticate(user=self.user)
 
     def test_list(self):
@@ -51,8 +50,8 @@ class AdminUserTests(BaseAPITestCase):
 
     def test_list_teams_with_users(self):
         team = TeamFactory()
-        user1 = UserFactory(team=team)
-        user2 = UserFactory(team=team)
+        user1 = UserFactory(teams=[team])
+        user2 = UserFactory(teams=[team])
         response = self.client.get(reverse('team-list'))
         self.assertResponse200AndItemsEqual([get_data(team)], response)
         self.assertItemsEqual(
@@ -68,29 +67,29 @@ class AdminUserTests(BaseAPITestCase):
 
     def test_detail(self):
         team = TeamFactory()
-        UserFactory(team=team)
+        UserFactory(teams=[team])
         url = reverse('team-detail', kwargs={'id': team.id})
         response = self.client.get(url)
         self.assertResponse200AndItemsEqual(get_data(team), response)
 
     def test_update(self):
         team = TeamFactory(name='old name')
-        UserFactory(team=team)
+        UserFactory(teams=[team])
         payload = {'name': 'new name'}
         url = reverse('team-detail', kwargs={'id': team.id})
         response = self.client.put(url, data=payload)
         updated_team = Team.objects.get(id=team.id)
         self.assertResponse200AndItemsEqual(get_data(updated_team), response)
 
-    def test_update_cannot_update_users(self):
+    def test_update_team_users(self):
         team = TeamFactory(name='old name')
-        user = UserFactory(team=team)
+        UserFactory(teams=[team])
         new_user = UserFactory()
         payload = {'name': 'new name', 'users': [new_user.email]}
         url = reverse('team-detail', kwargs={'id': team.id})
         self.client.put(url, data=payload)
         updated_team = Team.objects.get(id=team.id)
-        self.assertEqual(user.email, updated_team.users.all()[0].email)
+        self.assertEqual(new_user.email, updated_team.users.all()[0].email)
 
     def test_partial_update(self):
         team = TeamFactory(name='old name')

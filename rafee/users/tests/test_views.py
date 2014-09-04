@@ -56,7 +56,7 @@ class AdminUserTests(BaseAPITestCase):
         payload = {
             'email': 'pp@pp.com',
             'full_name': 'pp pp',
-            'team': TeamFactory().id,
+            'teams': [TeamFactory().id],
             'is_admin': True,
         }
         response = self.client.post(reverse('user-list'), data=payload)
@@ -69,7 +69,7 @@ class AdminUserTests(BaseAPITestCase):
         payload = {
             'email': email,
             'full_name': 'pp pp',
-            'team': TeamFactory().id,
+            'teams': [TeamFactory().id],
             'is_admin': True,
         }
         response = self.client.post(reverse('user-list'), data=payload)
@@ -87,7 +87,7 @@ class AdminUserTests(BaseAPITestCase):
         payload = {
             'email': 'fake@email.com',
             'full_name': user.get_full_name() + ' the third',
-            'team': TeamFactory().id,
+            'teams': [TeamFactory().id, TeamFactory().id],
             'is_admin': False,
         }
         url = reverse('user-detail', kwargs={'email': user.email})

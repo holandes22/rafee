@@ -8,7 +8,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     email = models.EmailField(primary_key=True)
     full_name = models.CharField(max_length=200, default='')
-    team = models.ForeignKey(Team, related_name='users')
+    teams = models.ManyToManyField(Team, related_name='users')
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
 
