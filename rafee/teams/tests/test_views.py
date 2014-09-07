@@ -4,7 +4,9 @@ from rest_framework import status
 
 from rafee.test_utils.data import get_data
 from rafee.test_utils.base import BaseAPITestCase
-from rafee.test_utils.base import CommonTestsMixin, NonAdminTestsMixin
+from rafee.test_utils.base import CommonTestsMixin
+from rafee.test_utils.base import NonAdminReadTestsMixin
+from rafee.test_utils.base import NonAdminWriteTestsMixin
 
 from rafee.teams.factories import TeamFactory
 from rafee.users.factories import UserFactory
@@ -22,7 +24,9 @@ class CommonTeamTests(CommonTestsMixin, BaseAPITestCase):
         self.detail_url_kwargs = {'id': self.team.id}
 
 
-class NonAdminTeamTests(NonAdminTestsMixin, BaseAPITestCase):
+class NonAdminTeamTests(NonAdminReadTestsMixin,
+                        NonAdminWriteTestsMixin,
+                        BaseAPITestCase):
 
     list_url_name = 'team-list'
     detail_url_name = 'team-detail'

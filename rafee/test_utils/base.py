@@ -32,9 +32,6 @@ class BaseAPITestCase(APITestCase):
             response,
         )
 
-
-class BaseCommonTests(object):
-
     @nottest
     def generic_test_list_returns_status_code(self, method, status_code):
         url = reverse(self.list_url_name)
@@ -96,7 +93,7 @@ class BaseCommonTests(object):
         )
 
 
-class CommonTestsMixin(BaseCommonTests):
+class CommonTestsMixin(object):
 
     # authenticated list tests
     def test_list_get_returns_401_if_not_authenticated(self):
@@ -136,16 +133,31 @@ class CommonTestsMixin(BaseCommonTests):
         self.generic_test_detail_returns_405_if_method_not_allowed('post')
 
 
-class NonAdminTestsMixin(BaseCommonTests):
+class NonAdminListReadTestsMixin(object):
 
-    #  list tests
     def test_list_get_returns_403(self):
         self.generic_test_list_method_returns_403('get')
+
+
+class NonAdminDetailReadTestsMixin(object):
+
+    def test_detail_get_returns_403(self):
+        self.generic_test_detail_method_returns_403('get')
+
+
+class NonAdminReadTestsMixin(NonAdminListReadTestsMixin,
+                             NonAdminDetailReadTestsMixin):
+    pass
+
+
+class NonAdminListWriteTestsMixin(object):
 
     def test_list_post_returns_403(self):
         self.generic_test_list_method_returns_403('post')
 
-    #  detail tests
+
+class NonAdminDetailWriteTestsMixin(object):
+
     def test_update_returns_403(self):
         self.generic_test_detail_method_returns_403('put')
 
@@ -154,3 +166,8 @@ class NonAdminTestsMixin(BaseCommonTests):
 
     def test_delete_returns_403(self):
         self.generic_test_detail_method_returns_403('delete')
+
+
+class NonAdminWriteTestsMixin(NonAdminListWriteTestsMixin,
+                              NonAdminDetailWriteTestsMixin):
+    pass

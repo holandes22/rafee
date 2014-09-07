@@ -4,7 +4,9 @@ from rest_framework import status
 
 from rafee.test_utils.data import get_data
 from rafee.test_utils.base import BaseAPITestCase
-from rafee.test_utils.base import CommonTestsMixin, NonAdminTestsMixin
+from rafee.test_utils.base import CommonTestsMixin
+from rafee.test_utils.base import NonAdminListReadTestsMixin
+from rafee.test_utils.base import NonAdminWriteTestsMixin
 
 from rafee.teams.factories import TeamFactory
 from rafee.users.factories import UserFactory
@@ -29,7 +31,9 @@ class CommonUserTests(CommonTestsMixin, BaseAPITestCase):
         self.assertResponse200AndItemsEqual(expected, response)
 
 
-class NonAdminUserTests(NonAdminTestsMixin, BaseAPITestCase):
+class NonAdminUserTests(NonAdminListReadTestsMixin,
+                        NonAdminWriteTestsMixin,
+                        BaseAPITestCase):
 
     list_url_name = 'user-list'
     detail_url_name = 'user-detail'
