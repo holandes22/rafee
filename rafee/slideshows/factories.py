@@ -2,7 +2,7 @@ import factory
 from factory.django import DjangoModelFactory
 
 from rafee.slideshows.models import Slideshow
-from rafee.teams.factory import TeamFactory
+from rafee.teams.factories import TeamFactory
 
 
 class SlideshowFactory(DjangoModelFactory):

@@ -16,7 +16,7 @@ File system hierarchy is as follows:
 
 `some_folder/<template_name>/`
 
-- template.<ext>: The template to render. Render engine will be determined by the file extension: hbs|jinja (mandatory)
+- template.ext: The template to render. Render engine will be determined by the file extension: hbs|jinja (mandatory)
 - data.source: A text file containing a URL (only the first line will be considered) from where data will be retrieved and passed to the template. Expected a
   JSON response (optional)
 
@@ -91,7 +91,8 @@ note:: WRITE superseeds READ
     /users/:id READ [user] WRITE [admin]
     /teams CRUD [admin]
     /repositories CRUD [admin] -> Returns a task (Since cloning can be a long running task)
-    /slideshows READ [user] WRITE [admin] -> Users can only see slideshows from their teams. When specifying the template names, an error will occur if the templates do not exist under the team's repos.
+    /slideshows READ [user] WRITE [admin] -> Users can only see slideshows from their teams. When specifying the
+    template names. Missing template files are ignored (this omission should be logged).
     /templates READ [admin]--> A list of currently available template in the file system (name, data_src)
     /slides READ [user,admin] --> :id is formed by the team name and the name of the folder that contains the
     template (e.g. css-commits). The response is a task id

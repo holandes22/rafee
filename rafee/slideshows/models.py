@@ -9,6 +9,7 @@ class Slideshow(models.Model):
     team = models.ForeignKey(Team)
     templates = models.CharField(max_length=1000)
     transition_interval = models.PositiveIntegerField(default=15)
+    caching_interval = models.PositiveIntegerField(default=120)
 
     class Meta:
 
