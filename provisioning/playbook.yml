@@ -3,42 +3,89 @@
   vars_files:
     - vars.yml
   tasks:
-    - name: Generate locale {{ locale }}
+    - name: generate locale {{ locale }}
       command: /usr/sbin/locale-gen {{ locale }}
 
-    - name: Set locale to {{ locale }}
+    - name: set locale to {{ locale }}
       command: /usr/sbin/update-locale LANG={{ locale }} LC_ALL={{ locale }}
 
-    - name: Add postgres repository
+    - name: add redis ppa
+      apt_repository: repo='ppa:chris-lea/redis-server'
+
+    - name: add postgres repository
       apt_repository: repo='deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main' state=present
 
-    - name: Add postgres repository key
+    - name: add postgres repository key
       apt_key: url=http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc state=present
 
-    - name: Install required system packages.
+    - name: install required system packages
       apt: pkg={{ item }} state=installed update-cache=yes
       with_items: system_packages
 
-    - name: Install required Python packages
+    - name: install required python packages
       pip: name={{ item }} extra_args='-U'
       with_items: python_packages
 
-    - name: Install requirements
+    - name: install requirements
       pip: requirements='/vagrant/requirements-dev.txt' virtualenv={{ virtualenv_path }}
 
-    - name: Change owner of virtualenvs folder to vagrant user
+    - name: change owner of virtualenvs folder to vagrant user
       file: path=/home/vagrant/virtualenvs owner=vagrant group=vagrant recurse=yes
 
-    - name: Create pg Database role
+    - name: create pg database role
       sudo_user: postgres
       postgresql_user: name={{ db_settings.user }}
 
-    - name: Create pg Database
+    - name: create pg Database
       sudo_user: postgres
       postgresql_db: >
           name={{ db_settings.name }}
           encoding=UTF-8
           owner={{ db_settings.user }}
 
-    - name: Restart postgresql server
+    - name: restart postgresql server
       service: name=postgresql state=started enabled=yes
+
+    - name: create celery log dir
+      file: path=/var/log/celery state=directory
+
+    - name: create celery run dir
+      file: path=/var/run/celery state=directory mode=0777
+
+    - name: create supervisor log dir
+      file: path=/var/log/supervisord state=directory
+
+    - name: create supervisord config folder
+      action: file dest=/etc/supervisor state=directory owner=root
+
+    - name: create supervisord config
+      action: template src=templates/supervisord.conf.j2 dest=/etc/supervisord.conf
+      notify:
+        - restart supervisord
+
+    - name: create supervisord init script
+      action: template src=templates/supervisord.sh.j2 dest=/etc/init.d/supervisord mode=0755
+
+    - name: start supervisord service and have it run during system startup
+      action: service name=supervisord state=started enabled=yes
+
+    - name: create celery worker config
+      action: template src=templates/celeryd.conf.j2 dest=/etc/supervisor/celeryd.conf
+      notify:
+        - restart celery worker
+
+    - name: create celery beat config
+      action: template src=templates/celerybeat.conf.j2 dest=/etc/supervisor/celerybeat.conf
+      notify:
+        - restart celery beat
+
+  handlers:
+    - name: restart supervisord
+      action: service name=supervisord state=restarted enabled=yes
+
+
+    - name: restart celery worker
+      supervisorctl: name=celery state=restarted supervisorctl_path={{ supervisorctl_path }}
+
+    - name: restart celery beat
+      supervisorctl: name=celerybeat state=restarted supervisorctl_path={{ supervisorctl_path }}

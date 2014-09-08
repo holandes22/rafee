@@ -1,0 +1,20 @@
+; ================================
+;  celery beat supervisor example
+; ================================
+
+[program:celerybeat]
+command={{ virtualenv_path }}/bin/celery beat -A {{ project_name }} --schedule=/var/run/celery/celerybeat-schedule --loglevel=INFO
+
+environment=PYTHONPATH=/vagrant,DJANGO_SETTINGS_MODULE={{ django_settings_module }}
+directory=/var/run/celery
+user=vagrant
+numprocs=1
+stdout_logfile=/var/log/celery/beat.log
+stderr_logfile=/var/log/celery/beat.log
+autostart=true
+autorestart=true
+startsecs=10
+
+; if redis is supervised, set its priority higher
+; so it starts first
+priority=999
