@@ -1,12 +1,12 @@
 import factory
 from factory.django import DjangoModelFactory
 
-from rafee.repositories.models import GitRepository
+from rafee.repositories.models import Repository
 
 
-class GitRepositoryFactory(DjangoModelFactory):
+class RepositoryFactory(DjangoModelFactory):
 
     class Meta:
-        model = GitRepository
+        model = Repository
 
     url = factory.Sequence(lambda x: 'http://git.com/{}'.format(x))

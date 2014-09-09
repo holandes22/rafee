@@ -10,4 +10,5 @@ urlpatterns = patterns(
     url(r'^{}/users/'.format(api_prefix), include('rafee.users.urls')),
     url(r'^{}/teams/'.format(api_prefix), include('rafee.teams.urls')),
     url(r'^{}/slideshows/'.format(api_prefix), include('rafee.slideshows.urls')),
+    url(r'^{}/repositoriess/'.format(api_prefix), include('rafee.repositories.urls')),
 )
