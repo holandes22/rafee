@@ -47,7 +47,7 @@ class NonAdminUserTests(NonAdminListReadTestsMixin,
 class AdminUserTests(BaseAPITestCase):
 
     def setUp(self):
-        self.user = UserFactory(is_admin=True)
+        self.user = UserFactory(is_staff=True)
         self.client.force_authenticate(user=self.user)
 
     def test_list(self):
@@ -58,27 +58,30 @@ class AdminUserTests(BaseAPITestCase):
 
     def test_create(self):
         payload = {
+            'username': 'pp',
             'email': 'pp@pp.com',
+            'password': '11',
             'full_name': 'pp pp',
             'teams': [TeamFactory().id],
-            'is_admin': True,
+            'is_staff': True,
         }
         response = self.client.post(reverse('user-list'), data=payload)
-        user = User.objects.get(email=response.data['id'])
+        user = User.objects.get(username=response.data['username'])
         self.assertResponse201AndItemsEqual(get_data(user), response)
 
-    def test_create_returns_400_if_duplicate_email(self):
-        email = 'pp@pp.com'
-        UserFactory(email=email)
+    def test_create_returns_400_if_duplicate_username(self):
+        username = 'pp'
+        UserFactory(username=username)
         payload = {
-            'email': email,
+            'username': username,
+            'email': 'email@example.com',
             'full_name': 'pp pp',
             'teams': [TeamFactory().id],
-            'is_admin': True,
+            'is_staff': True,
         }
         response = self.client.post(reverse('user-list'), data=payload)
         self.assertEqual(status.HTTP_400_BAD_REQUEST, response.status_code)
-        self.assertIn('email', response.data)
+        self.assertIn('username', response.data)
 
     def test_detail(self):
         user = UserFactory()
@@ -89,10 +92,11 @@ class AdminUserTests(BaseAPITestCase):
     def test_update(self):
         user = UserFactory()
         payload = {
+            'username': 'pp',
             'email': 'fake@email.com',
             'full_name': user.get_full_name() + ' the third',
             'teams': [TeamFactory().id, TeamFactory().id],
-            'is_admin': False,
+            'is_staff': False,
         }
         url = reverse('user-detail', kwargs={'email': user.email})
         response = self.client.put(url, data=payload)

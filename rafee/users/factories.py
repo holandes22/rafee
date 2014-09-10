@@ -11,6 +11,7 @@ class UserFactory(DjangoModelFactory):
 
     full_name = 'Gerardo Daniel Martino'
     email = factory.Sequence(lambda x: 'tata.martino{}@nob.com'.format(x))
+    username = factory.Sequence(lambda x: 'username{}'.format(x))
 
     @factory.post_generation
     def teams(self, create, extracted, **kwargs):

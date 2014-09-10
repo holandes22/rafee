@@ -41,7 +41,7 @@ class NonAdminTeamTests(NonAdminReadTestsMixin,
 class AdminUserTests(BaseAPITestCase):
 
     def setUp(self):
-        self.user = UserFactory(is_admin=True)
+        self.user = UserFactory(is_staff=True)
         self.client.force_authenticate(user=self.user)
 
     def test_list(self):
@@ -59,7 +59,7 @@ class AdminUserTests(BaseAPITestCase):
         response = self.client.get(reverse('team-list'))
         self.assertResponse200AndItemsEqual([get_data(team)], response)
         self.assertItemsEqual(
-            [user1.email, user2.email],
+            [user1.id, user2.id],
             response.data[0]['users']
         )
 
@@ -89,11 +89,11 @@ class AdminUserTests(BaseAPITestCase):
         team = TeamFactory(name='old name')
         UserFactory(teams=[team])
         new_user = UserFactory()
-        payload = {'name': 'new name', 'users': [new_user.email]}
+        payload = {'name': 'new name', 'users': [new_user.id]}
         url = reverse('team-detail', kwargs={'id': team.id})
         self.client.put(url, data=payload)
         updated_team = Team.objects.get(id=team.id)
-        self.assertEqual(new_user.email, updated_team.users.all()[0].email)
+        self.assertEqual(new_user.username, updated_team.users.all()[0].username)
 
     def test_partial_update(self):
         team = TeamFactory(name='old name')

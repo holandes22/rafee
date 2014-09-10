@@ -62,7 +62,7 @@ class BaseAPITestCase(APITestCase):
     def generic_test_list_returns_405_if_method_not_allowed(self, method):
         # We just want to test 405, so we avoid permissions by using
         # a user who'll probably has all access
-        user = UserFactory(is_admin=True)
+        user = UserFactory(is_staff=True)
         self.client.force_authenticate(user=user)
         self.generic_test_list_returns_status_code(
             method,
@@ -71,7 +71,7 @@ class BaseAPITestCase(APITestCase):
 
     @nottest
     def generic_test_detail_returns_405_if_method_not_allowed(self, method):
-        user = UserFactory(is_admin=True)
+        user = UserFactory(is_staff=True)
         self.client.force_authenticate(user=user)
         self.generic_test_detail_returns_status_code(
             method,

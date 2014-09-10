@@ -41,7 +41,7 @@ class NonAdminRepositoryTests(NonAdminReadTestsMixin,
 class AdminUserTests(BaseAPITestCase):
 
     def setUp(self):
-        self.user = UserFactory(is_admin=True)
+        self.user = UserFactory(is_staff=True)
         self.client.force_authenticate(user=self.user)
 
     def test_list(self):
@@ -53,6 +53,9 @@ class AdminUserTests(BaseAPITestCase):
         pass
 
     def test_create_returns_500_if_bad_url(self):
+        pass
+
+    def test_create_adds_scheduled_task_for_pulling(self):
         pass
 
     def test_create(self):
@@ -106,6 +109,7 @@ class AdminUserTests(BaseAPITestCase):
         url = reverse('repository-detail', kwargs={'id': repo.id})
         response = self.client.delete(url)
         # Assert folder is also deleted or at least os.rm was called
+        # Assert scheduled task was removed
         self.assertEqual(status.HTTP_204_NO_CONTENT, response.status_code)
         self.assertIsNone(response.data)
         with self.assertRaises(Repository.DoesNotExist):
