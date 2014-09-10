@@ -21,7 +21,7 @@ class CommonUserTests(CommonTestsMixin, BaseAPITestCase):
 
     def setUp(self):
         self.user = UserFactory()
-        self.detail_url_kwargs = {'email': self.user.email}
+        self.detail_url_kwargs = {'pk': self.user.pk}
 
     def test_detail(self):
         self.client.force_authenticate(user=self.user)
@@ -41,7 +41,7 @@ class NonAdminUserTests(NonAdminListReadTestsMixin,
     def setUp(self):
         self.user = UserFactory()
         self.client.force_authenticate(self.user)
-        self.detail_url_kwargs = {'email': self.user.email}
+        self.detail_url_kwargs = {'pk': self.user.pk}
 
 
 class AdminUserTests(BaseAPITestCase):
@@ -85,7 +85,7 @@ class AdminUserTests(BaseAPITestCase):
 
     def test_detail(self):
         user = UserFactory()
-        url = reverse('user-detail', kwargs={'email': user.email})
+        url = reverse('user-detail', kwargs={'pk': user.pk})
         response = self.client.get(url)
         self.assertResponse200AndItemsEqual(get_data(user), response)
 
@@ -98,25 +98,24 @@ class AdminUserTests(BaseAPITestCase):
             'teams': [TeamFactory().id, TeamFactory().id],
             'is_staff': False,
         }
-        url = reverse('user-detail', kwargs={'email': user.email})
+        url = reverse('user-detail', kwargs={'pk': user.pk})
         response = self.client.put(url, data=payload)
-        # email should not have been updated
-        updated_user = User.objects.get(email=user.email)
+        updated_user = User.objects.get(pk=response.data['id'])
         self.assertResponse200AndItemsEqual(get_data(updated_user), response)
 
     def test_partial_update(self):
         user = UserFactory()
         payload = {'full_name': 'New full name'}
-        url = reverse('user-detail', kwargs={'email': user.email})
+        url = reverse('user-detail', kwargs={'pk': user.pk})
         response = self.client.patch(url, data=payload)
-        updated_user = User.objects.get(email=user.email)
+        updated_user = User.objects.get(pk=user.pk)
         self.assertResponse200AndItemsEqual(get_data(updated_user), response)
 
     def test_delete(self):
         user = UserFactory()
-        url = reverse('user-detail', kwargs={'email': user.email})
+        url = reverse('user-detail', kwargs={'pk': user.pk})
         response = self.client.delete(url)
         self.assertEqual(status.HTTP_204_NO_CONTENT, response.status_code)
         self.assertIsNone(response.data)
         with self.assertRaises(User.DoesNotExist):
-            User.objects.get(email=user.email)
+            User.objects.get(pk=user.pk)

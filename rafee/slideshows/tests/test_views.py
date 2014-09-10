@@ -69,7 +69,7 @@ class AdminUserTests(BaseAPITestCase):
 
     def setUp(self):
         self.team = TeamFactory()
-        self.user = UserFactory(is_admin=True, teams=[self.team])
+        self.user = UserFactory(is_staff=True, teams=[self.team])
         self.client.force_authenticate(user=self.user)
 
     def assertExpectedDuplicateName(self, response):

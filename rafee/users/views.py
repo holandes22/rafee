@@ -10,7 +10,6 @@ from rafee.users.serializers import UserSerializer
 class BaseUserAPIView(object):
 
     model = User
-    lookup_field = 'email'
     serializer_class = UserSerializer
 
 
