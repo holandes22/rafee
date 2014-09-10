@@ -1,9 +1,9 @@
 Django==1.7.0
-djangorestframework==2.3.14
+djangorestframework==2.4.0
 django-secure==1.0
 psycopg2==2.5.3
 gitpython==0.3.2.RC1
 django-filter==0.7
 django-rest-swagger==0.1.14
-celery[redis]==3.1.13
+celery[redis]==3.1.14
 supervisor==3.1.2
