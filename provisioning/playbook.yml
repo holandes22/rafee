@@ -46,6 +46,9 @@
     - name: restart postgresql server
       service: name=postgresql state=started enabled=yes
 
+    - name: create www dir
+    file: path=/var/www/{{ project_name }}/repos state=directory
+
     - name: create celery log dir
       file: path=/var/log/celery state=directory
 

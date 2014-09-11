@@ -7,5 +7,4 @@ class RepositorySerializer(ModelSerializer):
 
     class Meta:
         model = Repository
-        fields = ('id', 'polling_interval', 'url')
-        read_only_fields = ('url',)
+        fields = ('id', 'url')

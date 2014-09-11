@@ -6,5 +6,5 @@ from rafee.repositories.views import RepositoryListAPIView, RepositoryDetailAPIV
 urlpatterns = patterns(
     'rafee.repositories',
     url(r'^$', RepositoryListAPIView.as_view(), name='repository-list'),
-    url(r'^(?P<id>\d+)$', RepositoryDetailAPIView.as_view(), name='repository-detail'),
+    url(r'^(?P<pk>\d+)$', RepositoryDetailAPIView.as_view(), name='repository-detail'),
 )

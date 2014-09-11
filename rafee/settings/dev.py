@@ -18,3 +18,5 @@ DATABASES = {
 }
 
 API_PREFIX = 'api/v1'
+
+RAFEE_REPO_DIR = '/var/www/rafee/repos'

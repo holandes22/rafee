@@ -15,7 +15,7 @@ class BaseSlideshowAPIView(object):
     permission_classes = (IsAuthenticated, IsAdminUserOrReadOnly)
 
     def get_queryset(self):
-        if self.request.user.is_admin:
+        if self.request.user.is_staff:
             return self.model._default_manager.all()
         else:
             return self.model._default_manager.filter(

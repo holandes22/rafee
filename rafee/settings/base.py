@@ -17,6 +17,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 BROKER_URL = 'redis://localhost:6379/0'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 
+# Django
+APPEND_SLASH = False
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
@@ -93,12 +95,9 @@ API_PREFIX = 'v1'
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',
-        'rest_framework.renderers.BrowsableAPIRenderer',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
@@ -106,3 +105,8 @@ REST_FRAMEWORK = {
     ),
     'FILTER_BACKEND': 'rest_framework.filters.DjangoFilterBackend',
 }
+
+# Rafee specific
+
+RAFEE_REPO_DIR = ''
+RAFEE_REPO_POLLING_INTERVAL = os.environ.get('RAFEE_REPO_POLLING_INTERVAL', 45)

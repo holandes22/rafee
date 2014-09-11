@@ -1,3 +1,5 @@
+from mock import patch
+from nose.tools import nottest
 from django.core.urlresolvers import reverse
 
 from rest_framework import status
@@ -21,7 +23,7 @@ class CommonRepositoryTests(CommonTestsMixin, BaseAPITestCase):
 
     def setUp(self):
         self.repo = RepositoryFactory()
-        self.detail_url_kwargs = {'id': self.repo.id}
+        self.detail_url_kwargs = {'pk': self.repo.id}
 
 
 class NonAdminRepositoryTests(NonAdminReadTestsMixin,
@@ -35,7 +37,7 @@ class NonAdminRepositoryTests(NonAdminReadTestsMixin,
         self.user = UserFactory()
         self.client.force_authenticate(user=self.user)
         self.repo = RepositoryFactory()
-        self.detail_url_kwargs = {'id': self.repo.id}
+        self.detail_url_kwargs = {'pk': self.repo.id}
 
 
 class AdminUserTests(BaseAPITestCase):
@@ -49,67 +51,49 @@ class AdminUserTests(BaseAPITestCase):
         response = self.client.get(reverse('repository-list'))
         self.assertResponse200AndItemsEqual([get_data(repo)], response)
 
-    def test_create_returns_a_task(self):
-        pass
-
-    def test_create_returns_500_if_bad_url(self):
-        pass
-
-    def test_create_adds_scheduled_task_for_pulling(self):
-        pass
-
-    def test_create(self):
-        payload = {'url': 'http://git.com/blah'}
+    @patch('rafee.repositories.tasks.GitManager')
+    def test_create(self, gm_mock):
+        url = 'http://git.com/blah'
+        payload = {'url': url}
         response = self.client.post(reverse('repository-list'), data=payload)
-        repo = Repository.objects.get(pk=response.data['id'])
-        self.assertResponse201AndItemsEqual(get_data(repo), response)
+        self.assertIn('task', response.data)
+        queryset = Repository.objects.all()
+        self.assertTrue(queryset.filter(url=url).exists())
+
+    def test_create_returns_400_if_bad_payload(self):
+        payload = {'url': 'not_a_url'}
+        response = self.client.post(reverse('repository-list'), data=payload)
+        status_code = status.HTTP_400_BAD_REQUEST
+        self.assertResponseStatusAndItemsEqual(status_code, ['url'], response)
 
     def test_detail(self):
         repo = RepositoryFactory()
-        url = reverse('repository-detail', kwargs={'id': repo.id})
+        url = reverse('repository-detail', kwargs={'pk': repo.id})
         response = self.client.get(url)
         self.assertResponse200AndItemsEqual(get_data(repo), response)
 
-    def test_update(self):
-        repo = RepositoryFactory(polling_interval=1)
-        payload = {'polling_interval': 2}
-        url = reverse('repository-detail', kwargs={'id': repo.id})
-        response = self.client.put(url, data=payload)
-        updated_repo = Repository.objects.get(id=repo.id)
-        self.assertResponse200AndItemsEqual(get_data(updated_repo), response)
-
-    def test_update_cannot_modify_url(self):
-        repo = RepositoryFactory(url='http://old-url')
-        payload = {'polling_interval': 2, 'url': 'http://new-url'}
-        url = reverse('repository-detail', kwargs={'id': repo.id})
-        response = self.client.put(url, data=payload)
-        updated_repo = Repository.objects.get(id=repo.id)
-        self.assertEqual(repo.url, response.data['url'])
-        self.assertEqual(repo.url, updated_repo.url)
-
-    def test_partial_update(self):
-        repo = RepositoryFactory(polling_interval=1)
-        payload = {'polling_interval': 2}
-        url = reverse('repository-detail', kwargs={'id': repo.id})
-        response = self.client.patch(url, data=payload)
-        updated_repo = Repository.objects.get(id=repo.id)
-        self.assertResponse200AndItemsEqual(get_data(updated_repo), response)
-
-    def test_partial_update_cannot_modify_url(self):
+    @nottest
+    def generic_test_detail_method_returns_405(self, method):
         repo = RepositoryFactory()
-        payload = {'url': 'http://new-url'}
-        url = reverse('repository-detail', kwargs={'id': repo.id})
-        response = self.client.patch(url, data=payload)
-        updated_repo = Repository.objects.get(id=repo.id)
-        self.assertEqual(repo.url, response.data['url'])
-        self.assertEqual(repo.url, updated_repo.url)
+        url = reverse('repository-detail', kwargs={'pk': repo.id})
+        response = getattr(self.client, method)(url, data={})
+        self.assertEqual(
+            status.HTTP_405_METHOD_NOT_ALLOWED,
+            response.status_code,
+        )
+
+    def test_update_returns_405(self):
+        self.generic_test_detail_method_returns_405(method='put')
+
+    def test_partial_update_returns_405(self):
+        self.generic_test_detail_method_returns_405(method='patch')
 
     def test_delete(self):
         repo = RepositoryFactory()
-        url = reverse('repository-detail', kwargs={'id': repo.id})
+        url = reverse('repository-detail', kwargs={'pk': repo.id})
         response = self.client.delete(url)
-        # Assert folder is also deleted or at least os.rm was called
-        # Assert scheduled task was removed
+        # TODO: Assert folder is also deleted or at least os.rm was called
+        # TODO: Assert the scheduled task for polling was removed
         self.assertEqual(status.HTTP_204_NO_CONTENT, response.status_code)
         self.assertIsNone(response.data)
         with self.assertRaises(Repository.DoesNotExist):
