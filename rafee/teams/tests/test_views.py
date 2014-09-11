@@ -19,7 +19,7 @@ class CommonTeamTests(CommonTestsMixin, BaseAPITestCase):
     list_url_name = 'team-list'
     detail_url_name = 'team-detail'
 
-    def setUp(self):
+    def extra_setup(self):
         self.team = TeamFactory()
         self.detail_url_kwargs = {'id': self.team.id}
 
@@ -31,9 +31,7 @@ class NonAdminTeamTests(NonAdminReadTestsMixin,
     list_url_name = 'team-list'
     detail_url_name = 'team-detail'
 
-    def setUp(self):
-        self.user = UserFactory()
-        self.client.force_authenticate(user=self.user)
+    def extra_setup(self):
         self.team = TeamFactory()
         self.detail_url_kwargs = {'id': self.team.id}
 

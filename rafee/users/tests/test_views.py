@@ -19,8 +19,7 @@ class CommonUserTests(CommonTestsMixin, BaseAPITestCase):
     list_url_name = 'user-list'
     detail_url_name = 'user-detail'
 
-    def setUp(self):
-        self.user = UserFactory()
+    def extra_setup(self):
         self.detail_url_kwargs = {'pk': self.user.pk}
 
     def test_detail(self):
@@ -38,9 +37,7 @@ class NonAdminUserTests(NonAdminListReadTestsMixin,
     list_url_name = 'user-list'
     detail_url_name = 'user-detail'
 
-    def setUp(self):
-        self.user = UserFactory()
-        self.client.force_authenticate(self.user)
+    def extra_setup(self):
         self.detail_url_kwargs = {'pk': self.user.pk}
 
 

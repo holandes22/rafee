@@ -19,7 +19,7 @@ class CommonSlideshowTests(CommonTestsMixin, BaseAPITestCase):
     list_url_name = 'slideshow-list'
     detail_url_name = 'slideshow-detail'
 
-    def setUp(self):
+    def extra_setup(self):
         self.slideshow = SlideshowFactory()
         self.detail_url_kwargs = {'id': self.slideshow.id}
 

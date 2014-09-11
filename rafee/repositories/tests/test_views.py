@@ -21,7 +21,7 @@ class CommonRepositoryTests(CommonTestsMixin, BaseAPITestCase):
     list_url_name = 'repository-list'
     detail_url_name = 'repository-detail'
 
-    def setUp(self):
+    def extra_setup(self):
         self.repo = RepositoryFactory()
         self.detail_url_kwargs = {'pk': self.repo.id}
 
@@ -33,9 +33,7 @@ class NonAdminRepositoryTests(NonAdminReadTestsMixin,
     list_url_name = 'repository-list'
     detail_url_name = 'repository-detail'
 
-    def setUp(self):
-        self.user = UserFactory()
-        self.client.force_authenticate(user=self.user)
+    def extra_setup(self):
         self.repo = RepositoryFactory()
         self.detail_url_kwargs = {'pk': self.repo.id}
 

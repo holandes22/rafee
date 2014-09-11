@@ -9,9 +9,22 @@ from rafee.users.factories import UserFactory
 
 class BaseAPITestCase(APITestCase):
 
+    force_authenticate = True
+
     def setUp(self):
         self.user = UserFactory()
-        self.client.force_authenticate(user=self.user)
+        if self.force_authenticate:
+            self.client.force_authenticate(user=self.user)
+        self.extra_setup()
+
+    def tearDown(self):
+        self.extra_teardown()
+
+    def extra_setup(self):
+        pass
+
+    def extra_teardown(self):
+        pass
 
     def assertResponseStatusAndItemsEqual(self, code, expected, response):
         actual = response.data
@@ -94,6 +107,8 @@ class BaseAPITestCase(APITestCase):
 
 
 class CommonTestsMixin(object):
+
+    force_authenticate = False
 
     # authenticated list tests
     def test_list_get_returns_401_if_not_authenticated(self):
