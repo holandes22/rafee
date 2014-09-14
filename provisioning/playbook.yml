@@ -27,7 +27,7 @@
       with_items: python_packages
 
     - name: install requirements
-      pip: requirements='/vagrant/requirements-dev.txt' virtualenv={{ virtualenv_path }}
+      pip: requirements=/vagrant/requirements-dev.txt virtualenv={{ virtualenv_path }}
 
     - name: change owner of virtualenvs folder to vagrant user
       file: path=/home/vagrant/virtualenvs owner=vagrant group=vagrant recurse=yes
@@ -47,7 +47,7 @@
       service: name=postgresql state=started enabled=yes
 
     - name: create www dir
-    file: path=/var/www/{{ project_name }}/repos state=directory
+      file: path='/var/www/{{ project_name }}/repos' state=directory mode=0777
 
     - name: create celery log dir
       file: path=/var/log/celery state=directory
@@ -85,7 +85,6 @@
   handlers:
     - name: restart supervisord
       action: service name=supervisord state=restarted enabled=yes
-
 
     - name: restart celery worker
       supervisorctl: name=celery state=restarted supervisorctl_path={{ supervisorctl_path }}
