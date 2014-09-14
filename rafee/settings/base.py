@@ -1,23 +1,28 @@
-"""
-Django settings for rafee project.
-
-For more information on this file, see
-https://docs.djangoproject.com/en/dev/topics/settings/
-
-For the full list of settings and their values, see
-https://docs.djangoproject.com/en/dev/ref/settings/
-"""
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+from datetime import timedelta
+
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
+# Rafee specific
+
+RAFEE_REPO_DIR = ''
+RAFEE_REPO_POLLING_INTERVAL = os.environ.get('RAFEE_REPO_POLLING_INTERVAL', 45)
 
 # Celery
+
 BROKER_URL = 'redis://localhost:6379/0'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERYBEAT_SCHEDULE = {
+    'pull_all_repos_periodically': {
+        'task': 'rafee.repositories.tasks.pull_all_repos',
+        'schedule': timedelta(seconds=RAFEE_REPO_POLLING_INTERVAL),
+    },
+}
 
 # Django
+
 APPEND_SLASH = False
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
@@ -105,8 +110,3 @@ REST_FRAMEWORK = {
     ),
     'FILTER_BACKEND': 'rest_framework.filters.DjangoFilterBackend',
 }
-
-# Rafee specific
-
-RAFEE_REPO_DIR = ''
-RAFEE_REPO_POLLING_INTERVAL = os.environ.get('RAFEE_REPO_POLLING_INTERVAL', 45)

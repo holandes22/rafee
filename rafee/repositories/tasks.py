@@ -35,3 +35,17 @@ def pull_repo(url):
     dst_path = get_dst_path(url)
     git_manager = GitManager(url, dst_path)
     git_manager.pull()
+
+
+@shared_task
+def pull_all_repos():
+    response = {'errors': []}
+    for repo in Repository.objects.all():
+        dst_path = get_dst_path(repo.url)
+        try:
+            git_manager = GitManager(repo.url, dst_path)
+            git_manager.pull()
+        except Exception as e:
+            response['errors'].append({'repo': repo.id, 'message': str(e)})
+            # TODO: Notify
+    return response

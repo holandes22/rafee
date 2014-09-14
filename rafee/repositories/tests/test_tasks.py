@@ -1,9 +1,11 @@
-from mock import patch
+from mock import patch, Mock
 from celery import states
 from django.test import TestCase
 
 from rafee.repositories.models import Repository
-from rafee.repositories.tasks import clone_and_create_repo, pull_repo
+from rafee.repositories.factories import RepositoryFactory
+from rafee.repositories.tasks import clone_and_create_repo
+from rafee.repositories.tasks import pull_repo, pull_all_repos
 
 
 class RepositoryTasksTests(TestCase):
@@ -31,8 +33,30 @@ class RepositoryTasksTests(TestCase):
         repo = Repository.objects.get(id=result.result)
         self.assertEqual(url, repo.url)
 
-    def test_a_scheduled_task_for_pulling_is_created_for_each_new_repo(self):
-        pass
+    @patch('rafee.repositories.tasks.get_dst_path')
+    def test_pull_all_repos(self, get_dst_path):
+        git_manager = self.gm_mock.return_value
+        RepositoryFactory()
+        RepositoryFactory()
+        result = pull_all_repos.delay()
+        self.assertListEqual([], result.result['errors'])
+        self.assertEqual(2, git_manager.pull.call_count)
+
+    @patch('rafee.repositories.tasks.get_dst_path')
+    def test_pull_all_repos_return_error_info(self, get_dst_path):
+        git_manager = self.gm_mock.return_value
+        RepositoryFactory()
+        repo2 = RepositoryFactory()
+        repo3 = RepositoryFactory()
+        error2 = ValueError('Fake msg2')
+        error3 = ValueError('Fake msg3')
+        git_manager.pull.side_effect = [Mock(), error2, error3]
+        result = pull_all_repos.delay()
+        expected = [
+            {'repo': repo2.id, 'message': str(error2)},
+            {'repo': repo3.id, 'message': str(error3)},
+        ]
+        self.assertEqual(expected, result.result['errors'])
 
     @patch('rafee.repositories.tasks.get_dst_path')
     def test_pull_repo(self, get_dst_path):
