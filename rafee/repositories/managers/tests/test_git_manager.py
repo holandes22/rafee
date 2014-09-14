@@ -4,7 +4,6 @@ from mock import patch, Mock, PropertyMock
 from git.exc import InvalidGitRepositoryError
 
 from rafee.repositories.managers.git import GitManager
-from rafee.repositories.managers.git import InvalidLocalRepoError
 from rafee.repositories.managers.git import CannotPullFromRepoError
 
 
@@ -84,12 +83,6 @@ class GitManagerTests(unittest.TestCase):
         git_manager = GitManager(self.url, self.dst_path)
         self.assertFalse(git_manager.is_valid_local_copy)
 
-    def test_is_valid_local_returns_false_if_not_a_git_repo(self):
-        self.git_mock.exc.InvalidGitRepositoryError = InvalidGitRepositoryError
-        self.git_mock.Repo.side_effect = InvalidGitRepositoryError
-        git_manager = GitManager(self.url, self.dst_path)
-        self.assertFalse(git_manager.is_valid_local_copy)
-
     @patch.object(GitManager, 'clone')
     @patch.object(GitManager, 'local_copy_exists', new_callable=PropertyMock)
     def test_clone_or_get_clones_if_no_local_copy(self, local_copy, clone):
@@ -112,7 +105,7 @@ class GitManagerTests(unittest.TestCase):
     def test_clone_or_get_raises_error_if_not_a_valid_repo(self, valid_copy):
         self.clone_or_get_patcher.stop()
         valid_copy.return_value = False
-        with self.assertRaises(InvalidLocalRepoError):
+        with self.assertRaises(InvalidGitRepositoryError):
             self.git_manager.clone_or_get_local_copy()
 
     def test_is_ahead_returns_true_if_new_commits(self):

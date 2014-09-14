@@ -1,9 +1,7 @@
+from __future__ import absolute_import
 import os
 import git
-
-
-class InvalidLocalRepoError(Exception):
-    pass
+from git import InvalidGitRepositoryError
 
 
 class CannotPullFromRepoError(Exception):
@@ -30,10 +28,10 @@ class GitManager(object):
         return git.Repo.clone_from(self.url, self.dst_path)
 
     def get_local_copy(self):
-        if self.is_valid_local_copy:
-            return git.Repo(self.dst_path)
-        else:
-            raise InvalidLocalRepoError()
+        repo = git.Repo(self.dst_path)
+        if not self.is_valid_local_copy:
+            raise InvalidGitRepositoryError('Local copy exists but from different origin.')
+        return repo
 
     def pull(self):
         if not self.is_ok_to_pull:
@@ -57,11 +55,7 @@ class GitManager(object):
 
     @property
     def is_valid_local_copy(self):
-        try:
-            repo = git.Repo(self.dst_path)
-        except git.exc.InvalidGitRepositoryError:
-            return False
-
+        repo = git.Repo(self.dst_path)
         return self.url == repo.remote().url
 
     def count_commits(self, selection):
