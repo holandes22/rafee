@@ -27,7 +27,7 @@ Includes (insert other templates) should be possible, if django can access that 
 Given this is to mainly show static pages, we have some constrains to simplify things:
 
 - Templates will have access to bootstrap styling.
-- Templates cannot add link, script nor style tags (they will be removed prior to rendering)
+- Templates cannot add link, script nor style tags (they will be removed prior to rendering). Checkout: http://lxml.de/api/lxml.html.clean.Cleaner-class.html
 
 
 Repository Model:
@@ -47,7 +47,7 @@ Slideshow Model:
 
     - name
     - team: FK to the Team model
-    - templates: CSV of template names to show. The order of appearance is considered. The names are relative to the team repos.
+    - templates: CSV of template identifiers to show. The order of appearance is considered. The names are relative to the team repos. Identifier is formed as shuch: <repo_id>-<template_folder_name>
     - transition_interval: Seconds between template transition
     - caching_interval: Seconds to keep a cache copy (maybe move this as query param in the /slides endpoint)
 
