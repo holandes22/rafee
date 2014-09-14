@@ -24,7 +24,6 @@ class BaseSlideshowAPIView(object):
 
 
 class SlideshowListAPIView(BaseSlideshowAPIView, ListCreateAPIView):
-
     pass
 
 
