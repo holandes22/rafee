@@ -16,12 +16,11 @@ File system hierarchy is as follows:
 
 `some_folder/<template_name>/`
 
-- template.ext: The template to render. Render engine will be determined by the file extension: hbs|jinja (mandatory)
-- data.source: A text file containing a URL (only the first line will be considered) from where data will be retrieved and passed to the template. Expected a
-  JSON response (optional)
+- template.j2 (mandatory): The template to render . Render engine jinja2
+- data.source (optional): A text file containing a URL (only the first line will be considered) from where data will be retrieved and passed to the template. Expected a JSON response.
 
 
-Every folder including a template.<ext> file will be used.
+Every folder including a template.j2 file will be used.
 
 Includes (insert other templates) should be possible, if django can access that file.
 
@@ -33,11 +32,10 @@ Given this is to mainly show static pages, we have some constrains to simplify t
 
 Repository Model:
 
-- url: URL from where to clone the repo (local path is not supported). Unique.
-- polling_interval: A background celery task will poll the repo for changes at this interval. Minimum is 30 seconds.
+- url: URL from where to clone the repo (local path is not supported).
 
 The repository will be cloned to a pre-defined reserved folder for rafee with write permissions to it.
-If the filepath already exists, adding the repo will faile
+If the filepath already exists, adding the repo will fail. The repo will then be polled periodically and bring changes if necessary
 
 
 Slideshow
@@ -79,6 +77,10 @@ When a request comes to render a template, a task is fired to do the following:
 2. Read data source from URLs if required. If there are several URLs, the read should be done with coroutines to speed up process
 3. Cache the result for the specified time in the slideshow
 
+Template preview
+----------------
+
+The frontend should provide some way to preview a template. This is to facilitate adding new templates (you don't want to push to repo, wait for pull and only then find out you missed something)
 
 API
 ---
@@ -94,8 +96,9 @@ note:: WRITE superseeds READ
     /slideshows READ [user] WRITE [admin] -> Users can only see slideshows from their teams. When specifying the
     template names. Missing template files are ignored (this omission should be logged).
     /templates READ [admin]--> A list of currently available template in the file system (name, data_src)
-    /slides READ [user,admin] --> :id is formed by the team name and the name of the folder that contains the
-    template (e.g. css-commits). The response is a task id
+    /templates/preview [admin] --> A POST request containing a Jinja 2 template string (mandatory) and a URL to retrieve data (optional). Returns a rendered page
+    /slides READ [user,admin] --> :id is formed by the repo id, a dash and the name of the folder that contains the
+    template (e.g. 1-commits). The response is a task_id. Returning a task allows the frontend to ask to render all the templates in a slideshow at once, and start showing them only when ready, giving a better user xp.
     /tasks READ [user,admin]
 
 The API needs to support query params to allow filtering (for example /slideshows?team=team_id)
@@ -129,3 +132,5 @@ At the admin page it allows to manage repos, slideshows and users.
     /admin/repositories/:id
     /admin/slideshows
     /admin/slideshows/:id
+    /admin/templates
+    /admin/templates/preview
