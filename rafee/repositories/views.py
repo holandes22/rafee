@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework.generics import ListCreateAPIView
 from rest_framework.generics import RetrieveDestroyAPIView
 
+from rafee.repositories.tasks import remove_repo
 from rafee.repositories.tasks import clone_and_create_repo
 from rafee.repositories.models import Repository
 from rafee.repositories.serializers import RepositorySerializer
@@ -30,3 +31,7 @@ class RepositoryDetailAPIView(RetrieveDestroyAPIView):
 
     model = Repository
     serializer_class = RepositorySerializer
+
+    def destroy(self, request, *args, **kwargs):
+        task = remove_repo.delay(self.kwargs['pk'])
+        return Response({'task': task.task_id})

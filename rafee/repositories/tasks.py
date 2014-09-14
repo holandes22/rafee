@@ -1,4 +1,6 @@
 from os import path
+from shutil import rmtree
+
 from celery import shared_task
 from celery.utils.log import get_task_logger
 from django.conf import settings
@@ -19,6 +21,13 @@ def clone_and_create_repo(url):
     GitManager(url, get_dst_path(url))
     repo = Repository.objects.create(url=url)
     return repo.id
+
+
+@shared_task
+def remove_repo(pk):
+    repo = Repository.objects.get(pk=pk)
+    rmtree(get_dst_path(repo.url))
+    repo.delete()
 
 
 @shared_task

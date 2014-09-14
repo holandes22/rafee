@@ -10,9 +10,9 @@ from rafee.test_utils.base import CommonTestsMixin
 from rafee.test_utils.base import NonAdminReadTestsMixin
 from rafee.test_utils.base import NonAdminWriteTestsMixin
 
+from rafee.repositories.tasks import get_dst_path
 from rafee.repositories.factories import RepositoryFactory
 from rafee.users.factories import UserFactory
-
 from rafee.repositories.models import Repository
 
 
@@ -86,13 +86,12 @@ class AdminUserTests(BaseAPITestCase):
     def test_partial_update_returns_405(self):
         self.generic_test_detail_method_returns_405(method='patch')
 
-    def test_delete(self):
+    @patch('rafee.repositories.tasks.rmtree')
+    def test_delete(self, rmtree_mock):
         repo = RepositoryFactory()
         url = reverse('repository-detail', kwargs={'pk': repo.id})
         response = self.client.delete(url)
-        # TODO: Assert folder is also deleted or at least os.rm was called
-        # TODO: Assert the scheduled task for polling was removed
-        self.assertEqual(status.HTTP_204_NO_CONTENT, response.status_code)
-        self.assertIsNone(response.data)
+        self.assertIn('task', response.data)
+        rmtree_mock.assert_called_with(get_dst_path(repo.url))
         with self.assertRaises(Repository.DoesNotExist):
             Repository.objects.get(id=repo.id)
