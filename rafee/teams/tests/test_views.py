@@ -36,7 +36,7 @@ class NonAdminTeamTests(NonAdminReadTestsMixin,
         self.detail_url_kwargs = {'id': self.team.id}
 
 
-class AdminUserTests(BaseAPITestCase):
+class AdminTeamTests(BaseAPITestCase):
 
     def setUp(self):
         self.user = UserFactory(is_staff=True)
