@@ -56,6 +56,7 @@ LOCAL_APPS = (
     'rafee.users',
     'rafee.slideshows',
     'rafee.repositories',
+    'rafee.templates',
 )
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -112,3 +113,4 @@ REST_FRAMEWORK = {
 }
 
 # TODO: Logging
+# TODO: Add DRF global catcher
