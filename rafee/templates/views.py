@@ -50,6 +50,7 @@ class TemplateRenderAPIView(APIView):
 
 class TemplatePreviewAPIView(APIView):
 
+    # TODO: Add tests
     def post(self, request):
         template_str = request.POST.get('template', None)
         # return 400 if no template
