@@ -13,6 +13,7 @@ urlpatterns = patterns(
     url(r'^{}/teams/'.format(api_prefix), include('rafee.teams.urls')),
     url(r'^{}/slideshows/'.format(api_prefix), include('rafee.slideshows.urls')),
     url(r'^{}/repositories/'.format(api_prefix), include('rafee.repositories.urls')),
+    url(r'^{}/templates/'.format(api_prefix), include('rafee.templates.urls')),
     url(
         r'^{}/tasks/(?P<task_id>[a-z0-9\-]+)'.format(api_prefix),
         TaskDetail.as_view(),
