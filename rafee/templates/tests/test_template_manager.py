@@ -1,7 +1,8 @@
 import os
+import errno
 import unittest
 
-from mock import patch, Mock, MagicMock
+from mock import patch, Mock, MagicMock, call
 from nose.tools import nottest
 from jinja2.exceptions import TemplateNotFound
 
@@ -107,7 +108,9 @@ class TemplateManagerTests(unittest.TestCase):
 
         open_m.return_value = MagicMock(spec=file)
         file_handle = open_m.return_value.__enter__.return_value
-        file_handle.readline.side_effect = ['http://blah.com/r', '', IOError]
+        error = IOError()
+        error.errno = errno.ENOENT
+        file_handle.readline.side_effect = ['http://blah.com/r', '', error]
 
         manager = TemplateManager('/fake')
         templates_info = manager.get_templates_info()
@@ -116,4 +119,6 @@ class TemplateManagerTests(unittest.TestCase):
             {'name': 'repo2/t', 'data_source_url': None},
             {'name': 'repo3/t', 'data_source_url': None},
         ]
+        # last call
+        open_m.assert_called_with('/fake/repo3/t/data_source_url', 'rb')
         self.assertItemsEqual(expected, templates_info)

@@ -1,4 +1,5 @@
 import os
+import errno
 from os.path import join, exists, getmtime
 
 from bs4 import BeautifulSoup
@@ -53,16 +54,17 @@ class TemplateManager(object):
         self.template_names = self.loader.list_templates()
 
     def get_template_info(self, template_name):
-        path = join(self.root_folder, template_name, 'data_source_url')
+        name = template_name.replace('/template.j2', '')
+        path = join(self.root_folder, name, 'data_source_url')
         value = None
         try:
             with open(path, 'rb') as f:
                 line = f.readline()
                 if line != '':
-                    value = line
-        except IOError:
-            pass
-        name = template_name.replace('/template.j2', '')
+                    value = line.strip()
+        except IOError as e:
+            if e.errno != errno.ENOENT:
+                raise
         return {'name': name, 'data_source_url': value}
 
     def get_templates_info(self):
