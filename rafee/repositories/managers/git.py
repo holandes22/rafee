@@ -36,18 +36,18 @@ class GitManager(object):
     def pull(self):
         if not self.is_ok_to_pull:
             raise CannotPullFromRepoError()
-        if self.is_behind:
+        if self.is_behind:  # Do not pull unnecessarilly
             self.remote.pull()
 
     @property
     def is_ok_to_pull(self):
-        if self.is_ahead or self.repo.is_dirty or not self.in_master_branch:
+        if self.is_ahead or self.repo.is_dirty() or not self.in_master_branch:
             return False
         return True
 
     @property
     def in_master_branch(self):
-        return self.repo.active_branch == 'master'
+        return self.repo.active_branch.name == 'master'
 
     @property
     def local_copy_exists(self):
@@ -64,8 +64,8 @@ class GitManager(object):
 
     @property
     def is_ahead(self):
-        return self.count_commits('origin/master..master')
+        return self.count_commits('origin/master..master') > 0
 
     @property
     def is_behind(self):
-        return self.count_commits('master..origin/master')
+        return self.count_commits('master..origin/master') > 0

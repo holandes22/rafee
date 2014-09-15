@@ -137,7 +137,7 @@ class GitManagerTests(unittest.TestCase):
         is_ahead.return_value = opts.get('is_ahead', False)
         in_master.return_value = opts.get('in_master', False)
         repo = Mock()
-        repo.is_dirty = opts.get('is_dirty', False)
+        repo.is_dirty.return_value = opts.get('is_dirty', False)
         self.git_manager.repo = repo
         expected = opts.get('expected', False)
         self.assertEqual(expected, self.git_manager.is_ok_to_pull)
@@ -179,9 +179,9 @@ class GitManagerTests(unittest.TestCase):
             self.git_manager.pull()
 
     def test_in_master_branch_is_true_if_in_master(self):
-        self.git_manager.repo.active_branch = 'master'
+        self.git_manager.repo.active_branch.name = 'master'
         self.assertTrue(self.git_manager.in_master_branch)
 
     def test_in_master_branch_if_false_if_not_in_master(self):
-        self.git_manager.repo.active_branch = 'not_master'
+        self.git_manager.repo.active_branch.name = 'not_master'
         self.assertFalse(self.git_manager.in_master_branch)
