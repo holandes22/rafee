@@ -106,18 +106,30 @@ class BaseAPITestCase(APITestCase):
         )
 
 
-class CommonTestsMixin(object):
+class CommonListTestsMixin(object):
 
     force_authenticate = False
 
-    # authenticated list tests
     def test_list_get_returns_401_if_not_authenticated(self):
         self.generic_test_list_returns_401_if_not_authenticated('get')
 
     def test_list_post_returns_401_if_not_authenticated(self):
         self.generic_test_list_returns_401_if_not_authenticated('post')
 
-    # authenticated detail tests
+    def test_list_put_returns_405(self):
+        self.generic_test_list_returns_405_if_method_not_allowed('put')
+
+    def test_list_patch_returns_405(self):
+        self.generic_test_list_returns_405_if_method_not_allowed('patch')
+
+    def test_list_delete_returns_405(self):
+        self.generic_test_list_returns_405_if_method_not_allowed('delete')
+
+
+class CommonDetailTestsMixin(object):
+
+    force_authenticate = False
+
     def test_detail_get_returns_401_if_not_authenticated(self):
         self.generic_test_detail_returns_401_if_not_authenticated('get')
 
@@ -133,19 +145,13 @@ class CommonTestsMixin(object):
     def test_detail_delete_returns_401_if_not_authenticated(self):
         self.generic_test_detail_returns_401_if_not_authenticated('delete')
 
-    # allowed list tests
-    def test_list_put_returns_405(self):
-        self.generic_test_list_returns_405_if_method_not_allowed('put')
-
-    def test_list_patch_returns_405(self):
-        self.generic_test_list_returns_405_if_method_not_allowed('patch')
-
-    def test_list_delete_returns_405(self):
-        self.generic_test_list_returns_405_if_method_not_allowed('delete')
-
-    # allowed detail tests
     def test_detail_post_returns_405(self):
         self.generic_test_detail_returns_405_if_method_not_allowed('post')
+
+
+class CommonTestsMixin(CommonListTestsMixin, CommonDetailTestsMixin):
+
+    force_authenticate = False
 
 
 class NonAdminListReadTestsMixin(object):
