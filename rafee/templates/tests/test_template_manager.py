@@ -1,20 +1,21 @@
 import os
 import unittest
-from mock import patch, MagicMock
+
+from mock import patch, Mock, MagicMock
 from nose.tools import nottest
+from jinja2.exceptions import TemplateNotFound
 
-from rafee.templates.manager import TemplateManager
+from rafee.templates.manager import FileSystemLoader
 
-TEMPLATE = 'Hello!'
-TEMPLATE_WITH_VALUES = 'Hello {{ name }}!'
+
 TEMPLATE_WITH_INVALID_TAGS = '''
 <html>
     <head>
         <script>content</script>
         <style>content</style>
-        <link>content</link>
+        <link href='blah'/>
     </head>
-    </body>
+    <body>
         <p>Hi <span>world</span></p>
         <script>console.log('hey')</script>
     </body>
@@ -22,61 +23,71 @@ TEMPLATE_WITH_INVALID_TAGS = '''
 '''
 
 
-class TemplateManagerTests(unittest.TestCase):
+class FileSystemLoaderTests(unittest.TestCase):
 
     def setUp(self):
         self.folder_structure = {
-            'repo1': ['dir1', 'template.j2'],
-            'repo2': ['template.j2'],
-            'invalid': ['subdir1', 'file.ext'],
+            'repo1': {'t1': ['template.j2'], 't2': ['invalid.j2']},
+            'repo2': {'t1': ['template.j2', 'dir'], 't2': ['template.j2']},
+            'repo3': {'t1': ['subdir1', 'file.ext']},
         }
-        #self.os_patcher = patch('rafee.templates.manager.os')
-        #self.os_mock = self.os_patcher.start()
-        #self.os_mock.listdir.side_effect = self.listdir_side_effect
-        #self.folder = '/fake/templates'
-        #self.manager = TemplateManager(self.folder)
+        self.os_patcher = patch('rafee.templates.manager.os')
+        self.os_mock = self.os_patcher.start()
+        self.os_mock.listdir.side_effect = self.listdir_side_effect
+        self.root_folder = '/fake/templates'
 
     def tearDown(self):
-        return
         self.os_patcher.stop()
 
     @nottest
     def listdir_side_effect(self, path):
-        if path == self.folder:
+        if path == self.root_folder:
             return self.folder_structure.keys()
         name = os.path.basename(path)
-        return self.folder_structure[name]
+        if name in self.folder_structure:
+            return self.folder_structure[name].keys()
+        repo = os.path.basename(os.path.dirname(path))
+        return self.folder_structure[repo][name]
 
-    @nottest
+    def clean_string(self, s):
+        return s.replace(' ', '').replace('\n', '')
+
     def test_list(self):
-        # expected = [n for n in self.folder_structure.keys() if 'repo' in n]
-        # self.assertEqual(expected, self.manager.template_names)
-        pass
+        expected = [
+            os.path.join('repo1', 't1', 'template.j2'),
+            os.path.join('repo2', 't1', 'template.j2'),
+            os.path.join('repo2', 't2', 'template.j2'),
+        ]
+        loader = FileSystemLoader(self.root_folder)
+        self.assertItemsEqual(expected, loader.list_templates())
 
-    @nottest
-    def test_list_returns_only_folders_from_top_level(self):
-        # /templates/repo/template1/template.j2 - OK
-        # /templates/repo/nesteddir/template1/template.j2 - NOT OK
-        # TODO: Not sure how to test this
-        pass
+    @patch('rafee.templates.manager.getmtime')
+    @patch('rafee.templates.manager.open', create=True)
+    @patch('rafee.templates.manager.exists')
+    def test_get_source_removes_tags(self, exists_m, open_m, getmtime_m):
+        exists_m.return_value = True
+        open_m.return_value = MagicMock(spec=file)
+        file_handle = open_m.return_value.__enter__.return_value
+        file_handle.read.return_value = TEMPLATE_WITH_INVALID_TAGS
+        loader = FileSystemLoader(self.root_folder)
+        source, path, update = loader.get_source(Mock(), 't')
+        expected_path = os.path.join(self.root_folder, 't')
+        self.assertEqual(expected_path, path)
+        expected_source = '''
+        <html>
+            <head>
+            </head>
+            <body>
+                <p>Hi <span>world</span></p>
+            </body>
+        </html>
+        '''
+        self.assertEqual(
+            self.clean_string(expected_source),
+            self.clean_string(source),
+        )
 
-    @nottest
-    def test_get_source(self):
-        #with patch('rafee.templates.manager.open', create=True) as open_mock:
-        #    open_mock.return_value = MagicMock(spec=file)
-        #    file_handle = open_mock.return_value.__enter__.return_value
-        #    file_handle.read.return_value = TEMPLATE
-        #    self.manager.render()
-        pass
-
-    @nottest
-    def test_render(self):
-        pass
-
-    @nottest
-    def test_render_template(self):
-        pass
-
-    @nottest
-    def test_clean_source(self):
-        pass
+    def test_get_source_raises_error_if_no_template(self):
+        loader = FileSystemLoader(self.root_folder)
+        with self.assertRaises(TemplateNotFound):
+            loader.get_source(Mock(), 't')

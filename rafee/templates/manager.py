@@ -24,7 +24,7 @@ class FileSystemLoader(BaseLoader):
         if not exists(path):
             raise TemplateNotFound(template)
         mtime = getmtime(path)
-        with file(path) as f:
+        with open(path, 'rb') as f:
             source = self.clean_source(f).decode('utf-8')
         return source, path, lambda: mtime == getmtime(path)
 
