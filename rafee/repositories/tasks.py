@@ -42,10 +42,14 @@ def pull_all_repos():
     response = {'errors': []}
     for repo in Repository.objects.all():
         dst_path = get_dst_path(repo.url)
+        git_manager = GitManager(repo.url, dst_path)
         try:
-            git_manager = GitManager(repo.url, dst_path)
             git_manager.pull()
         except Exception as e:
-            response['errors'].append({'repo': repo.id, 'message': str(e)})
-            # TODO: Notify
+            error = e.__class__.__name__
+            response['errors'].append(
+                {'repo': repo.id, 'message': str(e), 'error': error}
+            )
+            logger.error('Failed to pull repo {}. {}'.format(repo.id, e))
+            # TODO: Send notifications
     return response

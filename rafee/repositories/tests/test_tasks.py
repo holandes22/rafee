@@ -49,12 +49,12 @@ class RepositoryTasksTests(TestCase):
         repo2 = RepositoryFactory()
         repo3 = RepositoryFactory()
         error2 = ValueError('Fake msg2')
-        error3 = ValueError('Fake msg3')
+        error3 = IOError()
         git_manager.pull.side_effect = [Mock(), error2, error3]
         result = pull_all_repos.delay()
         expected = [
-            {'repo': repo2.id, 'message': str(error2)},
-            {'repo': repo3.id, 'message': str(error3)},
+            {'repo': repo2.id, 'message': str(error2), 'error': 'ValueError'},
+            {'repo': repo3.id, 'message': str(error3), 'error': 'IOError'},
         ]
         self.assertEqual(expected, result.result['errors'])
 
