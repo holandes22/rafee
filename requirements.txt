@@ -5,7 +5,7 @@ psycopg2==2.5.3
 gitpython==0.3.2.RC1
 django-filter==0.7
 django-rest-swagger==0.1.14
-celery[redis]==3.1.14
+celery[redis]==3.1.15
 supervisor==3.1.2
 beautifulsoup4==4.3.2
 requests==2.4.1
