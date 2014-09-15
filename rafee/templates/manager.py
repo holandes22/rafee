@@ -48,17 +48,32 @@ class TemplateManager(object):
 
     def __init__(self, root_folder):
         self.root_folder = root_folder
-        self.template_pattern = 'template.j2'
         self.loader = FileSystemLoader(self.root_folder)
         self.env = Environment(loader=self.loader)
         self.template_names = self.loader.list_templates()
+
+    def get_templates_info(self):
+        info = []
+        for template_name in self.template_names:
+            path = join(self.root_folder, template_name, 'data_source_url')
+            value = None
+            try:
+                with open(path, 'rb') as f:
+                    line = f.readline()
+                    if line != '':
+                        value = line
+            except IOError:
+                pass
+            name = template_name.replace('/template.j2', '')
+            info.append({'name': name, 'data_source_url': value})
+        return info
 
     @classmethod
     def render_template(cls, template, **kwargs):
         return template.render(**kwargs)
 
-    def render(self, repo_name, template_name, **kwargs):
+    def render(self, template_name, **kwargs):
         template = self.env.get_template(
-            join(repo_name, template_name, 'template.j2'),
+            join(template_name, 'template.j2'),
         )
         return self.render_template(template, **kwargs)

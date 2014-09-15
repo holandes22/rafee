@@ -5,7 +5,7 @@ from mock import patch, Mock, MagicMock
 from nose.tools import nottest
 from jinja2.exceptions import TemplateNotFound
 
-from rafee.templates.manager import FileSystemLoader
+from rafee.templates.manager import FileSystemLoader, TemplateManager
 
 
 TEMPLATE_WITH_INVALID_TAGS = '''
@@ -91,3 +91,29 @@ class FileSystemLoaderTests(unittest.TestCase):
         loader = FileSystemLoader(self.root_folder)
         with self.assertRaises(TemplateNotFound):
             loader.get_source(Mock(), 't')
+
+
+class TemplateManagerTests(unittest.TestCase):
+
+    @patch('rafee.templates.manager.FileSystemLoader')
+    @patch('rafee.templates.manager.open', create=True)
+    def test_get_templates_info(self, open_m, FileSystemLoader_m):
+        loader = FileSystemLoader_m.return_value
+        loader.list_templates.return_value = [
+            'repo1/t/template.j2',
+            'repo2/t/template.j2',
+            'repo3/t/template.j2',
+        ]
+
+        open_m.return_value = MagicMock(spec=file)
+        file_handle = open_m.return_value.__enter__.return_value
+        file_handle.readline.side_effect = ['http://blah.com/r', '', IOError]
+
+        manager = TemplateManager('/fake')
+        templates_info = manager.get_templates_info()
+        expected = [
+            {'name': 'repo1/t', 'data_source_url': 'http://blah.com/r'},
+            {'name': 'repo2/t', 'data_source_url': None},
+            {'name': 'repo3/t', 'data_source_url': None},
+        ]
+        self.assertItemsEqual(expected, templates_info)
