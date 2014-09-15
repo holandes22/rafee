@@ -52,20 +52,23 @@ class TemplateManager(object):
         self.env = Environment(loader=self.loader)
         self.template_names = self.loader.list_templates()
 
+    def get_template_info(self, template_name):
+        path = join(self.root_folder, template_name, 'data_source_url')
+        value = None
+        try:
+            with open(path, 'rb') as f:
+                line = f.readline()
+                if line != '':
+                    value = line
+        except IOError:
+            pass
+        name = template_name.replace('/template.j2', '')
+        return {'name': name, 'data_source_url': value}
+
     def get_templates_info(self):
         info = []
         for template_name in self.template_names:
-            path = join(self.root_folder, template_name, 'data_source_url')
-            value = None
-            try:
-                with open(path, 'rb') as f:
-                    line = f.readline()
-                    if line != '':
-                        value = line
-            except IOError:
-                pass
-            name = template_name.replace('/template.j2', '')
-            info.append({'name': name, 'data_source_url': value})
+            info.append(self.get_template_info(template_name))
         return info
 
     @classmethod

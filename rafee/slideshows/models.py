@@ -12,5 +12,4 @@ class Slideshow(models.Model):
     caching_interval = models.PositiveIntegerField(default=120)
 
     class Meta:
-
         unique_together = (('name', 'team'),)
