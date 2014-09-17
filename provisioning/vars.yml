@@ -24,3 +24,8 @@ db_settings:
     name: "{{ project_name }}_db"
     user: vagrant
     password: vagrant
+django:
+    superuser:
+        username: p
+        password: p
+        email: p@p.com

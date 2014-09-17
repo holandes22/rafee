@@ -9,6 +9,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.boot_timeout = 120
 
   config.vm.network :forwarded_port, guest: 8000, host: 8888
+  config.vm.network :forwarded_port, guest: 9001, host: 9002
 
   config.vm.provider :virtualbox do |vb|
     vb.name = "rafee"

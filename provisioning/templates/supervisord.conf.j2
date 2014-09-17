@@ -13,13 +13,16 @@ minprocs=200                ; number of process descriptors
 user=root                   ; default user
 childlogdir=/var/log/supervisord/            ; where child log files will live
 
+[inet_http_server]
+port = *:9001
+username = {{ django.superuser.username }}
+password = {{ django.superuser.password }}
 
 [rpcinterface:supervisor]
 supervisor.rpcinterface_factory = supervisor.rpcinterface:make_main_rpcinterface
 
 [supervisorctl]
 serverurl=unix:///tmp/supervisor.sock ; use unix:// schem for a unix sockets.
-
 
 [include]
 files = /etc/supervisor/*.conf
