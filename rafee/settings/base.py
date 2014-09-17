@@ -95,16 +95,16 @@ XS_SHARING_ALLOWED_HEADERS = ['Content-Type', 'Authorization']
 
 
 # REST Framework
-
-API_PREFIX = 'v1'
+API_VERSION = 'v1'
+API_PREFIX = API_VERSION
 
 REST_FRAMEWORK = {
-    'DEFAULT_RENDERER_CLASSES': (
+    'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
-    ),
-    'DEFAULT_AUTHENTICATION_CLASSES': (
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
-    ),
+    ],
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
         'rest_framework.permissions.IsAdminUser',
@@ -112,5 +112,9 @@ REST_FRAMEWORK = {
     'FILTER_BACKEND': 'rest_framework.filters.DjangoFilterBackend',
 }
 
-# TODO: Logging
-# TODO: Add DRF global catcher
+# Swagger (API Docs)
+
+SWAGGER_SETTINGS = {
+    'enabled_methods': [],
+    'api_version': API_VERSION,
+}

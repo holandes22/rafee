@@ -1,7 +1,7 @@
 import requests
 from django.conf import settings
 from rest_framework import status
-from rest_framework.views import APIView
+from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from jinja2 import Template
@@ -9,9 +9,10 @@ from jinja2 import Template
 from rafee.slideshows.models import Slideshow
 from rafee.templates.tasks import render
 from rafee.templates.manager import TemplateManager
+from rafee.templates.serializers import TemplateRenderSerializer
 
 
-class TemplateListAPIView(APIView):
+class TemplateListAPIView(GenericAPIView):
 
     def get(self, request):
         manager = TemplateManager(settings.RAFEE_REPO_DIR)
@@ -19,9 +20,10 @@ class TemplateListAPIView(APIView):
         return Response(info)
 
 
-class TemplateRenderAPIView(APIView):
+class TemplateRenderAPIView(GenericAPIView):
 
     permission_classes = (IsAuthenticated,)
+    serializer_class = TemplateRenderSerializer
 
     def post(self, request):
         template_name = request.POST.get('template_name', None)
@@ -48,7 +50,7 @@ class TemplateRenderAPIView(APIView):
         return Response({'task': task.task_id})
 
 
-class TemplatePreviewAPIView(APIView):
+class TemplatePreviewAPIView(GenericAPIView):
 
     # TODO: Add tests
     def post(self, request):

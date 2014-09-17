@@ -20,3 +20,14 @@ DATABASES = {
 API_PREFIX = 'api/v1'
 
 RAFEE_REPO_DIR = '/var/www/rafee/repos'
+
+REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'].append(
+    'rest_framework.renderers.BrowsableAPIRenderer'
+)
+
+REST_FRAMEWORK['DEFAULT_AUTHENTICATION_CLASSES'].extend(
+    [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ]
+)
