@@ -6,10 +6,10 @@ rafee
 git clone and init submodules.
 You need to have the following installed in your system:
 
-- python 2.7
-- vagrant 1.6: http://www.vagrantup.com/downloads.html
-- virtualbox: https://www.virtualbox.org/wiki/Downloads
-- virtualenv (optional but highly recommended): pip install virtualenv
+- python 2.7.x
+- vagrant 1.6.x or later: http://www.vagrantup.com/downloads.html
+- virtualbox 4.3.x or later: https://www.virtualbox.org/wiki/Downloads
+- virtualenv 1.11.6 (optional but highly recommended): pip install virtualenv
 
 ### Backend
 
@@ -21,8 +21,11 @@ Run all the actions below in a virtual env:
 
 Choose default option for all steps below:
 
-    fab vagrant migrate  # in order to apply token migration from DRF
-    fab vagrant runserver  # choose the default dev option, runs at http://localhost:8888 (from VM)
+TODO: Move the steps below to provision script once we start using nginx/wsgi
+
+    fab vagrant migrate  # In order to apply token migration from DRF. Choose default values when prompted.
+    fab vagrant createsuperuser # Optional, but you'll need a user to actually use the app.
+    fab vagrant runserver  # Runs at http://localhost:8888 (from VM). Choose default values when prompted.
 
 In order to run the unittests:
 
@@ -38,6 +41,15 @@ running tests with coverage:
 
     python manage.py makemigrations && python manage.py migrate && coverage run --source='.' manage.py test
     coverage report
+
+
+When adding new celery tasks, you will need to reload the celery process.
+
+    fab vagrant supervisor.celery_restart
+
+If the task belongs to a newly added django app, make sure is added to the INSTALLED_APPS (celery autodiscover tasks
+from there). and restart of the web server.
+
 
 ### Frontend
 
