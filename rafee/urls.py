@@ -41,8 +41,9 @@ urlpatterns = patterns(
 if settings.DEBUG:
     # Allow login via DRF browsable API
     urlpatterns += patterns(
+        '',
         url(
             r'^api-auth/',
             include('rest_framework.urls', namespace='rest_framework'),
-        )
+        ),
     )
