@@ -17,17 +17,17 @@ urlpatterns = patterns(
     url(r'^{}/slideshows/'.format(api_prefix), include('rafee.slideshows.urls')),
     url(r'^{}/repositories/'.format(api_prefix), include('rafee.repositories.urls')),
     url(
-        r'^{}/templates/'.format(api_prefix),
+        r'^{}/templates/$'.format(api_prefix),
         TemplateListAPIView.as_view(),
         name='template-list',
     ),
     url(
-        r'^{}/templates/preview'.format(api_prefix),
+        r'^{}/templates/preview$'.format(api_prefix),
         TemplatePreviewAPIView.as_view(),
         name='template-preview',
     ),
     url(
-        r'^{}/slide'.format(api_prefix),
+        r'^{}/slide$'.format(api_prefix),
         TemplateRenderAPIView.as_view(),
         name='template-render',
     ),
