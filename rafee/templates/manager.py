@@ -73,12 +73,12 @@ class TemplateManager(object):
             info.append(self.get_template_info(template_name))
         return info
 
-    @classmethod
-    def render_template(cls, template, **kwargs):
+    def render_from_string(self, template_str, **kwargs):
+        template = self.env.from_string(template_str)
         return template.render(**kwargs)
 
     def render(self, template_name, **kwargs):
         template = self.env.get_template(
             join(template_name, 'template.j2'),
         )
-        return self.render_template(template, **kwargs)
+        return template.render(**kwargs)
