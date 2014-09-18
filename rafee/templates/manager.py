@@ -53,6 +53,11 @@ class TemplateManager(object):
         self.env = Environment(loader=self.loader)
         self.template_names = self.loader.list_templates()
 
+    def template_exists(self, template_name):
+        if not template_name.endswith('template.j2'):
+            join(template_name, 'template.j2')
+        return template_name in self.template_names
+
     def get_template_info(self, template_name):
         name = template_name.replace('/template.j2', '')
         path = join(self.root_folder, name, 'data_source_url')

@@ -5,7 +5,9 @@ from rest_framework.views import APIView
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.exceptions import ParseError
 
+from rafee.messages import TEMPLATE_NOT_FOUND
 from rafee.templates.tasks import render
 from rafee.templates.manager import TemplateManager
 from rafee.templates.permissions import IsAllowedToSeeTemplate
@@ -21,39 +23,41 @@ class TemplateListAPIView(APIView):
         return Response(info)
 
 
-class TemplateRenderAPIView(GenericAPIView):
+class TemplateAPIView(GenericAPIView):
+
+    def validate(self, request):
+        serializer = self.get_serializer(data=request.POST)
+        if not serializer.is_valid():
+            raise ParseError(detail=serializer.errors)
+
+
+class TemplateRenderAPIView(TemplateAPIView):
 
     permission_classes = (IsAuthenticated, IsAllowedToSeeTemplate)
     serializer_class = TemplateRenderSerializer
 
     def post(self, request):
-        # TODO: Move validation to a base method
-        serializer = self.get_serializer(data=request.POST)
-        if not serializer.is_valid():
+        self.validate(request)
+        template_name = request.POST.get('template_name')
+        manager = TemplateManager(settings.RAFEE_REPO_DIR)
+        if not manager.template_exists(template_name):
             return Response(
-                serializer.errors,
-                status=status.HTTP_400_BAD_REQUEST,
+                {'detail': TEMPLATE_NOT_FOUND},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
-        template_name = request.POST.get('template_name', None)
-        # TODO: Verify template_name even exists
+
         task = render.delay(template_name)
         return Response({'task': task.task_id})
 
 
-class TemplatePreviewAPIView(GenericAPIView):
+class TemplatePreviewAPIView(TemplateAPIView):
 
     permission_classes = (IsAuthenticated,)
     serializer_class = TemplatePreviewSerializer
 
-    # TODO: Add tests
     def post(self, request):
-        serializer = self.get_serializer(data=request.POST)
-        if not serializer.is_valid():
-            return Response(
-                serializer.errors,
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-        template_str = request.POST.get('template_str', None)
+        self.validate(request)
+        template_str = request.POST.get('template_str')
         manager = TemplateManager(settings.RAFEE_REPO_DIR)
         data_source = {}
         data_source_url = request.POST.get('data_source_url', None)
