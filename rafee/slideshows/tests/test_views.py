@@ -1,7 +1,9 @@
+from mock import patch
 from django.core.urlresolvers import reverse
 
 from rest_framework import status
 
+from rafee.messages import TEMPLATES_NOT_FOUND
 from rafee.test_utils.data import get_data
 from rafee.test_utils.base import BaseAPITestCase
 from rafee.test_utils.base import CommonTestsMixin
@@ -71,6 +73,10 @@ class AdminUserTests(BaseAPITestCase):
         self.team = TeamFactory()
         self.user = UserFactory(is_staff=True, teams=[self.team])
         self.client.force_authenticate(user=self.user)
+        self.tm_patcher = patch('rafee.slideshows.serializers.TemplateManager')
+        self.tm_mock = self.tm_patcher.start()
+        self.manager = self.tm_mock.return_value
+        self.manager.template_exists.return_value = True
 
     def assertExpectedDuplicateName(self, response):
         expected = {
@@ -105,6 +111,23 @@ class AdminUserTests(BaseAPITestCase):
         response = self.client.post(reverse('slideshow-list'), data=payload)
         slideshow = Slideshow.objects.get(pk=response.data['id'])
         self.assertResponse201AndItemsEqual(get_data(slideshow), response)
+
+    def test_create_returns_400_if_templates_do_not_exist(self):
+        self.manager.template_exists.side_effect = [True, False]
+        team = TeamFactory()
+        templates = ['t/in', 't/not_in']
+        payload = {
+            'name': 'showmatch',
+            'team': team.id,
+            'templates': ','.join(templates),
+        }
+        response = self.client.post(reverse('slideshow-list'), data=payload)
+        expected = {'templates': [TEMPLATES_NOT_FOUND.format('t/not_in')]}
+        self.assertResponseStatusAndItemsEqual(
+            status.HTTP_400_BAD_REQUEST,
+            expected,
+            response,
+        )
 
     def test_create_returns_400_if_missing_required_args(self):
         response = self.client.post(reverse('slideshow-list'), data={})
