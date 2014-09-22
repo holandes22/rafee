@@ -14,13 +14,12 @@
   </head>
   <body>
     <script>
-      window.RafeeENV = {{ENV}};
-      window.EmberENV = window.RafeeENV.EmberENV;
+      window.EmberENV = {{EMBER_ENV}};
     </script>
     <script src="assets/vendor.js"></script>
     <script src="assets/rafee.js"></script>
     <script>
-      window.Rafee = require('rafee/app')['default'].create(RafeeENV.APP);
+      window.Rafee = require('rafee/app')['default'].create({{APP_CONFIG}});
     </script>
   </body>
 </html>
