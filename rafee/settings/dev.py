@@ -4,7 +4,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 SECRET_KEY = 'fake'
 
-XS_SHARING_ALLOWED_ORIGINS = 'http://localhost:4200'
+XS_SHARING_ALLOWED_ORIGINS = 'http://0.0.0.0:4200'
 
 DATABASES = {
     'default': {

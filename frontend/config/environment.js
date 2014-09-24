@@ -25,6 +25,10 @@ module.exports = function(environment) {
     // ENV.APP.LOG_TRANSITIONS = true;
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     ENV.APP.LOG_VIEW_LOOKUPS = true;
+
+    ENV.APP.API_HOST = 'http://localhost:8888';
+    ENV.APP.API_NAMESPACE = 'api/v1';
+
   }
 
   if (environment === 'test') {
@@ -37,9 +41,14 @@ module.exports = function(environment) {
     ENV.APP.LOG_VIEW_LOOKUPS = false;
 
     ENV.APP.rootElement = '#ember-testing';
+
+    ENV.APP.API_HOST = '';
+    ENV.APP.API_NAMESPACE = 'api/v1';
   }
 
   if (environment === 'production') {
+    ENV.APP.API_HOST = 'https://rafee.com';
+    ENV.APP.API_NAMESPACE = 'v1';
 
   }
 
