@@ -1,7 +1,6 @@
 import Ember from 'ember';
 
 export default Ember.Route.extend({
-
     model: function() {
         return [
             {
@@ -14,7 +13,7 @@ export default Ember.Route.extend({
             {
                 id: 2,
                 name: 'users',
-                templates: 'css/user1,css/user2',
+                templates: 'css/user11111111111111111,css/user2222222222222222222222222',
                 transition_interval: 20,
                 caching_interval: 120
             }
