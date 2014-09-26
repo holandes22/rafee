@@ -12,20 +12,23 @@
                  classNames="form-control"}}
         </div>
         <div class="form-group">
-            <button type="submit" class="btn btn-default">Go!</button>
+            <button type="submit" class="btn btn-primary">Go!</button>
         </div>
       </form>
       <br/>
       {{#if selectedSlideshow}}
+        <h4>Template names in slideshow: {{selectedSlideshow.name}}</h4>
         <table class="table table-condensed table-striped">
           <thead>
             <tr>
-              <th>Template names in slideshow: {{selectedSlideshow.name}}</th>
+              <th>Position</th>
+              <th>Template name</th>
             </tr>
           </thead>
           <tbody>
             {{#each templateName in templateList}}
               <tr>
+                <td>{{_view.contentIndex}}</td>
                 <td>{{templateName}}</td>
               </tr>
             {{/each}}
