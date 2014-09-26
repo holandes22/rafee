@@ -1,0 +1,37 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-5">
+      {{#if model}}
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Full name</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each user in model}}
+              <tr>
+                <td>{{user.fullName}}</td>
+                <td>
+                  {{#link-to "user.edit" user title="Edit"}}
+                    <span class="glyphicon glyphicon-edit"></span>
+                  {{/link-to}}
+                  {{#link-to "user.delete" user title="Delete"}}
+                    <span class="glyphicon glyphicon-remove"></span>
+                  {{/link-to}}
+                  {{#link-to "user" user title="Details"}}
+                    <span class="glyphicon glyphicon-list"></span>
+                  {{/link-to}}
+                </td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      {{/if}}
+    </div>
+    <div class="col-md-7 details-pane">
+      {{outlet}}
+    </div>
+  </div>
+</div>
