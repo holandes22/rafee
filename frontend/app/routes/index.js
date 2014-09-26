@@ -1,6 +1,6 @@
-import Ember from 'ember';
+import AuthMixin from 'rafee/routes/authenticated-mixin';
 
-export default Ember.Route.extend({
+export default AuthMixin.extend({
     model: function() {
         return [
             {

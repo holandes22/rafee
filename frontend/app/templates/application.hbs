@@ -2,24 +2,36 @@
   <div class="navbar-header">
     {{link-to "Rafee" "index" class="navbar-brand"}}
   </div>
-  <div>
-    <ul class="nav navbar-nav"></ul>
-  </div>
-  <ul class="nav navbar-nav pull-right">
-    <li class="dropdown">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user">
-        user <b class="caret"></b>
-      </a>
-      <ul class="dropdown-menu">
+    <div>
+      <ul class="nav navbar-nav">
+      {{#if currentUser.is_staff}}
         <li>
-            <a>Profile</a>
+          {{link-to "Admin dashboard" "admin"}}
         </li>
-        <li class="divider"></li>
-        <li>
-          <a href="#">Log Out</a>
-        </li>
+      {{/if}}
       </ul>
-    </li>
+    </div>
+  <ul class="nav navbar-nav pull-right">
+    {{#if currentUser}}
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user">
+            {{currentUser.username}} <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+          <li>
+              {{link-to "Profile" "profile"}}
+          </li>
+          <li class="divider"></li>
+          <li>
+            <a href="#" {{action 'logout'}}>Log Out</a>
+          </li>
+        </ul>
+      </li>
+    {{else}}
+        <li>
+            {{link-to "Log In" "login"}}
+        </li>
+    {{/if}}
   </ul>
 </nav>
 {{outlet}}

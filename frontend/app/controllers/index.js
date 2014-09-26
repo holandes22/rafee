@@ -4,6 +4,8 @@ export default Ember.Controller.extend({
     selectedSlideshow: null,
 
     templateList: function() {
-        return this.get('selectedSlideshow').templates.split(',');
+        if (this.get('selectedSlideshow')) {
+            return this.get('selectedSlideshow').templates.split(',');
+        }
     }.property('selectedSlideshow')
 });

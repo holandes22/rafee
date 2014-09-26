@@ -6,12 +6,6 @@
   <button class="btn btn-lg btn-primary btn-block" {{action "signIn"}} {{bind-attr disabled=disabled}}>Sign in</button>
 </form>
 
-{{#if success}}
-  <div class="alert alert-success" role="alert">
-    Bingo!
-  </div>
-{{/if}}
-
 {{#if failure}}
   <div class="alert alert-danger alert-dismissible" role="alert">
     <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>

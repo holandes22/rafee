@@ -19,11 +19,10 @@ export default Ember.Controller.extend({
                 type: 'POST',
                 data: this.getProperties('username', 'password')
             }).then(function(response) {
-                // TODO: Store token in local storage
-                window.console.log(response.token);
-                self.setProperties({success: true, failure: false});
+                window.sessionStorage.setItem('loggedInUserToken', response.token);
+                window.location.replace('/');
             }, function(reason){
-                self.setProperties({success: false, failure: true});
+                self.set('failure', true);
                 var errorMessage = 'Error';
                 var status = reason.jqXHR.status;
                 var response = reason.jqXHR.responseJSON;
