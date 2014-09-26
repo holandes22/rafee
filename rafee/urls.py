@@ -11,7 +11,11 @@ api_prefix = settings.API_PREFIX
 urlpatterns = patterns(
     '',
     url(r'^{}/docs/'.format(api_prefix), include('rest_framework_swagger.urls')),
-    url(r'^{}/auth-token'.format(api_prefix), 'rest_framework.authtoken.views.obtain_auth_token'),
+    url(
+        r'^{}/auth-token'.format(api_prefix),
+        'rest_framework.authtoken.views.obtain_auth_token',
+        name='auth-token',
+    ),
     url(r'^{}/users/'.format(api_prefix), include('rafee.users.urls')),
     url(r'^{}/teams/'.format(api_prefix), include('rafee.teams.urls')),
     url(r'^{}/slideshows/'.format(api_prefix), include('rafee.slideshows.urls')),

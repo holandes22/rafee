@@ -1,5 +1,6 @@
+from mock import patch
 from django.core.urlresolvers import reverse
-
+from django.test import TestCase
 from rest_framework import status
 
 from rafee.test_utils.data import get_data
@@ -10,8 +11,37 @@ from rafee.test_utils.base import NonAdminWriteTestsMixin
 
 from rafee.teams.factories import TeamFactory
 from rafee.users.factories import UserFactory
+from rafee.users.factories import TokenFactory
 
 from rafee.users.models import User
+
+
+class AuthenticationTests(TestCase):
+
+    @patch('rest_framework.authtoken.serializers.authenticate')
+    def test_auth_token(self, authenticate_m):
+        token = TokenFactory()
+        authenticate_m.return_value = token.user
+        payload = {
+            'username': token.user.username,
+            'password': token.user.password,
+        }
+        response = self.client.post(reverse('auth-token'), data=payload)
+        self.assertEqual(token.key, response.data['token'])
+
+
+class UserProfileTests(BaseAPITestCase):
+
+    def test_profile(self):
+        self.client.force_authenticate(user=self.user)
+        response = self.client.get(reverse('user-profile'))
+        expected = get_data(self.user)
+        self.assertResponse200AndItemsEqual(expected, response)
+
+    def test_profile_returns_401_if_not_authenticated(self):
+        self.client.force_authenticate(user=None)
+        response = self.client.get(reverse('user-profile'))
+        self.assertEqual(status.HTTP_401_UNAUTHORIZED, response.status_code)
 
 
 class CommonUserTests(CommonTestsMixin, BaseAPITestCase):
