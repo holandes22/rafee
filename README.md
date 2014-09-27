@@ -58,7 +58,7 @@ Install the latest stable version of Node. To verify is properly installed, both
     node --help
     npm --help
 
-Install ember-cli and bower (you might need sudo for this):
+Install ember-cli (0.4.6 or later is required) and bower (you might need sudo for this):
 
     npm install -g ember-cli
     npm install -g bower
