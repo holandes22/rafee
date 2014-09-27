@@ -31,7 +31,7 @@ urlpatterns = patterns(
         name='template-preview',
     ),
     url(
-        r'^{}/slide$'.format(api_prefix),
+        r'^{}/slide/$'.format(api_prefix),
         TemplateRenderAPIView.as_view(),
         name='template-render',
     ),

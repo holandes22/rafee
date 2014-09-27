@@ -7,7 +7,7 @@ urlpatterns = patterns(
     'rafee.slideshows',
     url(r'^$', SlideshowListAPIView.as_view(), name='slideshow-list'),
     url(
-        r'^(?P<id>\d+)$',
+        r'^(?P<id>\d+)/$',
         SlideshowDetailAPIView.as_view(),
         name='slideshow-detail',
     ),
