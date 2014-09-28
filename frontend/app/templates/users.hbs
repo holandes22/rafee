@@ -10,17 +10,17 @@
             </tr>
           </thead>
           <tbody>
-            {{#each user in model}}
+            {{#each}}
               <tr>
-                <td>{{user.fullName}}</td>
+                <td>{{fullName}}</td>
                 <td>
-                  {{#link-to "user.edit" user title="Edit"}}
+                  {{#link-to "user.edit" this title="Edit"}}
                     <span class="glyphicon glyphicon-edit"></span>
                   {{/link-to}}
-                  {{#link-to "user.delete" user title="Delete"}}
+                  {{#link-to "user.delete" this title="Delete"}}
                     <span class="glyphicon glyphicon-remove"></span>
                   {{/link-to}}
-                  {{#link-to "user" user title="Details"}}
+                  {{#link-to "user" this title="Details"}}
                     <span class="glyphicon glyphicon-list"></span>
                   {{/link-to}}
                 </td>

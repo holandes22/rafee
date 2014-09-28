@@ -10,17 +10,17 @@
             </tr>
           </thead>
           <tbody>
-            {{#each team in model}}
+            {{#each}}
               <tr>
-                <td>{{team.name}}</td>
+                <td>{{name}}</td>
                 <td>
-                  {{#link-to "team.edit" team title="Edit"}}
+                  {{#link-to "team.edit" this title="Edit"}}
                     <span class="glyphicon glyphicon-edit"></span>
                   {{/link-to}}
-                  {{#link-to "team.delete" team title="Delete"}}
+                  {{#link-to "team.delete" this title="Delete"}}
                     <span class="glyphicon glyphicon-remove"></span>
                   {{/link-to}}
-                  {{#link-to "team" team title="Details"}}
+                  {{#link-to "team" this title="Details"}}
                     <span class="glyphicon glyphicon-list"></span>
                   {{/link-to}}
                 </td>
