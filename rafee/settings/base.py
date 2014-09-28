@@ -49,6 +49,7 @@ THIRD_PARTY_APPS = (
     'rest_framework.authtoken',
     'djangosecure',
     'rest_framework_swagger',
+    'django_extensions',
 )
 
 LOCAL_APPS = (
