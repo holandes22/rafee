@@ -33,6 +33,11 @@ class RepositoryTasksTests(TestCase):
         repo = Repository.objects.get(id=result.result)
         self.assertEqual(url, repo.url)
 
+    def test_clone_and_create_removes_git_extension_from_folder(self):
+        url = 'http://some.url/fake.git'
+        result = clone_and_create_repo.delay(url)
+        self.gm_mock.assert_called_with(url, 'fake')
+
     @patch('rafee.repositories.tasks.get_dst_path')
     def test_pull_all_repos(self, get_dst_path):
         git_manager = self.gm_mock.return_value

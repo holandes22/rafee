@@ -13,13 +13,14 @@ logger = get_task_logger(__name__)
 
 
 def get_dst_path(url):
-    return path.join(settings.RAFEE_REPO_DIR, path.basename(url))
+    basename = path.basename(url).rstrip('.git')
+    return path.join(settings.RAFEE_REPO_DIR, basename)
 
 
 @shared_task
 def clone_and_create_repo(url):
     GitManager(url, get_dst_path(url))
-    repo = Repository.objects.create(url=url)
+    repo, created = Repository.objects.get_or_create(url=url)
     return repo.id
 
 
