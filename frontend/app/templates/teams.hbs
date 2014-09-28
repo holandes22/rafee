@@ -1,0 +1,37 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-5">
+      {{#if model}}
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each team in model}}
+              <tr>
+                <td>{{team.name}}</td>
+                <td>
+                  {{#link-to "team.edit" team title="Edit"}}
+                    <span class="glyphicon glyphicon-edit"></span>
+                  {{/link-to}}
+                  {{#link-to "team.delete" team title="Delete"}}
+                    <span class="glyphicon glyphicon-remove"></span>
+                  {{/link-to}}
+                  {{#link-to "team" team title="Details"}}
+                    <span class="glyphicon glyphicon-list"></span>
+                  {{/link-to}}
+                </td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      {{/if}}
+    </div>
+    <div class="col-md-7 details-pane">
+      {{outlet}}
+    </div>
+  </div>
+</div>

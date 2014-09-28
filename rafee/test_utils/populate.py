@@ -24,6 +24,7 @@ repo_urls = [
 ]
 
 for repo_url in repo_urls:
+    print 'Cloning {}'.format(repo_url)
     task = clone_and_create_repo.delay(repo_url)
     result = task.get()
 

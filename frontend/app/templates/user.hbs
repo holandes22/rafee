@@ -1,4 +1,4 @@
-<div class="panel panel-default">
+<div class="panel panel-success">
   <div class="panel-heading">
     <h3 class="panel-title">User details</h3>
   </div>
@@ -8,7 +8,6 @@
         <th>Full name</th>
         <th>Username</th>
         <th>email</th>
-        <th>Teams</th>
       </tr>
     </thead>
     <tbody>
@@ -16,8 +15,20 @@
           <td>{{fullName}}</td>
           <td>{{username}}</td>
           <td>{{email}}</td>
-          <td>{{#each team in teams}}{{team.name}},{{/each}}</td>
         </tr>
     </tbody>
   </table>
 </div>
+
+{{#if teams}}
+  <div class="panel">
+    <div class="panel-heading">
+      <strong class="panel-title">Teams</strong>
+    </div>
+    <div class="list-group">
+    {{#each team in teams}}
+      {{link-to team.name  'team' team class="list-group-item"}}
+    {{/each}}
+    </div>
+  </div>
+{{/if}}
