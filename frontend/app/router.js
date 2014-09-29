@@ -25,9 +25,8 @@ Router.map(function() {
       });
     });
     this.resource('repositories', function() {
-      this.route('add');
       this.resource('repository', { path: ':repository_id' }, function() {
-        this.route('edit');
+        this.route('add');
         this.route('delete');
       });
     });

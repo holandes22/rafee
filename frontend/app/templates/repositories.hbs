@@ -1,0 +1,31 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-7">
+      {{#if model}}
+        <table class="table">
+          <thead>
+            <tr>
+              <th>URL</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each}}
+              <tr>
+                <td><a href="{{url}}">{{url}}</a></td>
+                <td>
+                  {{#link-to "repository.delete" this title="Delete"}}
+                    <span class="glyphicon glyphicon-remove"></span>
+                  {{/link-to}}
+                </td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      {{/if}}
+    </div>
+    <div class="col-md-5 details-pane">
+      {{outlet}}
+    </div>
+  </div>
+</div>
