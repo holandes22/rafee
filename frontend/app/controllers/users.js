@@ -10,12 +10,15 @@ export default Ember.ArrayController.extend({
     var searchText = this.get('searchText');
     var users = this.get('arrangedContent');
     if (!searchText) {
-      return users;
+      return users.filter(function(user) {
+        return user.get('id') !== 'profile';
+      });
     }
+    var rx = new RegExp(searchText, 'gi');
     return users.filter(function(user) {
       var fullName = user.get('fullName');
       if (fullName) {
-        return user.get('fullName').match(searchText);
+        return user.get('fullName').match(rx) && user.get('id') !== 'profile';
       }
       return false;
     });
