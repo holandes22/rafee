@@ -115,9 +115,9 @@ class TemplateManagerTests(unittest.TestCase):
         manager = TemplateManager('/fake')
         templates_info = manager.get_templates_info()
         expected = [
-            {'name': 'repo1/t', 'data_source_url': 'http://blah.com/r'},
-            {'name': 'repo2/t', 'data_source_url': None},
-            {'name': 'repo3/t', 'data_source_url': None},
+            {'id': 1, 'name': 'repo1/t', 'data_source_url': 'http://blah.com/r'},
+            {'id': 1, 'name': 'repo2/t', 'data_source_url': None},
+            {'id': 1, 'name': 'repo3/t', 'data_source_url': None},
         ]
         # last call
         open_m.assert_called_with('/fake/repo3/t/data_source_url', 'rb')

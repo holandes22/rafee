@@ -35,9 +35,9 @@ Router.map(function() {
     });
     this.resource('templates', function() {
       this.route('preview');
+      this.route('render');
     });
   });
-  this.route('template');
 });
 
 export default Router;
