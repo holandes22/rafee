@@ -22,14 +22,16 @@
             </tr>
           </thead>
           <tbody>
-            {{#each}}
+            {{#each model}}
               <tr>
                 <td>{{name}}</td>
                 <td>{{#if dataSourceUrl}}<a href="{{dataSourceUrl}}">{{dataSourceUrl}}</a>{{else}}None{{/if}}</td>
                 <td>
-                  {{#link-to "templates.render" title="Render"}}
-                    <span class="glyphicon glyphicon-eye-open"></span>
-                  {{/link-to}}
+                  <span {{action "render" name}}>
+                    {{#link-to "templates.render" title="Render"}}
+                      <span class="glyphicon glyphicon-eye-open"></span>
+                    {{/link-to}}
+                  </span>
                 </td>
               </tr>
             {{/each}}
