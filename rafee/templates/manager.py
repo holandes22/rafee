@@ -72,7 +72,11 @@ class TemplateManager(object):
                 raise
         # ID here is meaningless, but we need it to
         # satisfy the response expected by ember-data
-        return {'id': 1, 'name': name, 'data_source_url': value}
+        return {
+            'id': name.replace('/', '::'),
+            'name': name,
+            'data_source_url': value
+        }
 
     def get_templates_info(self):
         info = []
