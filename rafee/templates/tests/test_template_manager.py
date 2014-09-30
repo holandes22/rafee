@@ -122,3 +122,15 @@ class TemplateManagerTests(unittest.TestCase):
         # last call
         open_m.assert_called_with('/fake/repo3/t/data_source_url', 'rb')
         self.assertItemsEqual(expected, templates_info)
+
+    @patch('rafee.templates.manager.FileSystemLoader')
+    @patch('rafee.templates.manager.Environment')
+    def test_template_exists(self, Environment_m, FileSystemLoader_m):
+        loader = FileSystemLoader_m.return_value
+        loader.list_templates.return_value = ['c/t1/template.j2', 'c/t2/template.j2']
+        manager = TemplateManager('/fake')
+        self.assertTrue(manager.template_exists('c/t1'))
+        self.assertTrue(manager.template_exists('c/t1/template.j2'))
+        self.assertFalse(manager.template_exists('none'))
+
+

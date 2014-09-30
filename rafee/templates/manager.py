@@ -55,7 +55,7 @@ class TemplateManager(object):
 
     def template_exists(self, template_name):
         if not template_name.endswith('template.j2'):
-            join(template_name, 'template.j2')
+            template_name = join(template_name, 'template.j2')
         return template_name in self.template_names
 
     def get_template_info(self, template_name):
