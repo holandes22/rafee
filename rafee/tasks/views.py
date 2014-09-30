@@ -9,13 +9,14 @@ class TaskDetail(APIView):
 
     permission_classes = (IsAuthenticated,)
 
+    # pylint: disable=no-self-use,unused-argument
     def get(self, request, task_id):
         result = app.AsyncResult(task_id)
 
-        data = {'status': result.status}
+        data = {'id': task_id, 'status': result.status}
         if result.ready():
             if result.failed():
-                data['error'] = str(result.get(propagate=False))
+                data['result'] = str(result.get(propagate=False))
                 data['traceback'] = result.traceback
             else:
                 data['result'] = result.result
