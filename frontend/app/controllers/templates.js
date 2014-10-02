@@ -30,6 +30,7 @@ export default Ember.Controller.extend({
               self.set('renderResult', task.get('result'));
               window.console.log(self.get('renderResult'));
               clearInterval(intervalId);
+              task.deleteRecord();
             }
           };
           var intervalId = setInterval(poll, 1500);
