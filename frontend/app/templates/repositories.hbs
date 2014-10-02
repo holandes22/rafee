@@ -12,7 +12,7 @@
           <tbody>
             {{#each}}
               <tr>
-                <td><a href="{{url}}">{{url}}</a></td>
+                <td><a {{bind-attr href=url}}>{{url}}</a></td>
                 <td>
                   {{#link-to "repository.delete" this title="Delete"}}
                     <span class="glyphicon glyphicon-remove"></span>
