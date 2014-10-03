@@ -14,13 +14,13 @@ export default DS.Model.extend({
     Ember.run.later(this, function() {
        if (this.get('status') === 'PENDING') {
           this.reload().then(function(task) {
-            window.console.log('Polling task ', task);
             task.poll(interval);
           });
         } else {
           // TODO: Do we want this logic here?
           // a controller might still need to get
-          // more info from the task
+          // more info from the task. Disadvantage is
+          // having to repeat cleanup logic accross controllers
           this.deleteRecord();
         }
     }, interval);

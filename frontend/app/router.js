@@ -35,7 +35,9 @@ Router.map(function() {
     });
     this.resource('templates', function() {
       this.route('preview');
-      this.route('render');
+      this.resource('template', { path: ':template_id' }, function() {
+        this.route('render');
+      });
     });
   });
 });

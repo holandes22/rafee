@@ -28,7 +28,7 @@
                 <td>{{#if dataSourceUrl}}<a href="{{dataSourceUrl}}">{{dataSourceUrl}}</a>{{else}}None{{/if}}</td>
                 <td>
                   <span {{action "render" name}}>
-                    {{#link-to "templates.render" title="Render"}}
+                    {{#link-to "template.render" this title="Render"}}
                       <span class="glyphicon glyphicon-eye-open"></span>
                     {{/link-to}}
                   </span>
