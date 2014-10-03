@@ -4,7 +4,11 @@ import ENV from 'rafee/config/environment';
 
 export default Ember.Controller.extend({
 
-  renderResult: 'Rendering...',
+  task: null,
+  renderResult: function() {
+    return this.task? this.task.get('result') : 'Rendering...';
+  }.property('task.result'),
+
 
   actions: {
 
@@ -20,22 +24,11 @@ export default Ember.Controller.extend({
       ajax(url, {
         type: 'POST', beforeSend: setHeaders, data: data
       }).then(function(response) {
-        self.store.find('task', response.task).then(function(task){
-          var poll = function() {
-            if (task.get('status') === 'PENDING') {
-              task.reload().then(function() {
-                window.console.log('Polling task ', response.task);
-              });
-            } else {
-              self.set('renderResult', task.get('result'));
-              window.console.log(self.get('renderResult'));
-              clearInterval(intervalId);
-              task.deleteRecord();
-            }
-          };
-          var intervalId = setInterval(poll, 1500);
-        });
-      });
+        return self.store.find('task', response.task);
+      }).then(function(task) {
+        self.set('task', task);
+        task.poll();
+      }); // TODO: Catch errors
     }
 
   }
