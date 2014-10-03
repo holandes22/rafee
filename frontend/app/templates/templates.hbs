@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-2">
       <div class="input-group input-group-sm">
         {{input type="text" value=searchText placeholder="Search..." class="form-control"}}
         <span class="input-group-addon"><span class="glyphicon glyphicon-search"</span></span>
@@ -11,13 +11,12 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-7">
+    <div class="col-md-4">
       {{#if model}}
         <table class="table">
           <thead>
             <tr>
               <th>Name</th>
-              <th>Data source URL</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -25,13 +24,15 @@
             {{#each model}}
               <tr>
                 <td>{{name}}</td>
-                <td>{{#if dataSourceUrl}}<a href="{{dataSourceUrl}}">{{dataSourceUrl}}</a>{{else}}None{{/if}}</td>
                 <td>
                   <span {{action "render" name}}>
                     {{#link-to "template.render" this title="Render"}}
                       <span class="glyphicon glyphicon-eye-open"></span>
                     {{/link-to}}
                   </span>
+                  {{#link-to "template" this title="Details"}}
+                    <span class="glyphicon glyphicon-list"></span>
+                  {{/link-to}}
                 </td>
               </tr>
             {{/each}}
@@ -39,7 +40,7 @@
         </table>
       {{/if}}
     </div>
-    <div class="col-md-5 details-pane">
+    <div class="col-md-8 details-pane">
       {{outlet}}
     </div>
   </div>

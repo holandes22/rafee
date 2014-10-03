@@ -1,0 +1,19 @@
+<div class="panel panel-success">
+  <div class="panel-heading">
+    <h3 class="panel-title">Template details</h3>
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Data source URL</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>{{name}}</td>
+          <td>{{#if dataSourceUrl}}<a href="{{dataSourceUrl}}">{{dataSourceUrl}}</a>{{else}}None{{/if}}</td>
+        </tr>
+    </tbody>
+  </table>
+</div>
