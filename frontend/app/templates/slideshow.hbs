@@ -1,0 +1,36 @@
+<div class="panel panel-success">
+  <div class="panel-heading">
+    <h3 class="panel-title">Slideshow details</h3>
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>id</th>
+        <th>name</th>
+        <th>team</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>{{id}}</td>
+          <td>{{name}}</td>
+          <td>{{#link-to "team" team.id}}{{team.name}}{{/link-to}}</td>
+        </tr>
+    </tbody>
+  </table>
+</div>
+
+{{#if templates}}
+  <div class="panel">
+    <div class="panel-heading">
+      <strong class="panel-title">Templates</strong>
+    </div>
+    <div class="list-group">
+    {{#each templateList}}
+      <div class="list-group-item">
+        {{#link-to "template" this.key}}{{this.name}}{{/link-to}}
+      </div>
+    {{/each}}
+    </div>
+  </div>
+{{/if}}

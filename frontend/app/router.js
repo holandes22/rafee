@@ -31,7 +31,11 @@ Router.map(function() {
       });
     });
     this.resource('slideshows', function() {
-      this.resource('slideshow', { path: ':slideshow_id' });
+      this.route('add');
+      this.resource('slideshow', { path: ':slideshow_id' }, function() {
+        this.route('edit');
+        this.route('delete');
+      });
     });
     this.resource('templates', function() {
       this.route('preview');
