@@ -26,10 +26,10 @@
             </tr>
           </thead>
           <tbody>
-            {{#each templateName in templateList}}
+            {{#each selectedSlideshow.templateNames}}
               <tr>
                 <td>{{_view.contentIndex}}</td>
-                <td>{{templateName}}</td>
+                <td>{{this}}</td>
               </tr>
             {{/each}}
           </tbody>
