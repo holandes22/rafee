@@ -1,1 +1,5 @@
-{{renderResult}}
+{{#if isLoading}}
+  {{partial "loading"}}
+{{else}}
+  {{renderResult}}
+{{/if}}
