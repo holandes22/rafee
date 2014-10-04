@@ -7,11 +7,13 @@ export default DS.Model.extend({
   result: DS.attr('string'),
   traceback: DS.attr('string'),
 
+  timer: null,
+
   poll: function(interval) {
     if (!interval) {
       interval = 1000;
     }
-    Ember.run.later(this, function() {
+    var timer = Ember.run.later(this, function() {
        if (this.get('status') === 'PENDING') {
           this.reload().then(function(task) {
             task.poll(interval);
@@ -24,5 +26,12 @@ export default DS.Model.extend({
           this.deleteRecord();
         }
     }, interval);
+    this.set('timer', timer);
   }.observes('didLoad'),
+
+  stopPolling: function() {
+      Ember.run.cancel(this.get('timer'));
+      // TODO: same comment as above
+      this.deleteRecord();
+  }
 });

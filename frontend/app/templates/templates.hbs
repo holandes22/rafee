@@ -25,11 +25,9 @@
               <tr>
                 <td>{{name}}</td>
                 <td>
-                  <span {{action "render" name}}>
-                    {{#link-to "template.render" this title="Render"}}
-                      <span class="glyphicon glyphicon-eye-open"></span>
-                    {{/link-to}}
-                  </span>
+                  {{#link-to "template.render" this title="Render"}}
+                    <span class="glyphicon glyphicon-eye-open"></span>
+                  {{/link-to}}
                   {{#link-to "template" this title="Details"}}
                     <span class="glyphicon glyphicon-list"></span>
                   {{/link-to}}
