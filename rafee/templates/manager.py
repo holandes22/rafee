@@ -1,5 +1,6 @@
 import os
 import errno
+from base64 import urlsafe_b64encode
 from os.path import join, exists, getmtime
 
 from bs4 import BeautifulSoup
@@ -73,7 +74,7 @@ class TemplateManager(object):
         # ID here is meaningless, but we need it to
         # satisfy the response expected by ember-data
         return {
-            'id': name.replace('/', '::'),
+            'id': urlsafe_b64encode(name),
             'name': name,
             'data_source_url': value
         }

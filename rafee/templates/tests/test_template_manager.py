@@ -1,6 +1,7 @@
 import os
 import errno
 import unittest
+from base64 import urlsafe_b64encode
 
 from mock import patch, Mock, MagicMock, call
 from nose.tools import nottest
@@ -115,9 +116,9 @@ class TemplateManagerTests(unittest.TestCase):
         manager = TemplateManager('/fake')
         templates_info = manager.get_templates_info()
         expected = [
-            {'id': 'repo1::t', 'name': 'repo1/t', 'data_source_url': 'http://blah.com/r'},
-            {'id': 'repo2::t', 'name': 'repo2/t', 'data_source_url': None},
-            {'id': 'repo3::t', 'name': 'repo3/t', 'data_source_url': None},
+            {'id': urlsafe_b64encode('repo1/t'), 'name': 'repo1/t', 'data_source_url': 'http://blah.com/r'},
+            {'id': urlsafe_b64encode('repo2/t'), 'name': 'repo2/t', 'data_source_url': None},
+            {'id': urlsafe_b64encode('repo3/t'), 'name': 'repo3/t', 'data_source_url': None},
         ]
         # last call
         open_m.assert_called_with('/fake/repo3/t/data_source_url', 'rb')

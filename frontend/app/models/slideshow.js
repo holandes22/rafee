@@ -16,7 +16,7 @@ export default DS.Model.extend({
     var templateList = [];
     this.get('templateNames').forEach(function(name) {
       var obj = {};
-      obj.key = name.replace('/', '::');
+      obj.key = window.btoa(name);
       obj.name = name;
       templateList.push(obj);
     });
