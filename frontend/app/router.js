@@ -15,6 +15,7 @@ Router.map(function() {
   this.route('login');
   this.route('profile');
   this.route('presentation', { path: 'presentation/:slideshow_id' });
+
   this.route('admin', function() {
     this.route('users/add');
     this.resource('users', function() {
@@ -23,28 +24,29 @@ Router.map(function() {
       this.resource('user', { path: ':user_id' });
     });
 
+    this.route('teams/add');
     this.resource('teams', function() {
-      this.route('add');
-      this.resource('team', { path: ':team_id' }, function() {
-        this.route('edit');
-        this.route('delete');
-      });
+      this.resource('team.delete', { path: ':team_id/delete' });
+      this.resource('team.edit', { path: ':team_id/edit' });
+      this.resource('team', { path: ':team_id' });
     });
+
     this.resource('repositories', function() {
-      this.resource('repository', { path: ':repository_id' }, function() {
-        this.route('add');
-        this.route('delete');
-      });
-    });
-    this.resource('slideshows', function() {
       this.route('add');
-      this.resource('slideshow', { path: ':slideshow_id' }, function() {
-        this.route('edit');
+      this.resource('repository', { path: ':repository_id' }, function() {
         this.route('delete');
       });
     });
+
+    this.route('slideshows/add');
+    this.resource('slideshows', function() {
+      this.resource('slideshow.delete', { path: ':slideshow/delete' });
+      this.resource('slideshow.edit', { path: ':slideshow_id/edit' });
+      this.resource('slideshow', { path: ':slideshow_id' });
+    });
+
+    this.route('templates/preview');
     this.resource('templates', function() {
-      this.route('preview');
       this.resource('template', { path: ':template_id' }, function() {
         this.route('render');
       });
