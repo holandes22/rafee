@@ -31,6 +31,8 @@ print 'Teams: ', teams
 admin = UserFactory(is_staff=True)
 user1 = UserFactory(teams=(teams[0],))
 user2 = UserFactory(teams=teams)
+UserFactory(teams=teams)
+UserFactory(teams=teams)
 
 repo_urls = [
     'https://github.com/holandes22/hsg-templates.git',

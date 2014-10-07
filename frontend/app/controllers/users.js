@@ -22,6 +22,6 @@ export default Ember.ArrayController.extend({
       }
       return false;
     });
-  }.property('arrangedContent', 'searchText')
+  }.property('arrangedContent', 'model', 'searchText')
 });
 
