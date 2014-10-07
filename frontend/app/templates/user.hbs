@@ -1,34 +1,44 @@
-<div class="panel panel-success">
-  <div class="panel-heading">
-    <h3 class="panel-title">User details</h3>
+{{#if showDeleteConfirmation}}
+  <div class="alert alert-danger fade in" role="alert">
+    <p>Are you sure you would like to remove user {{fullName}}?.</p>
+    <p>
+      <button type="button" class="btn btn-xs btn-danger">Delete</button>
+      <button type="button" class="btn btn-xs btn-default">Cancel</button>
+    </p>
   </div>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Full name</th>
-        <th>Username</th>
-        <th>email</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td>{{fullName}}</td>
-          <td>{{username}}</td>
-          <td>{{email}}</td>
-        </tr>
-    </tbody>
-  </table>
-</div>
-
-{{#if teams}}
-  <div class="panel">
+{{else}}
+  <div class="panel panel-success">
     <div class="panel-heading">
-      <strong class="panel-title">Teams</strong>
+      <h3 class="panel-title">User details</h3>
     </div>
-    <div class="list-group">
-    {{#each team in teams}}
-      {{link-to team.name  'team' team class="list-group-item"}}
-    {{/each}}
-    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Full name</th>
+          <th>Username</th>
+          <th>email</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr>
+            <td>{{fullName}}</td>
+            <td>{{username}}</td>
+            <td>{{email}}</td>
+          </tr>
+      </tbody>
+    </table>
   </div>
+
+  {{#if teams}}
+    <div class="panel">
+      <div class="panel-heading">
+        <strong class="panel-title">Teams</strong>
+      </div>
+      <div class="list-group">
+      {{#each team in teams}}
+        {{link-to team.name  'team' team class="list-group-item"}}
+      {{/each}}
+      </div>
+    </div>
+  {{/if}}
 {{/if}}
