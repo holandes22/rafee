@@ -1,0 +1,23 @@
+<form role="form">
+  <div class="form-group">
+    <label>Username</label>
+    {{input type="text" class="form-control" value=username}}
+    <label>e-mail</label>
+    {{input type="email" class="form-control" value=email}}
+    <div class="form-error-field" data-toggle="tooltip" title="">{{errors.email}}</div>
+    <label>Full name</label>
+    {{input type="text" class="form-control" value=fullName}}
+    <label>Is staff?</label>
+    {{input type="checkbox" class="form-control" checked=isStaff}}
+    <label>Teams</label>
+    {{view Ember.Select
+        multiple="true"
+        content=teams
+        optionValuePath="content.id"
+        optionLabelPath="content.name"
+        selectionBinding="controller.selectedTeams"
+        class="form-control"}}
+  </div>
+
+  <button type="submit" class="btn btn-primary" {{action 'submit'}}>Submit</button>
+</form>
