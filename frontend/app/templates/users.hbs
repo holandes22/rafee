@@ -24,7 +24,7 @@
           <tbody>
             {{#each searchResults}}
               <tr>
-                <td>{{fullName}}</td>
+                <td>{{#if fullName}}{{fullName}}{{else}}Not set{{/if}}</td>
                 <td>
                   {{#link-to "user.edit" this title="Edit"}}
                     <span class="glyphicon glyphicon-edit"></span>

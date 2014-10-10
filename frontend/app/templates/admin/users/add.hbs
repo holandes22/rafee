@@ -12,12 +12,12 @@
     <label>Teams</label>
     {{view Ember.Select
         multiple="true"
-        content=teams
+        content=allTeams
         optionValuePath="content.id"
         optionLabelPath="content.name"
-        selectionBinding="controller.selectedTeams"
+        selectionBinding="teams"
         class="form-control"}}
   </div>
 
-  <button type="submit" class="btn btn-primary" {{action 'submit'}}>Submit</button>
+  <button type="submit" class="btn btn-primary" {{action 'submit' model}}>Submit</button>
 </form>
