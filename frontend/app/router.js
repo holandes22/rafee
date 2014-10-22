@@ -7,10 +7,10 @@ var Router = Ember.Router.extend({
 
 // Altough it seems odd, we need to laid down delete
 // and edit routes next to the resource since we want
-// their templates to be rendere in the main resource
-// outlet. See a good explanation why in this blog post:
+// their templates to be rendered in the main resource
+// outlet. See a good explanation why, in this blog post:
 // http://hashrocket.com/blog/posts/ember-routing-the-when-and-why-of-nesting
-//
+
 Router.map(function() {
   this.route('login');
   this.route('profile');
