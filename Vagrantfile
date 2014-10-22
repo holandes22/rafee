@@ -15,7 +15,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vb.name = "rafee"
   end
 
-  config.vm.provision :ansible do |ansible|
+  config.vm.provision :ansible, run: "always" do |ansible|
       ansible.playbook = "provisioning/playbook.yml"
       ansible.sudo = true
       ansible.host_key_checking = false

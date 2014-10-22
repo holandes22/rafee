@@ -83,12 +83,18 @@
       notify:
         - restart celery beat
 
+    - name: start celery
+      supervisorctl: name=celery state=started supervisorctl_path={{ supervisorctl_path }}
+
+    - name: start celerybeat
+      supervisorctl: name=celerybeat state=started supervisorctl_path={{ supervisorctl_path }}
+
   handlers:
-    - name: restart supervisord
+    - name: restart supervisord after change in config
       action: service name=supervisord state=restarted enabled=yes
 
-    - name: restart celery worker
+    - name: restart celery worker after change in config
       supervisorctl: name=celery state=restarted supervisorctl_path={{ supervisorctl_path }}
 
-    - name: restart celery beat
+    - name: restart celery beat after change in config
       supervisorctl: name=celerybeat state=restarted supervisorctl_path={{ supervisorctl_path }}
