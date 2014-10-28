@@ -1,7 +1,13 @@
 TODO: open tickets for each item
 
+Backend
+-------
+
+- Try out postgresql 9.4
+
 General
 -------
+- try json api
 - try to move stuff in application template to somewhere else (should just contain the outlet, annoying each update of ember)
 - Mostrar 404 y 500 error (specially after delete if user presses back button)
 - slideshow dropdown should not appear at main page if slideshow list is empty

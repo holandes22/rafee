@@ -33,16 +33,20 @@
     - name: change owner of virtualenvs folder to vagrant user
       file: path=/home/vagrant/virtualenvs owner=vagrant group=vagrant recurse=yes
 
-    - name: create pg database role
-      sudo_user: postgres
-      postgresql_user: name={{ db_settings.user }}
-
     - name: create pg Database
       sudo_user: postgres
       postgresql_db: >
           name={{ db_settings.name }}
           encoding=UTF-8
           owner={{ db_settings.user }}
+
+    - name: create pg database role
+      sudo_user: postgres
+      postgresql_user: >
+          name={{ db_settings.user }}
+          password={{ db_settings.password }}
+          db={{ db_settings.name }}
+          priv=ALL
 
     - name: restart postgresql server
       service: name=postgresql state=started enabled=yes
@@ -88,6 +92,13 @@
 
     - name: start celerybeat
       supervisorctl: name=celerybeat state=started supervisorctl_path={{ supervisorctl_path }}
+
+    - name: apply django db migrations
+      django_manage: >
+          command=migrate
+          app_path={{ project_root }}
+          settings={{ django_settings_module }}
+          virtualenv={{ virtualenv_path }}
 
   handlers:
     - name: restart supervisord after change in config

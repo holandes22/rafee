@@ -21,9 +21,6 @@ Run all the actions below in a virtual env:
 
 Choose default option for all steps below:
 
-TODO: Move the steps below to provision script once we start using nginx/wsgi
-
-    fab vagrant migrate  # In order to apply token migration from DRF. Choose default values when prompted.
     fab vagrant createsuperuser # Optional, but you'll need a user to actually use the app.
     fab vagrant runserver  # Runs at http://localhost:8888 (from VM). Choose default values when prompted.
 

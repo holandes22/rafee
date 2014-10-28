@@ -12,7 +12,7 @@ DATABASES = {
         'NAME': 'rafee_db',
         'USER': 'vagrant',
         'PASSWORD': 'vagrant',
-        'HOST': '',
+        'HOST': 'localhost',
         'PORT': '',
     }
 }

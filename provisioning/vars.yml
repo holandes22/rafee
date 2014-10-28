@@ -1,4 +1,5 @@
 project_name: rafee
+project_root: "/vagrant"
 virtualenv_path: "/home/vagrant/virtualenvs/{{ project_name }}"
 django_settings_module: "{{ project_name }}.settings.dev"
 locale: en_US.UTF-8
