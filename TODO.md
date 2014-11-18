@@ -9,6 +9,14 @@ General
 -------
 - Refactor code to pave the upgrade for ember 2.0 https://gist.github.com/samselikoff/1d7300ce59d216fdaf97
 - try json api
+- fix text overflow when name on list is long (overflows to edit form)
+- Add bulk selection of list items (for delete for example)
+- Search bars and filters in sections
+- Redirect to error page if server is down (now it just shows the loading icon)
+- Maybe move loading icon to topbar
+- active classes on sections
+- Lists of resources should be ordered
+- Generic error handler mixin
 - try to move stuff in application template to somewhere else (should just contain the outlet, annoying each update of ember)
 - Mostrar 404 y 500 error (specially after delete if user presses back button)
 - slideshow dropdown should not appear at main page if slideshow list is empty
