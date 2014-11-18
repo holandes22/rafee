@@ -17,17 +17,17 @@ export default Ember.Route.extend({
         isStaff: this.controller.get('isStaff'),
       });
       var self = this;
+
       user.save().then(function(){
-        // TODO: Since teams is async we must add them
-        // after user is created, but addObjects is not
-        // having effect. I believe since get('teams')
-        // actually returns a PromiseArray
         var teams = self.controller.get('teams');
         if (teams) {
           user.get('teams').addObjects(teams);
         }
+        user.save();
+      }).then(function(){
         self.transitionTo('users');
       }, function(reason){
+        //TODO: Handle the error properly
         window.console.log(reason);
       });
     }
