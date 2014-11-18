@@ -7,6 +7,7 @@ Backend
 
 General
 -------
+- Refactor code to pave the upgrade for ember 2.0 https://gist.github.com/samselikoff/1d7300ce59d216fdaf97
 - try json api
 - try to move stuff in application template to somewhere else (should just contain the outlet, annoying each update of ember)
 - Mostrar 404 y 500 error (specially after delete if user presses back button)

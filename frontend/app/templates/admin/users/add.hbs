@@ -10,7 +10,7 @@
     <label>Is staff?</label>
     {{input type="checkbox" class="form-control" checked=isStaff}}
     <label>Teams</label>
-    {{view Ember.Select
+    {{view "select"
         multiple="true"
         content=allTeams
         optionValuePath="content.id"
