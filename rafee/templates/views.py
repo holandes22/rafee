@@ -5,7 +5,6 @@ from rest_framework.views import APIView
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.exceptions import ParseError
 
 from rafee.messages import TEMPLATE_NOT_FOUND
 from rafee.templates.tasks import render
@@ -26,9 +25,8 @@ class TemplateListAPIView(APIView):
 class TemplateAPIView(GenericAPIView):
 
     def validate(self, request):
-        serializer = self.get_serializer(data=request.POST)
-        if not serializer.is_valid():
-            raise ParseError(detail=serializer.errors)
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
 
 
 class TemplateRenderAPIView(TemplateAPIView):
@@ -38,7 +36,7 @@ class TemplateRenderAPIView(TemplateAPIView):
 
     def post(self, request):
         self.validate(request)
-        template_name = request.POST.get('template_name')
+        template_name = request.data.get('template_name')
         manager = TemplateManager(settings.RAFEE_REPO_DIR)
         if not manager.template_exists(template_name):
             return Response(
@@ -57,10 +55,10 @@ class TemplatePreviewAPIView(TemplateAPIView):
 
     def post(self, request):
         self.validate(request)
-        template_str = request.POST.get('template_str')
+        template_str = request.data.get('template_str')
         manager = TemplateManager(settings.RAFEE_REPO_DIR)
         data_source = {}
-        data_source_url = request.POST.get('data_source_url', None)
+        data_source_url = request.data.get('data_source_url', None)
         if data_source_url is not None and data_source_url != '':
             data_source = requests.get(data_source_url).json()
 

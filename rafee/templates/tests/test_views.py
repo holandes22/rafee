@@ -64,7 +64,7 @@ class TemplateRenderTests(BaseAPITestCase):
     def test_render_returns_400_if_no_template_name(self):
         response = self.client.post(reverse('template-render'), data={})
         self.assertEqual(status.HTTP_400_BAD_REQUEST, response.status_code)
-        self.assertIn('template_name', response.data['detail'])
+        self.assertIn('template_name', response.data)
 
     @patch('rafee.templates.views.TemplateManager')
     def test_render_returns_500_if_non_existing_template(self, tm_mock):
@@ -110,7 +110,7 @@ class TemplatePreviewTests(BaseAPITestCase):
     def test_preview_returns_400_if_no_template_str(self):
         response = self.client.post(reverse('template-preview'), data={})
         self.assertEqual(status.HTTP_400_BAD_REQUEST, response.status_code)
-        self.assertIn('template_str', response.data['detail'])
+        self.assertIn('template_str', response.data)
 
     @patch('rafee.templates.views.requests')
     def test_preview_fetches_data_source_url(self, requests_m):
@@ -133,4 +133,8 @@ class TemplatePreviewTests(BaseAPITestCase):
 
     def test_preview_returns_403_if_user_has_no_access_to_included_template(self):
         # TODO: Avoid a permission boundary bug
+        pass
+
+    def test_preview_returns_500_if_fetch_data_src_fails(self):
+        # TODO: write
         pass

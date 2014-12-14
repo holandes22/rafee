@@ -7,9 +7,9 @@ from rafee.teams.serializers import TeamSerializer
 
 class BaseTeamAPIView(object):
 
-    model = Team
     lookup_field = 'id'
     serializer_class = TeamSerializer
+    queryset = Team.objects.all()
 
 
 class TeamListAPIView(BaseTeamAPIView, ListCreateAPIView):

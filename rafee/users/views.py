@@ -10,8 +10,8 @@ from rafee.users.serializers import UserSerializer
 
 class BaseUserAPIView(object):
 
-    model = User
     serializer_class = UserSerializer
+    queryset = User.objects.all()
 
 
 class UserProfileAPIView(BaseUserAPIView, RetrieveAPIView):

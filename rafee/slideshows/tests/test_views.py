@@ -80,7 +80,7 @@ class AdminUserTests(BaseAPITestCase):
 
     def assertExpectedDuplicateName(self, response):
         expected = {
-            '__all__': ['Slideshow with this Name and Team already exists.'],
+            'non_field_errors': ['Slideshow with this Name and Team already exists.'],
         }
         self.assertResponseStatusAndItemsEqual(
             status.HTTP_400_BAD_REQUEST,

@@ -1,5 +1,5 @@
 import importlib
-from rest_framework.relations import RelatedField
+from rest_framework.relations import RelatedField, ManyRelatedField
 
 
 def nested_getattr(obj, attr):
@@ -8,10 +8,9 @@ def nested_getattr(obj, attr):
 
 def get_data(obj, serializers_module=None):
     '''
-    This func relies purely on convention.
-    It expects that the object name has serilizer named
-    <object>Serializer and that it lives in the serializer
-    module of that app
+    This func relies purely on convention. It expects that
+    the object name has a serializer named <object>Serializer
+    and that it lives in the serializer module of that app
     '''
     cls_name = obj.__class__.__name__
     if not serializers_module:
@@ -26,8 +25,8 @@ def get_data(obj, serializers_module=None):
     data = {}
     for field_name in serializer.get_fields():
         field = serializer.fields[field_name]
-        if isinstance(field, RelatedField):
-            value = field.field_to_native(obj, field_name)
+        if isinstance(field, RelatedField) or isinstance(field, ManyRelatedField):
+            value = field.to_representation(field.get_attribute(obj))
         else:
             attr = field.source if field.source else field_name
             value = nested_getattr(obj, attr)

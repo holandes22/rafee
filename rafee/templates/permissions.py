@@ -13,9 +13,10 @@ class IsAllowedToSeeTemplate(permissions.BasePermission):
         if request.user.is_staff:
             return True
         else:
-            template_name = request.POST.get('template_name', None)
+            template_name = request.data.get('template_name', None)
             if not template_name:
                 return True  # Bad request, let the validation handle this
+            # TODO: use Q here
             teams = request.user.teams.all()
             slideshows = Slideshow.objects.filter(team__in=teams)
             for slideshow in slideshows:

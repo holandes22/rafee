@@ -9,4 +9,7 @@ class TemplateRenderSerializer(serializers.Serializer):
 class TemplatePreviewSerializer(serializers.Serializer):
 
     template_str = serializers.CharField()
-    data_source_url = serializers.URLField(required=False)
+    data_source_url = serializers.URLField(
+        required=False,
+        allow_blank=True,
+    )

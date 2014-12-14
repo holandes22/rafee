@@ -1,3 +1,12 @@
+Upgrade
+-------
+
+- DRF
+- Python deps to latest
+- Use Pg 9.4
+- Ember cli, ember, ember-data and ed-drf adapter
+
+
 TODO: open tickets for each item
 
 Backend

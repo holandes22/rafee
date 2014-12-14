@@ -11,9 +11,8 @@ class SlideshowSerializer(serializers.ModelSerializer):
     class Meta:
         model = Slideshow
 
-    def validate_templates(self, attrs, source):
+    def validate_templates(self, value):
         manager = TemplateManager(settings.RAFEE_REPO_DIR)
-        value = attrs[source]
         bad_template_names = []
         for template_name in value.split(','):
             if not manager.template_exists(template_name):
@@ -22,4 +21,4 @@ class SlideshowSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 TEMPLATES_NOT_FOUND.format(bad_template_names),
             )
-        return attrs
+        return value
