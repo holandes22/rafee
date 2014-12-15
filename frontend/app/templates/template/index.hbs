@@ -12,7 +12,7 @@
     <tbody>
         <tr>
           <td>{{name}}</td>
-          <td>{{#if dataSourceUrl}}<a href="{{dataSourceUrl}}">{{dataSourceUrl}}</a>{{else}}None{{/if}}</td>
+          <td>{{#if dataSourceUrl}}<a {{bind-attr href=dataSourceUrl}}>{{dataSourceUrl}}</a>{{else}}None{{/if}}</td>
         </tr>
     </tbody>
   </table>

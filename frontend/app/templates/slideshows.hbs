@@ -21,17 +21,17 @@
             </tr>
           </thead>
           <tbody>
-            {{#each model}}
+            {{#each slideshow in model}}
               <tr>
-                <td>{{name}}</td>
+                <td>{{slideshow.name}}</td>
                 <td>
-                  {{#link-to "slideshow.edit" this title="Edit"}}
+                  {{#link-to "slideshow.edit" slideshow title="Edit"}}
                     <span class="glyphicon glyphicon-edit"></span>
                   {{/link-to}}
-                  {{#link-to "slideshow.delete" this title="Delete"}}
+                  {{#link-to "slideshow.delete" slideshow title="Delete"}}
                     <span class="glyphicon glyphicon-remove"></span>
                   {{/link-to}}
-                  {{#link-to "slideshow" this title="Details"}}
+                  {{#link-to "slideshow" slideshow title="Details"}}
                     <span class="glyphicon glyphicon-list"></span>
                   {{/link-to}}
                 </td>

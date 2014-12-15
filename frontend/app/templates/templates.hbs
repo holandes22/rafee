@@ -21,14 +21,14 @@
             </tr>
           </thead>
           <tbody>
-            {{#each model}}
+            {{#each template in model}}
               <tr>
-                <td>{{name}}</td>
+                <td>{{template.name}}</td>
                 <td>
-                  {{#link-to "template.render" this title="Render"}}
+                  {{#link-to "template.render" template title="Render"}}
                     <span class="glyphicon glyphicon-eye-open"></span>
                   {{/link-to}}
-                  {{#link-to "template" this title="Details"}}
+                  {{#link-to "template" template title="Details"}}
                     <span class="glyphicon glyphicon-list"></span>
                   {{/link-to}}
                 </td>

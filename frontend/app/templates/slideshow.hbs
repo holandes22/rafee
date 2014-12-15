@@ -26,9 +26,9 @@
       <strong class="panel-title">Templates</strong>
     </div>
     <div class="list-group">
-    {{#each templateList}}
+    {{#each template in templateList}}
       <div class="list-group-item">
-        {{#link-to "template" this.key}}{{this.name}}{{/link-to}}
+        {{#link-to "template" template.key}}{{template.name}}{{/link-to}}
       </div>
     {{/each}}
     </div>
