@@ -8,7 +8,7 @@ export default Ember.Controller.extend({
     password: null,
 
     disabled: function() {
-        return Ember.empty(this.get('username')) || Ember.empty(this.get('password'));
+        return Ember.isEmpty(this.get('username')) || Ember.isEmpty(this.get('password'));
     }.property('username', 'password'),
 
     actions: {
