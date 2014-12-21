@@ -14,7 +14,7 @@
         <tr>
           <td>{{id}}</td>
           <td>{{name}}</td>
-          <td>{{#link-to "team" team.id}}{{team.name}}{{/link-to}}</td>
+          <td>{{#link-to "admin.teams.team" team.id}}{{team.name}}{{/link-to}}</td>
         </tr>
     </tbody>
   </table>
@@ -28,7 +28,7 @@
     <div class="list-group">
     {{#each template in templateList}}
       <div class="list-group-item">
-        {{#link-to "template" template.key}}{{template.name}}{{/link-to}}
+        {{#link-to "admin.templates.template" template.key}}{{template.name}}{{/link-to}}
       </div>
     {{/each}}
     </div>

@@ -17,37 +17,41 @@ Router.map(function() {
   this.route('presentation', { path: 'presentation/:slideshow_id' });
 
   this.route('admin', function() {
-    this.route('users/add');
-    this.resource('users', function() {
-      this.resource('user.delete', { path: ':user_id/delete' });
-      this.resource('user.edit', { path: ':user_id/edit' });
-      this.resource('user', { path: ':user_id' });
+
+    this.route('users.add', { path: 'users/add' });
+    this.route('users', function() {
+      this.route('user', { path: ':user_id' }, function() {
+        this.route('delete');
+        this.route('edit');
+      });
     });
 
-    this.route('teams/add');
-    this.resource('teams', function() {
-      this.resource('team.delete', { path: ':team_id/delete' });
-      this.resource('team.edit', { path: ':team_id/edit' });
-      this.resource('team', { path: ':team_id' });
+    this.route('teams.add', { path: 'teams/add' });
+    this.route('teams', function() {
+      this.route('team', { path: ':team_id' }, function() {
+        this.route('delete');
+        this.route('edit');
+      });
     });
 
-    this.resource('repositories', function() {
-      this.route('add');
-      this.resource('repository', { path: ':repository_id' }, function() {
+    this.route('repositories.add', { path: 'repositories/add' });
+    this.route('repositories', function() {
+      this.route('repository', { path: ':repository_id' }, function() {
         this.route('delete');
       });
     });
 
-    this.route('slideshows/add');
-    this.resource('slideshows', function() {
-      this.resource('slideshow.delete', { path: ':slideshow/delete' });
-      this.resource('slideshow.edit', { path: ':slideshow_id/edit' });
-      this.resource('slideshow', { path: ':slideshow_id' });
+    this.route('slideshows.add', { path: 'slideshows/add' });
+    this.route('slideshows', function() {
+      this.route('slideshow', { path: ':slideshow_id' }, function() {
+        this.route('delete');
+        this.route('edit');
+      });
     });
 
-    this.route('templates/preview');
-    this.resource('templates', function() {
-      this.resource('template', { path: ':template_id' }, function() {
+    this.route('templates.preview', { path: 'templates/preview' });
+    this.route('templates', function() {
+      this.route('template', { path: ':template_id' }, function() {
         this.route('render');
       });
     });

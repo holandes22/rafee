@@ -1,16 +1,5 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-2">
-      <div class="input-group input-group-sm">
-        {{input type="text" value=searchText placeholder="Search..." class="form-control"}}
-        <span class="input-group-addon"><span class="glyphicon glyphicon-search"</span></span>
-      </div>
-    </div>
-    <div class="col-md-2">
-      {{link-to 'Add' 'admin.slideshows/add' class='btn btn-primary btn-sm' title='Add slideshow'}}
-    </div>
-  </div>
-  <div class="row">
     <div class="col-md-5">
       {{#if model}}
         <table class="table">
@@ -21,17 +10,17 @@
             </tr>
           </thead>
           <tbody>
-            {{#each slideshow in model}}
+            {{#each team in model}}
               <tr>
-                <td>{{slideshow.name}}</td>
+                <td>{{team.name}}</td>
                 <td>
-                  {{#link-to "slideshow.edit" slideshow title="Edit"}}
+                  {{#link-to "admin.teams.team.edit" team title="Edit"}}
                     <span class="glyphicon glyphicon-edit"></span>
                   {{/link-to}}
-                  {{#link-to "slideshow.delete" slideshow title="Delete"}}
+                  {{#link-to "admin.teams.team.delete" team title="Delete"}}
                     <span class="glyphicon glyphicon-remove"></span>
                   {{/link-to}}
-                  {{#link-to "slideshow" slideshow title="Details"}}
+                  {{#link-to "admin.teams.team" team title="Details"}}
                     <span class="glyphicon glyphicon-list"></span>
                   {{/link-to}}
                 </td>

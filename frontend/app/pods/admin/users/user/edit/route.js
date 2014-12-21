@@ -12,7 +12,7 @@ export default Ember.Route.extend({
     submit: function(user) {
       var self = this;
       user.save().then(function(){
-        self.transitionTo('user', user.get('id'));
+        self.transitionTo('admin.users.user', user.get('id'));
       }, function(reason){
         window.console.log(reason);
       });

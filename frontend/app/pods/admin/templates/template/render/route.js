@@ -25,7 +25,7 @@ export default Ember.Route.extend({
   },
 
   deactivate: function() {
-    var task = this.controllerFor('template/render').get('task');
+    var task = this.controllerFor('admin/templates/template/render').get('task');
     if (task) {
       // We don't want to keep polling if we exit the route
       task.stopPolling();

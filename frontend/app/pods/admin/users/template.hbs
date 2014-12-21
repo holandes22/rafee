@@ -1,0 +1,49 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="input-group input-group-sm">
+        {{input type="text" value=searchText placeholder="Search..." class="form-control"}}
+        <span class="input-group-addon"><span class="glyphicon glyphicon-search"</span></span>
+      </div>
+    </div>
+    <div class="col-md-2">
+      {{link-to 'Add user' 'admin.users.add' class='btn btn-primary btn-sm'}}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-5">
+      {{#if model}}
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Full name</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each user in model}}
+              <tr>
+                <td>{{#if user.fullName}}{{user.fullName}}{{else}}Not set{{/if}}</td>
+                <td>
+                  {{#link-to "admin.users.user.edit" user title="Edit"}}
+                    <span class="glyphicon glyphicon-edit"></span>
+                  {{/link-to}}
+                  {{#link-to "admin.users.user.delete" user title="Delete"}}
+                    <span class="glyphicon glyphicon-remove"></span>
+                  {{/link-to}}
+                  {{#link-to "admin.users.user" user title="Details"}}
+                    <span class="glyphicon glyphicon-list"></span>
+                  {{/link-to}}
+                </td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      {{/if}}
+    </div>
+    <div class="col-md-7 details-pane">
+      {{outlet}}
+    </div>
+  </div>
+</div>

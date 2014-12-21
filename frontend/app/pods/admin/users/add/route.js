@@ -25,7 +25,7 @@ export default Ember.Route.extend({
         }
         user.save();
       }).then(function(){
-        self.transitionTo('users');
+        self.transitionTo('admin.users');
       }, function(reason){
         //TODO: Handle the error properly
         window.console.log(reason);

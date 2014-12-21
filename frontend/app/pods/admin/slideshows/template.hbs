@@ -7,11 +7,11 @@
       </div>
     </div>
     <div class="col-md-2">
-      {{link-to 'Preview' 'admin.templates/preview' class='btn btn-primary btn-sm'}}
+      {{link-to 'Add' 'admin.slideshows.add' class='btn btn-primary btn-sm' title='Add slideshow'}}
     </div>
   </div>
   <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-5">
       {{#if model}}
         <table class="table">
           <thead>
@@ -21,14 +21,17 @@
             </tr>
           </thead>
           <tbody>
-            {{#each template in model}}
+            {{#each slideshow in model}}
               <tr>
-                <td>{{template.name}}</td>
+                <td>{{slideshow.name}}</td>
                 <td>
-                  {{#link-to "template.render" template title="Render"}}
-                    <span class="glyphicon glyphicon-eye-open"></span>
+                  {{#link-to "admin.slideshows.slideshow.edit" slideshow title="Edit"}}
+                    <span class="glyphicon glyphicon-edit"></span>
                   {{/link-to}}
-                  {{#link-to "template" template title="Details"}}
+                  {{#link-to "admin.slideshows.slideshow.delete" slideshow title="Delete"}}
+                    <span class="glyphicon glyphicon-remove"></span>
+                  {{/link-to}}
+                  {{#link-to "admin.slideshows.slideshow" slideshow title="Details"}}
                     <span class="glyphicon glyphicon-list"></span>
                   {{/link-to}}
                 </td>
@@ -38,7 +41,7 @@
         </table>
       {{/if}}
     </div>
-    <div class="col-md-8 details-pane">
+    <div class="col-md-7 details-pane">
       {{outlet}}
     </div>
   </div>

@@ -1,38 +1,34 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-2">
       <div class="input-group input-group-sm">
         {{input type="text" value=searchText placeholder="Search..." class="form-control"}}
         <span class="input-group-addon"><span class="glyphicon glyphicon-search"</span></span>
       </div>
     </div>
     <div class="col-md-2">
-      {{link-to 'Add user' 'admin.users/add' class='btn btn-primary btn-sm'}}
+      {{link-to 'Preview' 'admin.templates.preview' class='btn btn-primary btn-sm'}}
     </div>
   </div>
-
   <div class="row">
-    <div class="col-md-5">
+    <div class="col-md-4">
       {{#if model}}
         <table class="table">
           <thead>
             <tr>
-              <th>Full name</th>
+              <th>Name</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            {{#each user in model}}
+            {{#each template in model}}
               <tr>
-                <td>{{#if user.fullName}}{{user.fullName}}{{else}}Not set{{/if}}</td>
+                <td>{{template.name}}</td>
                 <td>
-                  {{#link-to "user.edit" user title="Edit"}}
-                    <span class="glyphicon glyphicon-edit"></span>
+                  {{#link-to "admin.templates.template.render" template title="Render"}}
+                    <span class="glyphicon glyphicon-eye-open"></span>
                   {{/link-to}}
-                  {{#link-to "user.delete" user title="Delete"}}
-                    <span class="glyphicon glyphicon-remove"></span>
-                  {{/link-to}}
-                  {{#link-to "user" user title="Details"}}
+                  {{#link-to "admin.templates.template" template title="Details"}}
                     <span class="glyphicon glyphicon-list"></span>
                   {{/link-to}}
                 </td>
@@ -42,7 +38,7 @@
         </table>
       {{/if}}
     </div>
-    <div class="col-md-7 details-pane">
+    <div class="col-md-8 details-pane">
       {{outlet}}
     </div>
   </div>

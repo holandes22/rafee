@@ -14,7 +14,7 @@
               <tr>
                 <td><a {{bind-attr href=repository.url}}>{{repository.url}}</a></td>
                 <td>
-                  {{#link-to "repository.delete" repository title="Delete"}}
+                  {{#link-to "admin.repositories.repository.delete" repository title="Delete"}}
                     <span class="glyphicon glyphicon-remove"></span>
                   {{/link-to}}
                 </td>
