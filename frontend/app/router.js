@@ -21,7 +21,6 @@ Router.map(function() {
     this.route('users.add', { path: 'users/add' });
     this.route('users', function() {
       this.route('user', { path: ':user_id' }, function() {
-        this.route('delete');
         this.route('edit');
       });
     });

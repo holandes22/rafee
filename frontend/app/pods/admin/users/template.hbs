@@ -29,9 +29,7 @@
                   {{#link-to "admin.users.user.edit" user title="Edit"}}
                     <span class="glyphicon glyphicon-edit"></span>
                   {{/link-to}}
-                  {{#link-to "admin.users.user.delete" user title="Delete"}}
-                    <span class="glyphicon glyphicon-remove"></span>
-                  {{/link-to}}
+                  {{delete-confirmation resource=user}}
                   {{#link-to "admin.users.user" user title="Details"}}
                     <span class="glyphicon glyphicon-list"></span>
                   {{/link-to}}

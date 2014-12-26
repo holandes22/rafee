@@ -1,7 +1,5 @@
-<div class="alert alert-danger fade in" role="alert">
-  <p>Are you sure you would like to remove user {{model.fullName}}?.</p>
-  <p>
+<span class="glyphicon glyphicon-remove"></span>
+<div class="delete-confirmation-popover-content hide">
   <button type="button" class="btn btn-xs btn-danger" {{action "delete"}}>Delete</button>
   <button type="button" class="btn btn-xs btn-default" {{action "cancel"}}>Cancel</button>
-  </p>
 </div>
