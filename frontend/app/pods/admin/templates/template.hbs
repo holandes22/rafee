@@ -1,45 +1,5 @@
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-md-2">
-      <div class="input-group input-group-sm">
-        {{input type="text" value=searchText placeholder="Search..." class="form-control"}}
-        <span class="input-group-addon"><span class="glyphicon glyphicon-search"</span></span>
-      </div>
-    </div>
-    <div class="col-md-2">
-      {{link-to 'Preview' 'admin.templates.preview' class='btn btn-primary btn-sm'}}
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-4">
-      {{#if model}}
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {{#each template in model}}
-              <tr>
-                <td>{{template.name}}</td>
-                <td>
-                  {{#link-to "admin.templates.template.render" template title="Render"}}
-                    <span class="glyphicon glyphicon-eye-open"></span>
-                  {{/link-to}}
-                  {{#link-to "admin.templates.template" template title="Details"}}
-                    <span class="glyphicon glyphicon-list"></span>
-                  {{/link-to}}
-                </td>
-              </tr>
-            {{/each}}
-          </tbody>
-        </table>
-      {{/if}}
-    </div>
-    <div class="col-md-8 details-pane">
-      {{outlet}}
-    </div>
-  </div>
-</div>
+{{resource-list
+  globalLinks='preview'
+  actionLinks='render,details'
+  resourceName='template'
+  list=model}}
