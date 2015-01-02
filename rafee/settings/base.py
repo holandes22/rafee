@@ -6,12 +6,10 @@ from datetime import timedelta
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # Rafee specific
-
-RAFEE_REPO_DIR = ''
+RAFEE_REPO_DIR = '/var/www/rafee/repos'
 RAFEE_REPO_POLLING_INTERVAL = os.environ.get('RAFEE_REPO_POLLING_INTERVAL', 45)
 
 # Celery
-
 BROKER_URL = 'redis://localhost:6379/0'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 CELERYBEAT_SCHEDULE = {
@@ -22,7 +20,6 @@ CELERYBEAT_SCHEDULE = {
 }
 
 # Django
-
 APPEND_SLASH = False
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
@@ -50,6 +47,7 @@ THIRD_PARTY_APPS = (
     'djangosecure',
     'rest_framework_swagger',
     'django_extensions',
+    'corsheaders',
 )
 
 LOCAL_APPS = (
@@ -64,13 +62,13 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'rafee.middleware.xssharing.XsSharingMiddleware',
 )
 
 ROOT_URLCONF = 'rafee.urls'
@@ -79,7 +77,6 @@ WSGI_APPLICATION = 'rafee.wsgi.application'
 
 # Internationalization
 # https://docs.djangoproject.com/en/dev/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
@@ -87,17 +84,11 @@ USE_L10N = True
 USE_TZ = True
 
 # Static files (mainly used for API docs)
-
 STATIC_URL = '/static/'
-
-# Allow CORS
-
-XS_SHARING_ALLOWED_HEADERS = ['Content-Type', 'Authorization']
-
 
 # REST Framework
 API_VERSION = 'v1'
-API_PREFIX = API_VERSION
+API_PREFIX = os.path.join('api', API_VERSION)
 
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': [
@@ -114,7 +105,6 @@ REST_FRAMEWORK = {
 }
 
 # Swagger (API Docs)
-
 SWAGGER_SETTINGS = {
     'enabled_methods': [],
     'api_version': API_VERSION,

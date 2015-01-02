@@ -1,6 +1,9 @@
+import os
+
 from mock import patch, Mock
 from celery import states
 from django.test import TestCase
+from django.conf import settings
 
 from rafee.repositories.models import Repository
 from rafee.repositories.factories import RepositoryFactory
@@ -35,8 +38,9 @@ class RepositoryTasksTests(TestCase):
 
     def test_clone_and_create_removes_git_extension_from_folder(self):
         url = 'http://some.url/fake.git'
-        result = clone_and_create_repo.delay(url)
-        self.gm_mock.assert_called_with(url, 'fake')
+        clone_and_create_repo.delay(url)
+        path = os.path.join(settings.RAFEE_REPO_DIR, 'fake')
+        self.gm_mock.assert_called_with(url, path)
 
     @patch('rafee.repositories.tasks.get_dst_path')
     def test_pull_all_repos(self, get_dst_path):

@@ -4,7 +4,9 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 SECRET_KEY = 'fake'
 
-XS_SHARING_ALLOWED_ORIGINS = 'http://0.0.0.0:4200'
+CORS_ORIGIN_REGEX_WHITELIST = (
+    '^(https?://)(0.0.0.0|127.0.0.1|localhost):4200$',
+)
 
 DATABASES = {
     'default': {
@@ -17,9 +19,6 @@ DATABASES = {
     }
 }
 
-API_PREFIX = 'api/v1'
-
-RAFEE_REPO_DIR = '/var/www/rafee/repos'
 
 REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'].append(
     'rest_framework.renderers.BrowsableAPIRenderer'
