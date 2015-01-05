@@ -96,6 +96,14 @@
           settings={{ django_settings_module }}
           virtualenv={{ virtualenv_path }}
 
+    - name: create django superuser
+      django_manage: >
+          command=loaddata
+          app_path={{ project_root }}
+          settings={{ django_settings_module }}
+          virtualenv={{ virtualenv_path }}
+          fixtures="./provisioning/fixtures/dev_superuser.json"
+
   handlers:
     - name: restart supervisord
       action: service name=supervisord state=restarted enabled=yes

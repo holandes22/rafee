@@ -21,7 +21,6 @@ Run all the actions below in a virtual env:
 
 Choose default option for all steps below:
 
-    fab vagrant createsuperuser # Optional, but you'll need a user to actually use the app.
     fab vagrant runserver  # Runs at http://localhost:8888 (from VM). Choose default values when prompted.
 
 In order to run the unittests:
@@ -49,6 +48,10 @@ from there). and restart of the web server.
 
 
 ### Frontend
+
+A superuser is created automatically when loading the dev vm. You can login using credentials::
+    username: pp
+    password: 1
 
 Install the latest stable version of Node. To verify is properly installed, both commands below should return output:
 
