@@ -3,6 +3,8 @@
 
 VAGRANTFILE_API_VERSION = "2"
 
+VAGRANT_NETWORK_IP = "10.0.0.10"
+
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "utopic64"
   config.vm.box_url = "http://cloud-images.ubuntu.com/vagrant/utopic/current/utopic-server-cloudimg-amd64-vagrant-disk1.box"
@@ -11,6 +13,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network :forwarded_port, guest: 8000, host: 8888
   config.vm.network :forwarded_port, guest: 9001, host: 9002
   config.vm.network :forwarded_port, guest: 4200, host: 4201
+  config.vm.network :private_network, ip: VAGRANT_NETWORK_IP
 
   config.vm.provider :virtualbox do |vb|
     vb.name = "rafee"
@@ -19,7 +22,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision :ansible, run: "always" do |ansible|
       ansible.playbook = "provisioning/playbook.yml"
       ansible.sudo = true
-      ansible.host_key_checking = false
+      ansible.host_key_checking
+      #TODO: remove below, not sure we need this if we set default as one of the hosts= false
+      ansible.limit = "vagrant"
+      ansible.inventory_path = "provisioning/inventory/dev"
   end
 
 end

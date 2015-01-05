@@ -1,6 +1,7 @@
 ---
 # TODO: Reuse for production deployment
-- hosts: all
+- hosts: dev
+  sudo: yes
   vars_files:
     - vars.yml
   tasks:
