@@ -89,6 +89,9 @@
     - name: start celerybeat
       supervisorctl: name=celerybeat state=started supervisorctl_path={{ supervisorctl_path }}
 
+    - name: create django superuser fixture
+      action: template src=templates/fixtures/dev_superuser.json.j2 dest=/tmp/dev_superuser.json mode=0777
+
     - name: apply django db migrations
       django_manage: >
           command=migrate
@@ -102,7 +105,7 @@
           app_path={{ project_root }}
           settings={{ django_settings_module }}
           virtualenv={{ virtualenv_path }}
-          fixtures="./provisioning/fixtures/dev_superuser.json"
+          fixtures="/tmp/dev_superuser.json"
 
   handlers:
     - name: restart supervisord
