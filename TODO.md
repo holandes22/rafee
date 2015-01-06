@@ -16,6 +16,8 @@ Backend
 
 General
 -------
+- Fix confirm delete component redirect to resource list
+- Refactor confirm delete component to bubble up delete action to router
 - Refactor code to pave the upgrade for ember 2.0 https://gist.github.com/samselikoff/1d7300ce59d216fdaf97
 - try json api
 - fix text overflow when name on list is long (overflows to edit form)
