@@ -28,6 +28,6 @@ db_settings:
 django:
     superuser:
         username: pp
-        password: pp
+        password: pbkdf2_sha256$12000$R4lki9GwepNR$t4GpUoMvO7Y/ZGXfPFHQAbIWK/5Xpex9qUBNUZ//SX4=
         full_name: Pepe Juarez
         email: pp@pp.com
