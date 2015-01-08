@@ -31,7 +31,7 @@
     "ember-export-application-global": "^1.0.0",
     "express": "^4.8.5",
     "glob": "^4.0.5",
-    "ember-django-adapter": "git+https://github.com/dustinfarris/ember-django-adapter.git#version-1.0",
+    "ember-django-adapter": "0.5.0",
     "ember-cli-htmlbars": "~0.6.0",
     "ember-cli-less": "~1.0.5",
     "ember-cli-pretender": "~0.3.1"
