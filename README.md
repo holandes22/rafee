@@ -51,7 +51,7 @@ from there). and restart of the web server.
 
 A superuser is created automatically when loading the dev vm. You can login using credentials::
     username: pp
-    password: 1
+    password: pp
 
 Install the latest stable version of Node. To verify is properly installed, both commands below should return output:
 
