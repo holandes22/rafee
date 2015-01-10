@@ -27,9 +27,13 @@
           <tbody>
             {{#each item in list}}
               <tr>
-                {{#each tableValue in tableValuesArray}}
-                  <td>{{get-attr item tableValue}}</td>
-              {{/each}}
+                {{#if tableValuesTemplate}}
+                  {{partial tableValuesTemplate}}
+                {{else}}
+                  {{#each tableValue in tableValuesArray}}
+                    <td>{{get-attr item tableValue}}</td>
+                  {{/each}}
+                {{/if}}
                 <td>
                   {{#each info in actionLinksArray}}
                     {{#link-to info.link item title=info.title}}

@@ -1,31 +1,7 @@
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-md-7">
-      {{#if model}}
-        <table class="table">
-          <thead>
-            <tr>
-              <th>URL</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {{#each repository in model}}
-              <tr>
-                <td><a {{bind-attr href=repository.url}}>{{repository.url}}</a></td>
-                <td>
-                  {{#link-to "admin.repositories.repository.delete" repository title="Delete"}}
-                    <span class="glyphicon glyphicon-remove"></span>
-                  {{/link-to}}
-                </td>
-              </tr>
-            {{/each}}
-          </tbody>
-        </table>
-      {{/if}}
-    </div>
-    <div class="col-md-5 details-pane">
-      {{outlet}}
-    </div>
-  </div>
-</div>
+{{resource-list
+  tableHeaders="URL"
+  addDelete=true
+  resourceName="repository"
+  actionLinks="details"
+  tableValuesTemplate="resource-table-link-values"
+  list=model}}

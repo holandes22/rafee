@@ -3,6 +3,9 @@ import Ember from 'ember';
 
 //TODO: Use Ember Inflector
 var pluralize = function(word) {
+  if (word === 'repository') {
+    return 'repositories';
+  }
   return word + 's';
 };
 
