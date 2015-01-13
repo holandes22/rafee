@@ -1,5 +1,4 @@
 from mock import patch
-from nose.tools import nottest
 from django.core.urlresolvers import reverse
 
 from rest_framework import status
@@ -70,8 +69,8 @@ class AdminUserTests(BaseAPITestCase):
         response = self.client.get(url)
         self.assertResponse200AndItemsEqual(get_data(repo), response)
 
-    @nottest
     def generic_test_detail_method_returns_405(self, method):
+        __test__ = False
         repo = RepositoryFactory()
         url = reverse('repository-detail', kwargs={'pk': repo.id})
         response = getattr(self.client, method)(url, data={})

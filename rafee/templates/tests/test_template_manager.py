@@ -4,7 +4,6 @@ import unittest
 from base64 import urlsafe_b64encode
 
 from mock import patch, Mock, MagicMock, call
-from nose.tools import nottest
 from jinja2.exceptions import TemplateNotFound
 
 from rafee.templates.manager import FileSystemLoader, TemplateManager
@@ -41,7 +40,6 @@ class FileSystemLoaderTests(unittest.TestCase):
     def tearDown(self):
         self.os_patcher.stop()
 
-    @nottest
     def listdir_side_effect(self, path):
         if path == self.root_folder:
             return self.folder_structure.keys()

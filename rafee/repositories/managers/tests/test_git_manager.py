@@ -1,5 +1,4 @@
 import unittest
-from nose.tools import nottest
 from mock import patch, Mock, PropertyMock
 from git.exc import InvalidGitRepositoryError
 
@@ -130,10 +129,10 @@ class GitManagerTests(unittest.TestCase):
         self.git_manager.count_commits(Mock())
         self.assertTrue(self.git_manager.remote.fetch.called)
 
-    @nottest
     @patch.object(GitManager, 'in_master_branch', new_callable=PropertyMock)
     @patch.object(GitManager, 'is_ahead', new_callable=PropertyMock)
     def generic_test_is_ok_to_pull(self, is_ahead, in_master, opts={}):
+        __test__ = False
         is_ahead.return_value = opts.get('is_ahead', False)
         in_master.return_value = opts.get('in_master', False)
         repo = Mock()

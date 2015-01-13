@@ -1,10 +1,14 @@
-from nose.tools import nottest
 from django.core.urlresolvers import reverse
 
 from rest_framework.test import APITestCase
 from rest_framework import status
 
 from rafee.users.factories import UserFactory
+
+
+def nottest(func):
+    func.__test__ = False
+    return func
 
 
 class BaseAPITestCase(APITestCase):
