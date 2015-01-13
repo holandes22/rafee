@@ -53,11 +53,3 @@ class UserFactory(DjangoModelFactory):
         if extracted:
             for team in extracted:
                 self.teams.add(team)
-
-
-class TokenFactory(DjangoModelFactory):
-
-    class Meta:
-        model = Token
-
-    user = factory.SubFactory(UserFactory)

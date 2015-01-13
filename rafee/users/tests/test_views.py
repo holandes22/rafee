@@ -11,23 +11,21 @@ from rafee.test_utils.base import NonAdminWriteTestsMixin
 
 from rafee.teams.factories import TeamFactory
 from rafee.users.factories import UserFactory
-from rafee.users.factories import TokenFactory
-
 from rafee.users.models import User
 
 
 class AuthenticationTests(TestCase):
 
-    @patch('rest_framework.authtoken.serializers.authenticate')
+    @patch('rest_framework_jwt.serializers.authenticate')
     def test_auth_token(self, authenticate_m):
-        token = TokenFactory()
-        authenticate_m.return_value = token.user
+        user = UserFactory()
+        authenticate_m.return_value = user
         payload = {
-            'username': token.user.username,
-            'password': token.user.password,
+            'username': user.username,
+            'password': 'fake',
         }
         response = self.client.post(reverse('auth-token'), data=payload)
-        self.assertEqual(token.key, response.data['token'])
+        self.assertTrue('fake', response.data['token'])
 
 
 class UserProfileTests(BaseAPITestCase):

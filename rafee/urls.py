@@ -13,7 +13,7 @@ urlpatterns = patterns(
     url(r'^{}/docs/'.format(api_prefix), include('rest_framework_swagger.urls')),
     url(
         r'^{}/auth-token'.format(api_prefix),
-        'rest_framework.authtoken.views.obtain_auth_token',
+        'rest_framework_jwt.views.obtain_jwt_token',
         name='auth-token',
     ),
     url(r'^{}/users/'.format(api_prefix), include('rafee.users.urls')),

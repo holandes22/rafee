@@ -5,7 +5,7 @@ export var initialize = function(container, app) {
     var token = window.sessionStorage.getItem('loggedInUserToken');
     if (token) {
         DS.RESTAdapter.reopen({
-            headers: {'Authorization': 'Token ' + token}
+            headers: {'Authorization': 'JWT ' + token}
         });
         app.deferReadiness();
         container.lookup('store:main').find('user', 'profile').then(function(user){
