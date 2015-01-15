@@ -16,6 +16,8 @@ Backend
 
 General
 -------
+- Add authenticated mixin to all routes (except login, about). Check if it can cascade down application maybe.
+- Add mixin that redirects to error page if user is not staff when browsing /admin
 - Fix confirm delete component redirect to resource list
 - Refactor confirm delete component to bubble up delete action to router
 - Refactor code to pave the upgrade for ember 2.0 https://gist.github.com/samselikoff/1d7300ce59d216fdaf97

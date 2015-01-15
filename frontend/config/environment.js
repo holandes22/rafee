@@ -20,6 +20,7 @@ module.exports = function(environment) {
     }
   };
 
+
   if (environment === 'development') {
     // ENV.APP.LOG_RESOLVER = true;
     // ENV.APP.LOG_ACTIVE_GENERATION = true;
@@ -52,6 +53,18 @@ module.exports = function(environment) {
     ENV.APP.API_NAMESPACE = 'v1';
 
   }
+
+  ENV.APP.API_URL = ENV.APP.API_HOST + '/' + ENV.APP.API_NAMESPACE;
+
+  ENV['simple-auth'] = {
+    authorizer: 'simple-auth-authorizer:token',
+    crossOriginWhitelist: [ENV.APP.API_HOST]
+  };
+
+  ENV['simple-auth-token'] = {
+    serverTokenEndpoint: ENV.APP.API_URL + '/auth-token',
+    authorizationPrefix: 'JWT '
+  };
 
   return ENV;
 };

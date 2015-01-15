@@ -4,7 +4,7 @@
   </div>
     <div>
       <ul class="nav navbar-nav">
-      {{#if currentUser.isStaff}}
+      {{#if session.currentUser.isStaff}}
         <li>
           {{link-to "Admin dashboard" "admin"}}
         </li>
@@ -12,10 +12,10 @@
       </ul>
     </div>
   <ul class="nav navbar-nav pull-right">
-    {{#if currentUser}}
+    {{#if session.isAuthenticated}}
       <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user">
-            {{currentUser.username}} <b class="caret"></b>
+            {{session.currentUser.username}} <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
           <li>
@@ -23,13 +23,13 @@
           </li>
           <li class="divider"></li>
           <li>
-            <a href="#" {{action 'logout'}}>Log Out</a>
+            <a href="#" {{action "invalidateSession"}}>Log Out</a>
           </li>
         </ul>
       </li>
     {{else}}
         <li>
-            {{link-to "Log In" "login"}}
+            <a href="#" {{action "authenticateSession"}}>Log In</a>
         </li>
     {{/if}}
   </ul>

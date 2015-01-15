@@ -1,28 +1,25 @@
-import DS from 'ember-data';
+import Ember from 'ember';
+import Session from 'simple-auth/session';
 
 
-export var initialize = function(container, app) {
-    var token = window.sessionStorage.getItem('loggedInUserToken');
-    if (token) {
-        DS.RESTAdapter.reopen({
-            headers: {'Authorization': 'JWT ' + token}
+export var initialize = function(container) {
+  Session.reopen({
+    setCurrentUser: function() {
+      var token = this.get('token');
+      var self = this;
+
+      if (!Ember.isEmpty(token)) {
+        return container.lookup('store:main').find('user', 'profile').then(function(user) {
+          self.set('currentUser', user);
         });
-        app.deferReadiness();
-        container.lookup('store:main').find('user', 'profile').then(function(user){
-            container.register('user:current', user, {instantiate: false});
-            container.injection('route', 'currentUser', 'user:current');
-            container.injection('controller', 'currentUser', 'user:current');
-            app.advanceReadiness();
-        }, function(reason) {
-            // TODO: Handle failure case properly
-            app.advanceReadiness();
-        });
-     }
+      }
+    }.observes('token')
+  });
 };
 
 export default {
-      name: 'set-session',
-      after: 'store',
-
-      initialize: initialize
+  name: 'set-session',
+  after: 'store',
+  before: 'simple-auth',
+  initialize: initialize
 };

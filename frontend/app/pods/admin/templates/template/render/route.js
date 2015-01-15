@@ -7,15 +7,10 @@ export default Ember.Route.extend({
   setupController: function(controller, model) {
     controller.set('model', model);
     var self = this;
-    var urlPrefix = ENV.APP.API_HOST + '/' + ENV.APP.API_NAMESPACE + '/';
-    var url =  urlPrefix + 'slide/';
+    var url =  ENV.APP.API_URL + '/slide/';
     var data = { template_name: model.get('name') };
-    var setHeaders =  function (request) {
-      var token = window.sessionStorage.getItem('loggedInUserToken');
-      request.setRequestHeader('Authorization', 'Token ' + token);
-    };
     ajax(url, {
-      type: 'POST', beforeSend: setHeaders, data: data
+      type: 'POST', data: data
     }).then(function(response) {
       return self.store.find('task', response.task);
     }).then(function(task) {

@@ -1,9 +1,9 @@
 <h2 id='title'>Rafee Login</h2>
 
-<form class="form-signin" role="form">
-  {{input value=username class="form-control login-username" placeholder="Username"}}
-  {{input type="password" value=password class="form-control login-password" placeholder="Password"}}
-  <button class="btn btn-lg btn-primary btn-block" {{action "signIn"}} {{bind-attr disabled=disabled}}>Sign in</button>
+<form class="form-signin" role="form" {{action "authenticate" on="submit"}}>
+  {{input id="identification" value=identification class="form-control login-username" placeholder="Username"}}
+  {{input id="password" type="password" value=password class="form-control login-password" placeholder="Password"}}
+  <button type="submit" class="btn btn-lg btn-primary btn-block" {{bind-attr disabled=disabled}}>Sign in</button>
 </form>
 
 {{#if failure}}

@@ -1,6 +1,8 @@
-import AuthRoute from 'rafee/routes/authenticated';
+import Ember from 'ember';
+import AuthenticatedRouteMixin from 'simple-auth/mixins/authenticated-route-mixin';
 
-export default AuthRoute.extend({
+
+export default Ember.Route.extend(AuthenticatedRouteMixin, {
     model: function() {
         return this.store.find('slideshow');
     }

@@ -1,36 +1,13 @@
 import Ember from 'ember';
-import ajax from 'ic-ajax';
-import ENV from 'rafee/config/environment';
+import LoginControllerMixin from 'simple-auth/mixins/login-controller-mixin';
 
 
-export default Ember.Controller.extend({
-    username: null,
-    password: null,
+export default Ember.Controller.extend(LoginControllerMixin, {
 
-    disabled: function() {
-        return Ember.isEmpty(this.get('username')) || Ember.isEmpty(this.get('password'));
-    }.property('username', 'password'),
+authenticator: 'simple-auth-authenticator:token',
 
-    actions: {
-        signIn: function() {
-            var self = this;
-            var url = ENV.APP.API_HOST + '/' + ENV.APP.API_NAMESPACE + '/auth-token';
-            ajax(url, {
-                type: 'POST',
-                data: this.getProperties('username', 'password')
-            }).then(function(response) {
-                window.sessionStorage.setItem('loggedInUserToken', response.token);
-                window.location.replace('/');
-            }, function(reason){
-                self.set('failure', true);
-                var errorMessage = 'Error';
-                var status = reason.jqXHR.status;
-                var response = reason.jqXHR.responseJSON;
-                if (status === 400) {
-                    errorMessage = response.non_field_errors;
-                }
-                self.set('errorMessage', errorMessage);
-            });
-        }
-    }
+  disabled: function() {
+    return Ember.isEmpty(this.get('identification')) || Ember.isEmpty(this.get('password'));
+  }.property('identification', 'password'),
+
 });
