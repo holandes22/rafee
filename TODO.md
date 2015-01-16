@@ -12,7 +12,21 @@ TODO: open tickets for each item
 Backend
 -------
 
-- Try out postgresql 9.4
+- Set up redis for template render caching
+- Setup nginx + uwsgi
+- Switch ssl on in dev env
+- switch to python3
+    - Need to remove fabric usage (no much needed anyway, can just use ansible ad-hoc commands)
+    - Use supervisor from master  branch (Py3 support will come with release 4.0, currently dev branch)
+- Make order within provisioner/templates, config files
+- nginx
+    - Fix access/error logs
+    - fix errors [emerg] bind() to 0.0.0.0:8000 failed (98: Address already in use)
+    - Fix static files serving for rdf browsable and docs
+- Set logfiles for django
+- uwsgi
+    - logs!
+
 
 General
 -------

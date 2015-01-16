@@ -1,5 +1,8 @@
 project_name: rafee
 project_root: "/vagrant"
+project_path: "/var/www/{{ project_name }}"
+project_conf_path: "{{ project_path }}/conf"
+project_repos_path: "{{ project_path }}/repos"
 virtualenv_path: "/home/vagrant/virtualenvs/{{ project_name }}"
 django_settings_module: "{{ project_name }}.settings.dev"
 locale: en_US.UTF-8
@@ -17,6 +20,7 @@ system_packages:
     - python-pip
     - python-dev
     - redis-server
+    - nginx
 python_packages:
     - pip
     - virtualenv
@@ -31,3 +35,14 @@ django:
         password: pbkdf2_sha256$12000$R4lki9GwepNR$t4GpUoMvO7Y/ZGXfPFHQAbIWK/5Xpex9qUBNUZ//SX4=
         full_name: Pepe Juarez
         email: pp@pp.com
+nginx:
+    config_file: "{{ project_conf_path }}/{{ project_name }}_nginx.conf"
+    server:
+        port: 8000
+        name: localhost
+    socket_file: "/var/run/{{ project_name }}_nginx.sock"
+
+uwsgi:
+    params_file: "{{ project_conf_path }}/uwsgi_params"
+    ini_file: "{{ project_conf_path }}/{{ project_name }}_uwsgi.ini"
+

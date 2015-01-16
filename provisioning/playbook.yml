@@ -52,7 +52,10 @@
       service: name=postgresql state=started enabled=yes
 
     - name: create www dir
-      file: path='/var/www/{{ project_name }}/repos' state=directory mode=0777
+      file: path={{ project_repos_path }} state=directory mode=0777
+
+    - name: create www dir
+      file: path={{ project_conf_path }} state=directory mode=0777
 
     - name: create celery log dir
       file: path=/var/log/celery state=directory
@@ -77,17 +80,36 @@
     - name: start supervisord service and have it run during system startup
       action: service name=supervisord state=started enabled=yes
 
-    - name: create celery worker config
-      action: template src=templates/celeryd.conf.j2 dest=/etc/supervisor/celeryd.conf
+    - name: create supervisord program config files
+      action: template src=templates/{{ item }}.j2 dest=/etc/supervisor/{{ item }}
+      with_items:
+          - celeryd.conf
+          - celerybeat.conf
+          - nginx.conf
+          - uwsgi.conf
 
-    - name: create celery beat config
-      action: template src=templates/celerybeat.conf.j2 dest=/etc/supervisor/celerybeat.conf
+    - name: create nginx virtual host
+      action: template src=templates/rafee_nginx.conf.j2 dest={{ nginx.config_file }} mode=0644
 
-    - name: start celery
-      supervisorctl: name=celery state=started supervisorctl_path={{ supervisorctl_path }}
+    - name: create nginx sites-enabled link
+      action: file src={{ nginx.config_file }} dest=/etc/nginx/sites-enabled/rafee_nginx.conf state=link
 
-    - name: start celerybeat
-      supervisorctl: name=celerybeat state=started supervisorctl_path={{ supervisorctl_path }}
+    - name: remove nginx default sites-enabled link
+      action: file path=/etc/nginx/sites-enabled/default state=absent
+
+    - name: create uwsgi ini
+      action: template src=templates/rafee_uwsgi.ini.j2 dest={{ uwsgi.ini_file }} mode=0644
+
+    - name: create uwsgi params
+      action: template src=templates/uwsgi_params.j2 dest={{ uwsgi.params_file }} mode=0644
+
+    - name: start supervisor services
+      supervisorctl: name={{ item }} state=started supervisorctl_path={{ supervisorctl_path }}
+      with_items:
+          - celery
+          - celerybeat
+          - nginx
+          - uwsgi
 
     - name: create django superuser fixture
       action: template src=templates/fixtures/dev_superuser.json.j2 dest=/tmp/dev_superuser.json mode=0777
@@ -116,3 +138,6 @@
 
     - name: restart celery beat
       supervisorctl: name=celerybeat state=restarted supervisorctl_path={{ supervisorctl_path }}
+
+    - name: restart nginx
+      supervisorctl: name=nginx state=restarted supervisorctl_path={{ supervisorctl_path }}
