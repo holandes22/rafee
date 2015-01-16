@@ -84,6 +84,7 @@ USE_L10N = True
 USE_TZ = True
 
 # Static files (mainly used for API docs)
+STATIC_ROOT = '/var/www/rafee/static'
 STATIC_URL = '/static/'
 
 # REST Framework

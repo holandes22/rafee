@@ -3,6 +3,12 @@ project_root: "/vagrant"
 project_path: "/var/www/{{ project_name }}"
 project_conf_path: "{{ project_path }}/conf"
 project_repos_path: "{{ project_path }}/repos"
+project_static_path: "{{ project_path }}/static"
+project_folders:
+    - "{{ project_conf_path }}"
+    - "{{ project_repos_path }}"
+    - "{{ project_static_path }}"
+
 virtualenv_path: "/home/vagrant/virtualenvs/{{ project_name }}"
 django_settings_module: "{{ project_name }}.settings.dev"
 locale: en_US.UTF-8

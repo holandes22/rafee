@@ -51,11 +51,9 @@
     - name: restart postgresql server
       service: name=postgresql state=started enabled=yes
 
-    - name: create www dir
-      file: path={{ project_repos_path }} state=directory mode=0777
-
-    - name: create www dir
-      file: path={{ project_conf_path }} state=directory mode=0777
+    - name: create www dirs
+      file: path={{ item }} state=directory mode=0777
+      with_items: project_folders
 
     - name: create celery log dir
       file: path=/var/log/celery state=directory
@@ -103,23 +101,8 @@
     - name: create uwsgi params
       action: template src=templates/uwsgi_params.j2 dest={{ uwsgi.params_file }} mode=0644
 
-    - name: start supervisor services
-      supervisorctl: name={{ item }} state=started supervisorctl_path={{ supervisorctl_path }}
-      with_items:
-          - celery
-          - celerybeat
-          - nginx
-          - uwsgi
-
     - name: create django superuser fixture
       action: template src=templates/fixtures/dev_superuser.json.j2 dest=/tmp/dev_superuser.json mode=0777
-
-    - name: apply django db migrations
-      django_manage: >
-          command=migrate
-          app_path={{ project_root }}
-          settings={{ django_settings_module }}
-          virtualenv={{ virtualenv_path }}
 
     - name: create django superuser
       django_manage: >
@@ -128,6 +111,28 @@
           settings={{ django_settings_module }}
           virtualenv={{ virtualenv_path }}
           fixtures="/tmp/dev_superuser.json"
+
+    - name: apply django db migrations
+      django_manage: >
+          command=migrate
+          app_path={{ project_root }}
+          settings={{ django_settings_module }}
+          virtualenv={{ virtualenv_path }}
+
+    - name: apply django collectstatic
+      django_manage: >
+          command=collectstatic
+          app_path={{ project_root }}
+          settings={{ django_settings_module }}
+          virtualenv={{ virtualenv_path }}
+
+    - name: start supervisor services
+      supervisorctl: name={{ item }} state=started supervisorctl_path={{ supervisorctl_path }}
+      with_items:
+          - celery
+          - celerybeat
+          - nginx
+          - uwsgi
 
   handlers:
     - name: restart supervisord
