@@ -2,11 +2,14 @@ project_name: rafee
 project_root: "/vagrant"
 project_path: "/var/www/{{ project_name }}"
 project_conf_path: "{{ project_path }}/conf"
+project_nginx_conf_path: "{{ project_conf_path }}/nginx"
+project_uwsgi_conf_path: "{{ project_conf_path }}/uwsgi"
 project_repos_path: "{{ project_path }}/repos"
 project_static_path: "{{ project_path }}/static"
 project_dist_path: "{{ project_root }}/frontend/dist"
 project_folders:
-    - "{{ project_conf_path }}"
+    - "{{ project_nginx_conf_path }}"
+    - "{{ project_uwsgi_conf_path }}"
     - "{{ project_repos_path }}"
     - "{{ project_static_path }}"
 
@@ -43,13 +46,13 @@ django:
         full_name: Pepe Juarez
         email: pp@pp.com
 nginx:
-    config_file: "{{ project_conf_path }}/{{ project_name }}_nginx.conf"
+    config_file: "{{ project_nginx_conf_path }}/{{ project_name }}.conf"
     server:
         port: 8000
         name: localhost
     socket_file: "/var/run/{{ project_name }}_nginx.sock"
 
 uwsgi:
-    params_file: "{{ project_conf_path }}/uwsgi_params"
-    ini_file: "{{ project_conf_path }}/{{ project_name }}_uwsgi.ini"
+    params_file: "{{ project_uwsgi_conf_path }}/uwsgi_params"
+    ini_file: "{{ project_uwsgi_conf_path }}/uwsgi.ini"
 

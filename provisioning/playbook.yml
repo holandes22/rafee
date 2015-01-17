@@ -79,7 +79,7 @@
       action: service name=supervisord state=started enabled=yes
 
     - name: create supervisord program config files
-      action: template src=templates/{{ item }}.j2 dest=/etc/supervisor/{{ item }}
+      action: template src=templates/supervisor/{{ item }}.j2 dest=/etc/supervisor/{{ item }}
       with_items:
           - celeryd.conf
           - celerybeat.conf
@@ -87,19 +87,19 @@
           - uwsgi.conf
 
     - name: create nginx virtual host
-      action: template src=templates/rafee_nginx.conf.j2 dest={{ nginx.config_file }} mode=0644
+      action: template src=templates/nginx/{{ project_name }}.conf.j2 dest={{ nginx.config_file }} mode=0644
 
     - name: create nginx sites-enabled link
-      action: file src={{ nginx.config_file }} dest=/etc/nginx/sites-enabled/rafee_nginx.conf state=link
+      action: file src={{ nginx.config_file }} dest=/etc/nginx/sites-enabled/{{ project_name }}.conf state=link
 
     - name: remove nginx default sites-enabled link
       action: file path=/etc/nginx/sites-enabled/default state=absent
 
     - name: create uwsgi ini
-      action: template src=templates/rafee_uwsgi.ini.j2 dest={{ uwsgi.ini_file }} mode=0644
+      action: template src=templates/uwsgi/uwsgi.ini.j2 dest={{ uwsgi.ini_file }} mode=0644
 
     - name: create uwsgi params
-      action: template src=templates/uwsgi_params.j2 dest={{ uwsgi.params_file }} mode=0644
+      action: template src=templates/uwsgi/uwsgi_params.j2 dest={{ uwsgi.params_file }} mode=0644
 
     - name: create django superuser fixture
       action: template src=templates/fixtures/dev_superuser.json.j2 dest=/tmp/dev_superuser.json mode=0777
