@@ -16,7 +16,7 @@ childlogdir=/var/log/supervisord/
 [inet_http_server]
 port = *:9001
 username = {{ django.superuser.username }}
-password = {{ django.superuser.password }}
+password = {{ django.superuser.username }}
 
 [rpcinterface:supervisor]
 supervisor.rpcinterface_factory = supervisor.rpcinterface:make_main_rpcinterface
