@@ -4,7 +4,7 @@ project_path: "/var/www/{{ project_name }}"
 project_conf_path: "{{ project_path }}/conf"
 project_repos_path: "{{ project_path }}/repos"
 project_static_path: "{{ project_path }}/static"
-project_assets_path: "{{ project_root }}/frontend/dist"
+project_dist_path: "{{ project_root }}/frontend/dist"
 project_folders:
     - "{{ project_conf_path }}"
     - "{{ project_repos_path }}"

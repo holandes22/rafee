@@ -12,7 +12,7 @@ server {
     client_max_body_size 75M;
 
     # Frontend root folder
-    root project_assets_path;
+    root {{ project_dist_path }};
 
     # Serve static files, for API docs
     location /static {
@@ -25,9 +25,9 @@ server {
         include {{ uwsgi.params_file }};
     }
 
-    # Main page
+    # Frontend
     location / {
-        try_files $uri $uri/index.html index.html;
+        try_files $uri $uri/ /index.html?/$request_uri;
     }
 
 }
