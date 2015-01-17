@@ -18,6 +18,7 @@ Backend
 General
 -------
 - Add authenticated mixin to all routes (except login, about). Check if it can cascade down application maybe.
+- Slideshow main screen should not show dropdown if no slideshows
 - Add mixin that redirects to error page if user is not staff when browsing /admin
 - Fix confirm delete component redirect to resource list
 - Refactor confirm delete component to bubble up delete action to router
