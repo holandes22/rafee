@@ -6,18 +6,31 @@ project_nginx_conf_path: "{{ project_conf_path }}/nginx"
 project_uwsgi_conf_path: "{{ project_conf_path }}/uwsgi"
 project_repos_path: "{{ project_path }}/repos"
 project_static_path: "{{ project_path }}/static"
-project_dist_path: "{{ project_root }}/frontend/dist"
-project_folders:
-    - "{{ project_nginx_conf_path }}"
-    - "{{ project_uwsgi_conf_path }}"
-    - "{{ project_repos_path }}"
-    - "{{ project_static_path }}"
 
-virtualenv_path: "/home/vagrant/virtualenvs/{{ project_name }}"
-django_settings_module: "{{ project_name }}.settings.dev"
+project:
+    name: "{{ project_name }}"
+    root: "{{ project_root }}"
+    path: "{{ project_path }}"
+    dist_path: "{{ project_root }}/frontend/dist"
+    conf_path: "{{ project_conf_path }}"
+    nginx_conf_path: "{{ project_nginx_conf_path }}"
+    uwsgi_conf_path: "{{ project_uwsgi_conf_path }}"
+    repos_path: "{{ project_repos_path }}"
+    static_path: "{{ project_static_path }}"
+    folders:
+        - "{{ project_nginx_conf_path }}"
+        - "{{ project_uwsgi_conf_path }}"
+        - "{{ project_repos_path }}"
+        - "{{ project_static_path }}"
+
+virtualenv_path: "/home/vagrant/virtualenvs/{{ project.name }}"
+
 locale: en_US.UTF-8
-supervisorctl_path: "{{ virtualenv_path }}/bin/supervisorctl"
-supervisor_socket_file: /var/run/supervisor.sock
+
+supervisor:
+    ctl_path: "{{ virtualenv_path }}/bin/supervisorctl"
+    socket_file: /var/run/supervisor.sock
+
 system_packages:
     - build-essential
     - postgresql-9.4
@@ -32,28 +45,33 @@ system_packages:
     - python-dev
     - redis-server
     - nginx
+
 python_packages:
     - pip
     - virtualenv
     - psycopg2
-db_settings:
-    name: "{{ project_name }}_db"
+
+db:
+    name: "{{ project.name }}_db"
     user: vagrant
     password: vagrant
+
 django:
+    settings_module: "{{ project.name }}.settings.dev"
     superuser:
         username: pp
         password: pbkdf2_sha256$12000$R4lki9GwepNR$t4GpUoMvO7Y/ZGXfPFHQAbIWK/5Xpex9qUBNUZ//SX4=
         full_name: Pepe Juarez
         email: pp@pp.com
+
 nginx:
-    config_file: "{{ project_nginx_conf_path }}/{{ project_name }}.conf"
+    config_file: "{{ project.nginx_conf_path }}/{{ project.name }}.conf"
     server:
         port: 8000
         name: localhost
-    socket_file: "/var/run/{{ project_name }}_nginx.sock"
+    socket_file: "/var/run/{{ project.name }}_nginx.sock"
 
 uwsgi:
-    params_file: "{{ project_uwsgi_conf_path }}/uwsgi_params"
-    ini_file: "{{ project_uwsgi_conf_path }}/uwsgi.ini"
+    params_file: "{{ project.uwsgi_conf_path }}/uwsgi_params"
+    ini_file: "{{ project.uwsgi_conf_path }}/uwsgi.ini"
 

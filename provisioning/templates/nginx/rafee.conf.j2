@@ -12,11 +12,11 @@ server {
     client_max_body_size 75M;
 
     # Frontend root folder
-    root {{ project_dist_path }};
+    root {{ project.dist_path }};
 
     # Serve static files, for API docs
     location /static {
-        alias {{ project_static_path }}; 
+        alias {{ project.static_path }}; 
     }
 
     # Send all API requests to the Django server.

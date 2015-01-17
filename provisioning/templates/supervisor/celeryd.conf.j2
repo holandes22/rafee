@@ -1,7 +1,7 @@
 [program:celery]
-command={{ virtualenv_path }}/bin/celery worker -A {{ project_name }} --loglevel=INFO
+command={{ virtualenv_path }}/bin/celery worker -A {{ project.name }} --loglevel=INFO
 
-environment=PYTHONPATH={{ project_root }},DJANGO_SETTINGS_MODULE={{ django_settings_module }}
+environment=PYTHONPATH={{ project.root }},DJANGO_SETTINGS_MODULE={{ django.settings_module }}
 directory=/var/run/celery
 user=vagrant
 numprocs=1

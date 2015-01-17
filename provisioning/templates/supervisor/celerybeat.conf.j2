@@ -1,7 +1,7 @@
 [program:celerybeat]
-command={{ virtualenv_path }}/bin/celery beat -A {{ project_name }} --schedule=/var/run/celery/celerybeat-schedule --loglevel=INFO
+command={{ virtualenv_path }}/bin/celery beat -A {{ project.name }} --schedule=/var/run/celery/celerybeat-schedule --loglevel=INFO
 
-environment=PYTHONPATH={{ project_root }},DJANGO_SETTINGS_MODULE={{ django_settings_module }}
+environment=PYTHONPATH={{ project.root }},DJANGO_SETTINGS_MODULE={{ django.settings_module }}
 directory=/var/run/celery
 user=vagrant
 numprocs=1

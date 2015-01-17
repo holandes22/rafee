@@ -1,12 +1,12 @@
 [uwsgi]
-chdir = {{ project_root }}
+chdir = {{ project.root }}
 
-env = DJANGO_SETTINGS_MODULE={{ django_settings_module }}
+env = DJANGO_SETTINGS_MODULE={{ django.settings_module }}
 
 home = {{ virtualenv_path }}
 
 # Django's wsgi file
-module = {{ project_name }}.wsgi:application
+module = {{ project.name }}.wsgi:application
 
 master = true
 

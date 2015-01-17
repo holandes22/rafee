@@ -37,15 +37,15 @@
     - name: create pg Database
       sudo_user: postgres
       postgresql_db: >
-          name={{ db_settings.name }}
+          name={{ db.name }}
           encoding=UTF-8
 
     - name: create pg database role
       sudo_user: postgres
       postgresql_user: >
-          name={{ db_settings.user }}
-          password={{ db_settings.password }}
-          db={{ db_settings.name }}
+          name={{ db.user }}
+          password={{ db.password }}
+          db={{ db.name }}
           priv=ALL
 
     - name: restart postgresql server
@@ -53,7 +53,7 @@
 
     - name: create www dirs
       file: path={{ item }} state=directory mode=0777
-      with_items: project_folders
+      with_items: project.folders
 
     - name: create celery log dir
       file: path=/var/log/celery state=directory
@@ -87,10 +87,10 @@
           - uwsgi.conf
 
     - name: create nginx virtual host
-      action: template src=templates/nginx/{{ project_name }}.conf.j2 dest={{ nginx.config_file }} mode=0644
+      action: template src=templates/nginx/{{ project.name }}.conf.j2 dest={{ nginx.config_file }} mode=0644
 
     - name: create nginx sites-enabled link
-      action: file src={{ nginx.config_file }} dest=/etc/nginx/sites-enabled/{{ project_name }}.conf state=link
+      action: file src={{ nginx.config_file }} dest=/etc/nginx/sites-enabled/{{ project.name }}.conf state=link
 
     - name: remove nginx default sites-enabled link
       action: file path=/etc/nginx/sites-enabled/default state=absent
@@ -104,30 +104,30 @@
     - name: create django superuser fixture
       action: template src=templates/fixtures/dev_superuser.json.j2 dest=/tmp/dev_superuser.json mode=0777
 
-    - name: create django superuser
-      django_manage: >
-          command=loaddata
-          app_path={{ project_root }}
-          settings={{ django_settings_module }}
-          virtualenv={{ virtualenv_path }}
-          fixtures="/tmp/dev_superuser.json"
-
     - name: apply django db migrations
       django_manage: >
           command=migrate
-          app_path={{ project_root }}
-          settings={{ django_settings_module }}
+          app_path={{ project.root }}
+          settings={{ django.settings_module }}
           virtualenv={{ virtualenv_path }}
 
     - name: apply django collectstatic
       django_manage: >
           command=collectstatic
-          app_path={{ project_root }}
-          settings={{ django_settings_module }}
+          app_path={{ project.root }}
+          settings={{ django.settings_module }}
           virtualenv={{ virtualenv_path }}
 
+    - name: create django superuser
+      django_manage: >
+          command=loaddata
+          app_path={{ project.root }}
+          settings={{ django.settings_module }}
+          virtualenv={{ virtualenv_path }}
+          fixtures="/tmp/dev_superuser.json"
+
     - name: start supervisor services
-      supervisorctl: name={{ item }} state=started supervisorctl_path={{ supervisorctl_path }}
+      supervisorctl: name={{ item }} state=started supervisorctl_path={{ supervisor.ctl_path }}
       with_items:
           - celery
           - celerybeat
@@ -139,10 +139,10 @@
       action: service name=supervisord state=restarted enabled=yes
 
     - name: restart celery worker
-      supervisorctl: name=celery state=restarted supervisorctl_path={{ supervisorctl_path }}
+      supervisorctl: name=celery state=restarted supervisorctl_path={{ supervisor.ctl_path }}
 
     - name: restart celery beat
-      supervisorctl: name=celerybeat state=restarted supervisorctl_path={{ supervisorctl_path }}
+      supervisorctl: name=celerybeat state=restarted supervisorctl_path={{ supervisor.ctl_path }}
 
     - name: restart nginx
-      supervisorctl: name=nginx state=restarted supervisorctl_path={{ supervisorctl_path }}
+      supervisorctl: name=nginx state=restarted supervisorctl_path={{ supervisor.ctl_path }}
