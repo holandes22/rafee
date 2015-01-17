@@ -3,7 +3,6 @@ rafee
 
 ## Setting development environment
 
-git clone and init submodules.
 You need to have the following installed in your system:
 
 - python 2.7.x
