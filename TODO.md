@@ -13,6 +13,11 @@ Backend
 - uwsgi
     - logs!
 - Switch ssl on in dev env
+- Test how would work to add new task (which services need restart and how to do so)
+- Re-arrange ansible folder (in preparation to use it for production)
+    - use roles
+    - update vars for dev and prod
+    - Create deployment, upgrade and reload roles
 
 
 General
