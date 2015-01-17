@@ -19,10 +19,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vb.name = "rafee"
   end
 
-  config.vm.provision :ansible, run: "always" do |ansible|
+  config.vm.provision :ansible do |ansible|
       ansible.playbook = "provisioning/playbook.yml"
       ansible.sudo = true
-      ansible.host_key_checking
       #TODO: remove below, not sure we need this if we set default as one of the hosts= false
       ansible.limit = "vagrant"
       ansible.inventory_path = "provisioning/inventory/dev"
