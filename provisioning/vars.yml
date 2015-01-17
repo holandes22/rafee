@@ -17,6 +17,7 @@ virtualenv_path: "/home/vagrant/virtualenvs/{{ project_name }}"
 django_settings_module: "{{ project_name }}.settings.dev"
 locale: en_US.UTF-8
 supervisorctl_path: "{{ virtualenv_path }}/bin/supervisorctl"
+supervisor_socket_file: /var/run/supervisor.sock
 system_packages:
     - build-essential
     - postgresql-9.4
