@@ -2,16 +2,16 @@
 file=/tmp/supervisor.sock   ; path to your socket file
 
 [supervisord]
-logfile=/var/log/supervisord/supervisord.log ; supervisord log file
-logfile_maxbytes=50MB       ; maximum size of logfile before rotation
-logfile_backups=10          ; number of backed up logfiles
-loglevel=info               ; info, debug, warn, trace
-pidfile=/var/run/supervisord.pid ; pidfile location
-nodaemon=false              ; run supervisord as a daemon
-minfds=1024                 ; number of startup file descriptors
-minprocs=200                ; number of process descriptors
-user=root                   ; default user
-childlogdir=/var/log/supervisord/            ; where child log files will live
+logfile=/var/log/supervisord/supervisord.log
+logfile_maxbytes=50MB
+logfile_backups=10
+loglevel=info
+pidfile=/var/run/supervisord.pid
+nodaemon=false
+minfds=1024 
+minprocs=200
+user=root
+childlogdir=/var/log/supervisord/
 
 [inet_http_server]
 port = *:9001
@@ -22,7 +22,7 @@ password = {{ django.superuser.password }}
 supervisor.rpcinterface_factory = supervisor.rpcinterface:make_main_rpcinterface
 
 [supervisorctl]
-serverurl=unix:///tmp/supervisor.sock ; use unix:// schem for a unix sockets.
+serverurl=unix:///tmp/supervisor.sock
 
 [include]
 files = /etc/supervisor/*.conf
