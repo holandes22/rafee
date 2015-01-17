@@ -22,7 +22,7 @@ Backend
 - nginx
     - Fix access/error logs
     - fix errors [emerg] bind() to 0.0.0.0:8000 failed (98: Address already in use)
-    - Fix static files serving for rdf browsable and docs
+    - Fix frontend # redirect
 - Set logfiles for django
 - uwsgi
     - logs!

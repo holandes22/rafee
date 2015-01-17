@@ -11,18 +11,23 @@ server {
     # max upload size
     client_max_body_size 75M;
 
-    # location /media  {
-    #    alias /path/to/your/mysite/media;  # your Django project's media files - amend as required
-    # }
+    # Frontend root folder
+    root project_assets_path;
 
-    # Serve static files
+    # Serve static files, for API docs
     location /static {
-        alias {{ project_static_path }}; # your Django project's static files - amend as required
+        alias {{ project_static_path }}; 
     }
 
-    # Send all non-static requests to the Django server.
-    location / {
+    # Send all API requests to the Django server.
+    location /api {
         uwsgi_pass  django;
         include {{ uwsgi.params_file }};
     }
+
+    # Main page
+    location / {
+        try_files $uri $uri/index.html index.html;
+    }
+
 }
