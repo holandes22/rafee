@@ -1,12 +1,3 @@
-Upgrade
--------
-
-- DRF
-- Python deps to latest
-- Use Pg 9.4
-- Ember cli, ember, ember-data and ed-drf adapter
-
-
 TODO: open tickets for each item
 
 Backend
@@ -16,7 +7,6 @@ Backend
 - switch to python3
     - Need to remove fabric usage (no much needed anyway, can just use ansible ad-hoc commands)
     - Use supervisor from master  branch (Py3 support will come with release 4.0, currently dev branch)
-- Make order within provisioner/templates, config files
 - nginx
     - fix errors [emerg] bind() to 0.0.0.0:8000 failed (98: Address already in use)
 - Set logfiles for django
@@ -63,20 +53,6 @@ General
     - Add details section
     - Add template string to details
     - Render should be shown full page
-
-Templates
----------
-- Make search a component
-- Refactor templates for reuse
-
-Controllers
------------
-- Generic CRUD
-
-Routes
-------
-- All routes show extend the authenticated mixins
-
 
 Tests
 -----

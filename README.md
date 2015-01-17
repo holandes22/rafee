@@ -11,40 +11,28 @@ You need to have the following installed in your system:
 - virtualbox 4.3.x or later: https://www.virtualbox.org/wiki/Downloads
 - virtualenv 1.11.6 (optional but highly recommended): pip install virtualenv
 
+
 ### Backend
 
 Run all the actions below in a virtual env:
 
     cd rafee
     pip install -r requirements-dev.txt
-    vagrant up
+    vagrant up  # If something fails, just do vagrant reload --provision
 
-Choose default option for all steps below:
-
-    fab vagrant runserver  # Runs at http://localhost:8888 (from VM). Choose default values when prompted.
+    After vagrant finishes booting the VM. You can access the GUI via http://localhost:8888.
 
 In order to run the unittests:
 
-    cd rafee/rafee
-    python manage.py makemigrations --settings=rafee.settings.test && python manage.py migrate && python manage.py test --settings=rafee.settings.test
-
-or alternatively:
-
-    export DJANGO_SETTINGS_MODULE=rafee.settings.test
-    python manage.py makemigrations && python manage.py migrate && python manage.py test
+    ./runtests.sh  # Linux only, for windows you can check the script to know what to do
 
 running tests with coverage:
 
-    python manage.py makemigrations && python manage.py migrate && coverage run --source='.' manage.py test
-    coverage report
+    ./runtests --with-coverage  # Places html coverage report under htmlcov
 
-
-When adding new celery tasks, you will need to reload the celery process.
-
-    fab vagrant supervisor.celery_restart
-
+When adding new celery tasks, you will need to reload the celery process from within the vm.
 If the task belongs to a newly added django app, make sure is added to the INSTALLED_APPS (celery autodiscover tasks
-from there). and restart of the web server.
+from there) and restart uwsgi.
 
 
 ### Frontend
@@ -58,7 +46,7 @@ Install the latest stable version of Node. To verify is properly installed, both
     node --help
     npm --help
 
-Install ember-cli (0.4.6 or later is required) and bower (you might need sudo for this):
+Install ember-cli (0.1.17 or later is required) and bower (you might need sudo for this):
 
     npm install -g ember-cli
     npm install -g bower
@@ -69,11 +57,10 @@ You need to have PhantomJS installed to be able to run the tests from the comman
 
 Open another window terminal and run:
 
-    cd rafee/frontend && npm install && bower install
+    cd rafee/frontend && ember install
     ember server
 
 navigate to http://localhost:4200 for the app.
 navigate to http://localhost:4200/tests for the tests.
 
 See more info on how to run tests at http://www.ember-cli.com/
-
