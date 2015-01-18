@@ -1,0 +1,22 @@
+- name: add redis ppa
+  apt_repository: repo="ppa:chris-lea/redis-server"
+
+- name: add postgres repository
+  apt_repository: repo="deb http://apt.postgresql.org/pub/repos/apt/ {{ db.distro }}-pgdg main" state=present
+
+- name: add postgres repository key
+  apt_key: url=http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc state=present
+
+- name: install system packages
+  apt: pkg={{ item }} state=installed update-cache=yes
+  with_items: system_packages
+
+- name: install python packages
+  pip: name={{ item }}
+  with_items: python_packages
+
+- name: install python requirements
+  pip: requirements={{ project.root }}/requirements-dev.txt virtualenv={{ virtualenv_path }}
+
+- name: change owner of virtualenvs folder to project user
+  file: path=/home/{{ project.user }}/virtualenvs owner={{ project.user }} group={{ project.user_group }} recurse=yes

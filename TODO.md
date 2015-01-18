@@ -9,7 +9,18 @@ Backend
     - Django debug tool bar
     - Set django logs properly. Maybe use email notification too.
     - Set uwsgi and nginx logs properly
-- Ansible
+- Ansible:
+    - check best practices
+        - http://goodcode.io/blog/ansible-tips/
+        - https://gist.github.com/marktheunissen/2979474
+        - http://docs.ansible.com/playbooks_best_practices.html#best-practices
+    - For prod password and secret key, use var_promt_
+    - Separate dev and prod variables
+    - Add meta info to roles
+    - remove sudo: yes?
+    - create project user if needed
+    - uwsgi params move to files instead of templates
+    - create django superuser only in dev
     - Update vars for dev and prod
     - Re-arrange ansible folder (in preparation to use it for production)
     - Create deployment, upgrade and reload playbooks

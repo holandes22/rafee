@@ -6,8 +6,12 @@ project_nginx_conf_path: "{{ project_conf_path }}/nginx"
 project_uwsgi_conf_path: "{{ project_conf_path }}/uwsgi"
 project_repos_path: "{{ project_path }}/repos"
 project_static_path: "{{ project_path }}/static"
+project_user: "vagrant"
+project_user_group: "vagrant"
 
 project:
+    user: "{{ project_user }}"
+    user_group: "{{ project_user_group }}"
     name: "{{ project_name }}"
     root: "{{ project_root }}"
     path: "{{ project_path }}"
@@ -23,7 +27,7 @@ project:
         - "{{ project_repos_path }}"
         - "{{ project_static_path }}"
 
-virtualenv_path: "/home/vagrant/virtualenvs/{{ project.name }}"
+virtualenv_path: "/home/{{ project.user }}/virtualenvs/{{ project.name }}"
 
 locale: en_US.UTF-8
 
@@ -52,6 +56,7 @@ python_packages:
     - psycopg2
 
 db:
+    distro: utopic
     name: "{{ project.name }}_db"
     user: vagrant
     password: vagrant

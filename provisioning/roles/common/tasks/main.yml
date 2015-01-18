@@ -1,0 +1,9 @@
+- name: generate locale
+  command: /usr/sbin/locale-gen {{ locale }}
+
+- name: set locale to
+  command: /usr/sbin/update-locale LANG={{ locale }} LC_ALL={{ locale }}
+
+- name: create project dirs
+  file: path={{ item }} state=directory mode=0777
+  with_items: project.folders

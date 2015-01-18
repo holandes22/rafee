@@ -1,0 +1,24 @@
+- name: create superuser fixture
+  action: template src=dev_superuser.json.j2 dest=/tmp/dev_superuser.json mode=0777
+
+- name: apply django db migrations
+  django_manage: >
+      command=migrate
+      app_path={{ project.root }}
+      settings={{ django.settings_module }}
+      virtualenv={{ virtualenv_path }}
+
+- name: run django collectstatic
+  django_manage: >
+      command=collectstatic
+      app_path={{ project.root }}
+      settings={{ django.settings_module }}
+      virtualenv={{ virtualenv_path }}
+
+- name: create django superuser
+  django_manage: >
+      command=loaddata
+      app_path={{ project.root }}
+      settings={{ django.settings_module }}
+      virtualenv={{ virtualenv_path }}
+      fixtures="/tmp/dev_superuser.json"

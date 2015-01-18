@@ -1,0 +1,15 @@
+- name: remove nginx default sites-enabled link
+  action: file path=/etc/nginx/sites-enabled/default state=absent
+
+- name: create nginx virtual host
+  action: template src={{ project.name }}.conf.j2 dest={{ nginx.config_file }} mode=0644
+  notify:
+      - restart nginx
+
+- name: create nginx sites-enabled link
+  action: file src={{ nginx.config_file }} dest=/etc/nginx/sites-enabled/{{ project.name }}.conf state=link
+  notify:
+      - restart nginx
+
+- name: start nginx
+  supervisorctl: name=nginx state=started supervisorctl_path={{ supervisor.ctl_path }}

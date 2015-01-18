@@ -1,0 +1,8 @@
+- name: create celery log dir
+  file: path=/var/log/celery state=directory
+
+- name: create celery run dir
+  file: path=/var/run/celery state=directory mode=0777
+  notify:
+    - start celery
+    - start celerybeat

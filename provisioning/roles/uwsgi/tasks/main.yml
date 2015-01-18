@@ -1,0 +1,11 @@
+- name: create uwsgi params
+  action: template src=uwsgi_params.j2 dest={{ uwsgi.params_file }} mode=0644
+
+- name: create uwsgi ini
+  action: template src=uwsgi.ini.j2 dest={{ uwsgi.ini_file }} mode=0644
+  notify:
+      - restart uwsgi
+
+- name: start uwsgi
+  supervisorctl: name=uwsgi state=started supervisorctl_path={{ supervisor.ctl_path }}
+

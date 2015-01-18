@@ -1,0 +1,21 @@
+- name: create supervisor log dir
+  file: path=/var/log/supervisord state=directory
+
+- name: create supervisord config folder
+  action: file dest=/etc/supervisor state=directory owner=root
+
+- name: create supervisord config
+  action: template src=supervisord.conf.j2 dest=/etc/supervisord.conf
+
+- name: create supervisord init script
+  action: template src=supervisord.sh.j2 dest=/etc/init.d/supervisord mode=0755
+
+- name: create supervisord program config files
+  action: template src=supervisor/{{ item }}.j2 dest=/etc/supervisor/{{ item }}
+  with_items:
+      - celeryd.conf
+      - celerybeat.conf
+      - nginx.conf
+      - uwsgi.conf
+  notify:
+    - start supervisord

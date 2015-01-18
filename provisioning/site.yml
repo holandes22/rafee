@@ -1,0 +1,21 @@
+---
+- hosts: dev
+  sudo: yes
+  vars_files:
+    - vars.yml
+  roles:
+      - { role: common, tags: "common" }
+      - { role: packages, tags: "packages" }
+      - { role: database, tags: "database" }
+      - { role: supervisor, tags: "supervisor" }
+      - { role: celery, tags: "celery" }
+      - { role: nginx, tags: "nginx" }
+      - { role: uwsgi, tags: "uwsgi" }
+      - { role: django, tags: "django" }
+
+
+
+
+
+
+
