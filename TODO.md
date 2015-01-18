@@ -3,22 +3,36 @@ TODO: open tickets for each item
 Backend
 -------
 
-- Set up redis for template render caching
+- Make uwsgi reload on file changes for dev (like django runserver)
+- Add debug tools
+    - Werkzeug
+    - Sentry?
+    - Django debug tool bar
+    - Set django logs properly. Maybe use email notification too.
+    - Set uwsgi and nginx logs properly
+- Ansible
+    - Update vars for dev and prod
+    - Re-arrange ansible folder (in preparation to use it for production)
+    - Create deployment, upgrade and reload playbooks
+    - Separate playbook into roles. This will allow to run certain parts after changes are introduced
+      during dev (added task, changed a model, etc)
+        - common
+        - packages
+        - create folders
+        - db
+        - django (migration, collectstatic)
+        - celery
+        - uwsgi
+        - nginx
 - switch to python3
     - Need to remove fabric usage (no much needed anyway, can just use ansible ad-hoc commands)
     - Use supervisor from master  branch (Py3 support will come with release 4.0, currently dev branch)
+- Switch ssl on in dev env
 - nginx
     - fix errors [emerg] bind() to 0.0.0.0:8000 failed (98: Address already in use)
-- Set logfiles for django
-- uwsgi
-    - logs!
-- Switch ssl on in dev env
-- Test how would work to add new task (which services need restart and how to do so)
-- Re-arrange ansible folder (in preparation to use it for production)
-    - use roles
-    - update vars for dev and prod
-    - Create deployment, upgrade and reload roles
-
+- Set up redis for template render caching
+- Test how would work to add new task (which services need restart and document how to do so)
+- Test how would work to do a change to a model (document how to run the migration)
 
 General
 -------
