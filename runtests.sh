@@ -40,7 +40,7 @@ while getopts "hp:c" opt; do
       usage
       ;;
     \?)
-      echo "Invalid option: -$OPTARG" >&2
+      usage
       ;;
   esac
 done
