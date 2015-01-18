@@ -1,4 +1,7 @@
 [uwsgi]
+{% if uwsgi.touch_reload %}
+touch-reload = {{ uwsgi.touch_reload }}
+{% endif %}
 chdir = {{ project.root }}
 
 env = DJANGO_SETTINGS_MODULE={{ django.settings_module }}

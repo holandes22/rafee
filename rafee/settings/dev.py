@@ -1,4 +1,19 @@
+import uwsgi
+from uwsgidecorators import timer
+from django.utils import autoreload
+
 from rafee.settings.base  import *
+
+
+# Register func to reload uwsgi on code changes.
+# Taken from http://projects.unbit.it/uwsgi/wiki/TipsAndTricks
+# If you see it does not reload on views or urls tocuh here is why
+# https://code.djangoproject.com/ticket/22729
+@timer(3)
+def change_code_gracefull_reload(sig):
+    if autoreload.code_changed():
+        uwsgi.reload()
+
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG

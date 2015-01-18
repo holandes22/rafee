@@ -3,7 +3,6 @@ TODO: open tickets for each item
 Backend
 -------
 
-- Make uwsgi reload on file changes for dev (like django runserver)
 - Add debug tools
     - Werkzeug
     - Sentry?

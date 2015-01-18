@@ -72,6 +72,7 @@ nginx:
     socket_file: "/var/run/{{ project.name }}_nginx.sock"
 
 uwsgi:
+    touch_reload: "{{ project.root }}/.reload"
     params_file: "{{ project.uwsgi_conf_path }}/uwsgi_params"
     ini_file: "{{ project.uwsgi_conf_path }}/uwsgi.ini"
 
