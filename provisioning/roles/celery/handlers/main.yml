@@ -1,11 +1,5 @@
-- name: start celery
-  supervisorctl: name=celery state=started supervisorctl_path={{ supervisor.ctl_path }}
-
 - name: restart celery
   supervisorctl: name=celery state=restarted supervisorctl_path={{ supervisor.ctl_path }}
-
-- name: start celerybeat
-  supervisorctl: name=celerybeat state=started supervisorctl_path={{ supervisor.ctl_path }}
 
 - name: restart celerybeat
   supervisorctl: name=celerybeat state=restarted supervisorctl_path={{ supervisor.ctl_path }}

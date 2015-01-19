@@ -6,9 +6,13 @@
 
 - name: create supervisord config
   action: template src=supervisord.conf.j2 dest=/etc/supervisord.conf
+  notify:
+    - restart supervisord
 
 - name: create supervisord init script
   action: template src=supervisord.sh.j2 dest=/etc/init.d/supervisord mode=0755
+  notify:
+    - restart supervisord
 
 - name: create supervisord program config files
   action: template src=supervisor/{{ item }}.j2 dest=/etc/supervisor/{{ item }}
@@ -18,4 +22,8 @@
       - nginx.conf
       - uwsgi.conf
   notify:
-    - start supervisord
+    - restart supervisord
+
+- name: start supervisord
+  action: service name=supervisord state=started enabled=yes
+
