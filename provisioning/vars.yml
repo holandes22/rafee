@@ -7,10 +7,13 @@ project_uwsgi_conf_path: "{{ project_conf_path }}/uwsgi"
 project_repos_path: "{{ project_path }}/repos"
 project_static_path: "{{ project_path }}/static"
 project_user: "vagrant"
+# Password should be user input for production
+project_user_password: "{{ project_user }}"
 project_user_group: "vagrant"
 
 project:
     user: "{{ project_user }}"
+    user_password: "{{ project_user_password }}"
     user_group: "{{ project_user_group }}"
     name: "{{ project_name }}"
     root: "{{ project_root }}"
