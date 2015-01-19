@@ -1,7 +1,7 @@
 - name: generate locale
   command: /usr/sbin/locale-gen {{ locale }}
 
-- name: set locale to
+- name: set locale
   command: /usr/sbin/update-locale LANG={{ locale }} LC_ALL={{ locale }}
 
 - name: create project dirs
