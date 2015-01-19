@@ -4,6 +4,7 @@ project_path: "/var/www/{{ project_name }}"
 project_conf_path: "{{ project_path }}/conf"
 project_nginx_conf_path: "{{ project_conf_path }}/nginx"
 project_uwsgi_conf_path: "{{ project_conf_path }}/uwsgi"
+project_celery_conf_path: "{{ project_conf_path }}/celery"
 project_repos_path: "{{ project_path }}/repos"
 project_static_path: "{{ project_path }}/static"
 project_user: "vagrant"
@@ -27,6 +28,7 @@ project:
     folders:
         - "{{ project_nginx_conf_path }}"
         - "{{ project_uwsgi_conf_path }}"
+        - "{{ project_celery_conf_path }}"
         - "{{ project_repos_path }}"
         - "{{ project_static_path }}"
 
