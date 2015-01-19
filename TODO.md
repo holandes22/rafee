@@ -14,6 +14,8 @@ Backend
         - http://goodcode.io/blog/ansible-tips/
         - https://gist.github.com/marktheunissen/2979474
         - http://docs.ansible.com/playbooks_best_practices.html#best-practices
+    - for vagrant, path to ssh key is relative, causing problems to run provision when running vagrant cmd elsewhere
+      than root
     - For prod password and secret key, use var_promt_
     - Separate dev and prod variables
     - Add meta info to roles
