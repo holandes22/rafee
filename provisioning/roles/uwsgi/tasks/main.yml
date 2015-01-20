@@ -1,5 +1,5 @@
-- name: create uwsgi params
-  action: template src=uwsgi_params.j2 dest={{ uwsgi.params_file }} mode=0644
+- name: upload uwsgi params
+  copy: src=uwsgi_params dest={{ uwsgi.params_file }} mode=0644
 
 - name: create uwsgi ini
   action: template src=uwsgi.ini.j2 dest={{ uwsgi.ini_file }} mode=0644
