@@ -14,14 +14,11 @@ Backend
         - http://goodcode.io/blog/ansible-tips/
         - https://gist.github.com/marktheunissen/2979474
         - http://docs.ansible.com/playbooks_best_practices.html#best-practices
-    - Supervisor
-        - security: since we run supervisor as root, is recommended to explicitely indicate the config file, instead of
-          it searching automatically in some places.
     - ssh to vm
         - for vagrant, path to ssh key is relative, causing problems to run provision when running vagrant cmd elsewhere
           than root
         - known_hosts key checking fails if vm was added to known hosts and then recreated
-    - For prod password and secret key, use var_promt_
+    - For prod password and secret key, use var_prompt_
     - Separate dev and prod variables
     - remove sudo: yes?
     - create project user if needed

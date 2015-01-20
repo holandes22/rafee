@@ -6,9 +6,10 @@
 
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
 NAME=supervisord
+CONFIG_FILE={{ supervisor.config_file }}
 DESC="supervisod is a system for controlling process state"
-SUPERVISORD={{ virtualenv_path }}/bin/supervisord
-SUPERVISORCTL={{ virtualenv_path }}/bin/supervisorctl
+SUPERVISORD={{ virtualenv_path }}/bin/supervisord --configuration=$CONFIG_FILE
+SUPERVISORCTL={{ virtualenv_path }}/bin/supervisorctl --configuration=$CONFIG_FILE
 SCRIPTNAME=/etc/init.d/$NAME
 
 

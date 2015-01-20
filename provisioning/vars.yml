@@ -37,6 +37,7 @@ virtualenv_path: "/home/{{ project.user }}/virtualenvs/{{ project.name }}"
 locale: en_US.UTF-8
 
 supervisor:
+    config_file: /etc/supervisord.conf
     ctl_path: "{{ virtualenv_path }}/bin/supervisorctl"
     socket_file: /var/run/supervisor.sock
 
