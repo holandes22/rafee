@@ -1,5 +1,5 @@
 upstream django {
-    server unix://{{ nginx.socket_file }}; # for a file socket
+    server unix://{{ nginx.socket_file }};
 }
 
 server {
@@ -29,4 +29,14 @@ server {
     location / {
         try_files $uri $uri/ /index.html?/$request_uri;
     }
+
+    {% if nginx.disable_assets_caching %}
+    
+    # Disable assets caching
+    location /assets {
+        expires 0;
+        add_header Cache-Control private;
+    }
+    {% endif %}
+
 }

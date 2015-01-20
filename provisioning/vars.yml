@@ -75,6 +75,7 @@ django:
         email: pp@pp.com
 
 nginx:
+    disable_assets_caching: true
     config_file: "{{ project.nginx_conf_path }}/{{ project.name }}.conf"
     server:
         port: 8000

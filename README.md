@@ -19,7 +19,19 @@ Run all the actions below in a virtual env:
     pip install -r requirements-dev.txt
     vagrant up  # If something fails, just do vagrant reload --provision
 
-    After vagrant finishes booting the VM. You can access the GUI via http://localhost:8888.
+After vagrant finishes booting the VM, you can access the GUI via http://localhost:8888.
+A superuser is created automatically when loading the dev vm. You can login using credentials::
+
+    username: pp
+    password: pp
+
+## API
+
+The REST API is accessed via http://localhost:8888/api/v1
+
+You can checkout the API docs at http://localhost:8888/api/v1/docs
+
+## Running Tests
 
 In order to run the unittests:
 
@@ -27,18 +39,21 @@ In order to run the unittests:
 
 running tests with coverage:
 
-    ./runtests --with-coverage  # Places html coverage report under htmlcov
+    ./runtests.sh -c  # Places html coverage report under htmlcov
 
-When adding new celery tasks, you will need to reload the celery process from within the vm.
-If the task belongs to a newly added django app, make sure is added to the INSTALLED_APPS (celery autodiscover tasks
-from there) and restart uwsgi.
+Run `runtests.sh -h` to see other options.
+
+## Adding celery tasks
+
+When adding new celery tasks, you will need to reload django (uwsgi) and celery.
+
+    ansible-playbook -i provisioning/inventory/ --tags=uwsgi,celery provisioning/site.yml --limit=vagrant
+
+If the task belongs to a newly added django app, before reloading make sure is added to the INSTALLED_APPS (celery autodiscover tasks
+from there).
 
 
 ### Frontend
-
-A superuser is created automatically when loading the dev vm. You can login using credentials::
-    username: pp
-    password: pp
 
 Install the latest stable version of Node. To verify is properly installed, both commands below should return output:
 
@@ -50,16 +65,29 @@ Install ember-cli (0.1.17 or later is required) and bower (you might need sudo f
     npm install -g ember-cli
     npm install -g bower
 
+In order to install the frontend dependencies, run
+
+    cd rafee/frontend && ember install
+
+## Dev server
+
+In order to run the ember dev server (which provides automatic rebuild and browser reload), run:
+
+    cd rafee/frontend
+    ember server
+
+You can then either navigate to http://localhost:4200 for the app (served by ember server) or go to http://localost:888 to get the app
+served by nginx on the dev vm. The advantage of using ember server is automatic browser reload (which is very nice while
+developing)
+
+## Running tests
+
 You need to have PhantomJS installed to be able to run the tests from the command line:
 
     npm install -g phantomjs
 
-Open another window terminal and run:
+The run
 
-    cd rafee/frontend && ember install
     ember server
 
-navigate to http://localhost:4200 for the app.
-navigate to http://localhost:4200/tests for the tests.
-
-See more info on how to run tests at http://www.ember-cli.com/
+and navigate to http://localhost:4200/tests to see the frontend tests report.
