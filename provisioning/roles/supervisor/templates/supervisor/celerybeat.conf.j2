@@ -1,9 +1,7 @@
 [program:celerybeat]
-command={{ virtualenv_path }}/bin/celery beat -A {{ project.name }} --schedule={{ project_celery_conf_path}}/celerybeat-schedule --loglevel=INFO 
+command={{ virtualenv_path }}/bin/celery beat -A {{ project.name }} --schedule={{project_celery_conf_path}}/celerybeat-schedule --loglevel=INFO --pidfile=/tmp/{{ project.name }}_celerybeat.pid
 
-project_celery_conf_pathenvironment=PYTHONPATH={{ project.root }},DJANGO_SETTINGS_MODULE={{ django.settings_module }}
-directory={{ project_celery_conf_path }}
-pidfile={{ project_celery_conf_path }}/celerybeat.pid
+environment=PYTHONPATH={{ project.root }},DJANGO_SETTINGS_MODULE={{ django.settings_module }}
 user={{ project.user }}
 numprocs=1
 stdout_logfile=/var/log/celery/beat.log
