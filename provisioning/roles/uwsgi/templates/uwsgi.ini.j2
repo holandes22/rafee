@@ -5,6 +5,7 @@ touch-reload = {{ uwsgi.touch_reload }}
 chdir = {{ project.root }}
 
 env = DJANGO_SETTINGS_MODULE={{ django.settings_module }}
+env = PYTHONPATH={{ project.root }}
 
 home = {{ virtualenv_path }}
 
