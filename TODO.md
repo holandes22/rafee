@@ -15,7 +15,8 @@ Backend
         - https://gist.github.com/marktheunissen/2979474
         - http://docs.ansible.com/playbooks_best_practices.html#best-practices
     - For prod password and secret key, use var_prompt
-    - Separate dev and prod variables
+    - Separate dev and prod variables (host_vars)
+    - Create a deployment playbook for staging/prod that pulls code from git
     - remove sudo: yes?
     - create project user if needed
     - create django superuser only in dev

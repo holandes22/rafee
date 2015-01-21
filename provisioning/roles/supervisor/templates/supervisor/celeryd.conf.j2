@@ -1,8 +1,8 @@
 [program:celery]
-command={{ virtualenv_path }}/bin/celery worker -A {{ project.name }} --loglevel=INFO --pidfile=/tmp/{{ project.name }}_celery.pid
+command={{ virtualenv_path }}/bin/celery worker -A {{ project_name }} --loglevel=INFO --pidfile=/tmp/{{ project_name }}_celery.pid
 
-environment=PYTHONPATH={{ project.root }},DJANGO_SETTINGS_MODULE={{ django.settings_module }}
-user={{ project.user }}
+environment=PYTHONPATH={{ project_root }},DJANGO_SETTINGS_MODULE={{ django_settings_module }}
+user={{ project_user }}
 numprocs=1
 stdout_logfile=/var/log/celery/worker.log
 stderr_logfile=/var/log/celery/worker.log

@@ -1,14 +1,14 @@
 - name: create pg Database
   sudo_user: postgres
   postgresql_db: >
-      name={{ db.name }}
+      name={{ db_name }}
       encoding=UTF-8
 
 - name: create pg database role
   sudo_user: postgres
   postgresql_user: >
-      name={{ db.user }}
-      password={{ db.password }}
-      db={{ db.name }}
+      name={{ db_user }}
+      password={{ db_password }}
+      db={{ db_name }}
       priv=ALL
 

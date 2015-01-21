@@ -1,22 +1,22 @@
 [uwsgi]
-{% if uwsgi.touch_reload %}
-touch-reload = {{ uwsgi.touch_reload }}
+{% if uwsgi_touch_reload %}
+touch-reload = {{ uwsgi_touch_reload }}
 {% endif %}
-chdir = {{ project.root }}
+chdir = {{ project_root }}
 
-env = DJANGO_SETTINGS_MODULE={{ django.settings_module }}
-env = PYTHONPATH={{ project.root }}
+env = DJANGO_SETTINGS_MODULE={{ django_settings_module }}
+env = PYTHONPATH={{ project_root }}
 
 home = {{ virtualenv_path }}
 
 # Django's wsgi file
-module = {{ project.name }}.wsgi:application
+module = {{ project_name }}.wsgi:application
 
 master = true
 
 processes = 10
 
-socket = {{ nginx.socket_file }}
+socket = {{ nginx_socket_file }}
 
 chown-socket = www-data
 

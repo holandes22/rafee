@@ -5,7 +5,7 @@
   action: file dest=/etc/supervisor state=directory owner=root
 
 - name: create supervisord config
-  action: template src=supervisord.conf.j2 dest={{ supervisor.config_file }}
+  action: template src=supervisord.conf.j2 dest={{ supervisor_config_file }}
   notify:
     - restart supervisord
 

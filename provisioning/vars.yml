@@ -7,39 +7,24 @@ project_uwsgi_conf_path: "{{ project_conf_path }}/uwsgi"
 project_celery_conf_path: "{{ project_conf_path }}/celery"
 project_repos_path: "{{ project_path }}/repos"
 project_static_path: "{{ project_path }}/static"
+project_dist_path: "{{ project_root }}/frontend/dist"
 project_user: "vagrant"
-# Password should be user input for production
 project_user_password: "{{ project_user }}"
 project_user_group: "vagrant"
+project_folders:
+    - "{{ project_nginx_conf_path }}"
+    - "{{ project_uwsgi_conf_path }}"
+    - "{{ project_celery_conf_path }}"
+    - "{{ project_repos_path }}"
+    - "{{ project_static_path }}"
 
-project:
-    user: "{{ project_user }}"
-    user_password: "{{ project_user_password }}"
-    user_group: "{{ project_user_group }}"
-    name: "{{ project_name }}"
-    root: "{{ project_root }}"
-    path: "{{ project_path }}"
-    dist_path: "{{ project_root }}/frontend/dist"
-    conf_path: "{{ project_conf_path }}"
-    nginx_conf_path: "{{ project_nginx_conf_path }}"
-    uwsgi_conf_path: "{{ project_uwsgi_conf_path }}"
-    repos_path: "{{ project_repos_path }}"
-    static_path: "{{ project_static_path }}"
-    folders:
-        - "{{ project_nginx_conf_path }}"
-        - "{{ project_uwsgi_conf_path }}"
-        - "{{ project_celery_conf_path }}"
-        - "{{ project_repos_path }}"
-        - "{{ project_static_path }}"
-
-virtualenv_path: "/home/{{ project.user }}/virtualenvs/{{ project.name }}"
+virtualenv_path: "/home/{{ project_user }}/virtualenvs/{{ project_name }}"
 
 locale: en_US.UTF-8
 
-supervisor:
-    config_file: /etc/supervisord.conf
-    ctl_path: "{{ virtualenv_path }}/bin/supervisorctl"
-    socket_file: /var/run/supervisor.sock
+supervisor_config_file: /etc/supervisord.conf
+supervisor_ctl_path: "{{ virtualenv_path }}/bin/supervisorctl"
+supervisor_socket_file: /var/run/supervisor.sock
 
 system_packages:
     - build-essential
@@ -61,30 +46,24 @@ python_packages:
     - virtualenv
     - psycopg2
 
-db:
-    distro: utopic
-    name: "{{ project.name }}_db"
-    user: vagrant
-    password: vagrant
+db_distro: utopic
+db_name: "{{ project_name }}_db"
+db_user: vagrant
+db_password: vagrant
 
-django:
-    settings_module: "{{ project.name }}.settings.dev"
-    superuser:
-        username: pp
-        password: pbkdf2_sha256$12000$R4lki9GwepNR$t4GpUoMvO7Y/ZGXfPFHQAbIWK/5Xpex9qUBNUZ//SX4=
-        full_name: Pepe Juarez
-        email: pp@pp.com
+django_settings_module: "{{ project_name }}.settings.dev"
+django_superuser_username: pp
+django_superuser_password: pbkdf2_sha256$12000$R4lki9GwepNR$t4GpUoMvO7Y/ZGXfPFHQAbIWK/5Xpex9qUBNUZ//SX4=
+django_superuser_full_name: Pepe Juarez
+django_superuser_email: pp@pp.com
 
-nginx:
-    disable_assets_caching: true
-    config_file: "{{ project.nginx_conf_path }}/{{ project.name }}.conf"
-    server:
-        port: 8000
-        name: localhost
-    socket_file: "/var/run/{{ project.name }}_nginx.sock"
+nginx_disable_assets_caching: true
+nginx_config_file: "{{ project_nginx_conf_path }}/{{ project_name }}.conf"
+nginx_server_port: 8000
+nginx_server_name: localhost
+nginx_socket_file: "/var/run/{{ project_name }}_nginx.sock"
 
-uwsgi:
-    touch_reload: "{{ project.root }}/.reload"
-    params_file: "{{ project.uwsgi_conf_path }}/uwsgi_params"
-    ini_file: "{{ project.uwsgi_conf_path }}/uwsgi.ini"
+uwsgi_touch_reload: "{{ project_root }}/.reload"
+uwsgi_params_file: "{{ project_uwsgi_conf_path }}/uwsgi_params"
+uwsgi_ini_file: "{{ project_uwsgi_conf_path }}/uwsgi.ini"
 

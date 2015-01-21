@@ -1,5 +1,5 @@
 [unix_http_server]
-file={{ supervisor.socket_file }}
+file={{ supervisor_socket_file }}
 
 [supervisord]
 logfile=/var/log/supervisord/supervisord.log
@@ -15,14 +15,14 @@ childlogdir=/var/log/supervisord/
 
 [inet_http_server]
 port = *:9001
-username = {{ project.user }}
-password = {{ project.user_password }}
+username = {{ project_user }}
+password = {{ project_user_password }}
 
 [rpcinterface:supervisor]
 supervisor.rpcinterface_factory = supervisor.rpcinterface:make_main_rpcinterface
 
 [supervisorctl]
-serverurl=unix://{{ supervisor.socket_file }}
+serverurl=unix://{{ supervisor_socket_file }}
 
 [include]
 files = /etc/supervisor/*.conf

@@ -2,8 +2,8 @@
   file: path=/var/log/celery state=directory
 
 - name: start celery
-  supervisorctl: name=celery state=started supervisorctl_path={{ supervisor.ctl_path }}
+  supervisorctl: name=celery state=started supervisorctl_path={{ supervisor_ctl_path }}
 
 - name: start celerybeat
-  supervisorctl: name=celerybeat state=started supervisorctl_path={{ supervisor.ctl_path }}
+  supervisorctl: name=celerybeat state=started supervisorctl_path={{ supervisor_ctl_path }}
 

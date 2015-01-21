@@ -6,7 +6,7 @@
 
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
 NAME=supervisord
-CONFIG_FILE={{ supervisor.config_file }}
+CONFIG_FILE={{ supervisor_config_file }}
 DESC="supervisod is a system for controlling process state"
 SUPERVISORD="{{ virtualenv_path }}/bin/supervisord --configuration=$CONFIG_FILE"
 SUPERVISORCTL="{{ virtualenv_path }}/bin/supervisorctl --configuration=$CONFIG_FILE"
@@ -32,13 +32,13 @@ do_start()
     #   1 if daemon was already running
     #   2 if daemon could not be started
 
-    if $SUPERVISORCTL status | grep -q "unix://{{ supervisor.socket_file }} no such file"; then
+    if $SUPERVISORCTL status | grep -q "unix://{{ supervisor_socket_file }} no such file"; then
         $SUPERVISORD
         echo "supervisord started successfully"
         return 0
     fi
 
-    if $SUPERVISORCTL status | grep -qv "unix://{{ supervisor.socket_file }} no such file"; then
+    if $SUPERVISORCTL status | grep -qv "unix://{{ supervisor_socket_file }} no such file"; then
         echo "supervisord is already running"
         return 1
     fi
@@ -53,7 +53,7 @@ do_stop() {
     #   1 if daemon was already stopped
     #   2 if daemon could not be stopped
     #   other if a failure occurred
-    if $SUPERVISORCTL status | grep -q "unix://{{ supervisor.socket_file }} no such file"; then
+    if $SUPERVISORCTL status | grep -q "unix://{{ supervisor_socket_file }} no such file"; then
         echo "supervisord already stopped"
         return 1
     else

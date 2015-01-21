@@ -1,28 +1,28 @@
 upstream django {
-    server unix://{{ nginx.socket_file }};
+    server unix://{{ nginx_socket_file }};
 }
 
 server {
-    listen  {{ nginx.server.port }};
-    listen [::]:{{ nginx.server.port }} ipv6only=on default_server;
-    server_name {{ nginx.server.name }};
+    listen  {{ nginx_server_port }};
+    listen [::]:{{ nginx_server_port }} ipv6only=on default_server;
+    server_name {{ nginx_server_name }};
     charset     utf-8;
 
     # max upload size
     client_max_body_size 75M;
 
     # Frontend root folder
-    root {{ project.dist_path }};
+    root {{ project_dist_path }};
 
     # Serve static files, for API docs
     location /static {
-        alias {{ project.static_path }}; 
+        alias {{ project_static_path }}; 
     }
 
     # Send all API requests to the Django server.
     location /api {
         uwsgi_pass  django;
-        include {{ uwsgi.params_file }};
+        include {{ uwsgi_params_file }};
     }
 
     # Frontend
@@ -30,7 +30,7 @@ server {
         try_files $uri $uri/ /index.html?/$request_uri;
     }
 
-    {% if nginx.disable_assets_caching %}
+    {% if nginx_disable_assets_caching %}
     
     # Disable assets caching
     location /assets {
