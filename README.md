@@ -17,7 +17,7 @@ Run all the actions below in a virtual env:
 
     cd rafee
     pip install -r requirements-dev.txt
-    vagrant up  # If something fails, just do vagrant reload --provision
+    vagrant up  # 1st time, provision will take some time. Especially package install. If something fails, just do "vagrant provision" or "vagrant reload --provision"
 
 After vagrant finishes booting the VM, you can access the GUI via http://localhost:8888.
 A superuser is created automatically when loading the dev vm. You can login using the credentials:

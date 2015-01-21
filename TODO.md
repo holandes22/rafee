@@ -14,11 +14,7 @@ Backend
         - http://goodcode.io/blog/ansible-tips/
         - https://gist.github.com/marktheunissen/2979474
         - http://docs.ansible.com/playbooks_best_practices.html#best-practices
-    - ssh to vm
-        - for vagrant, path to ssh key is relative, causing problems to run provision when running vagrant cmd elsewhere
-          than root
-        - known_hosts key checking fails if vm was added to known hosts and then recreated
-    - For prod password and secret key, use var_prompt_
+    - For prod password and secret key, use var_prompt
     - Separate dev and prod variables
     - remove sudo: yes?
     - create project user if needed
@@ -27,7 +23,7 @@ Backend
 - switch to python3
     - Need to remove fabric usage (no much needed anyway, can just use ansible ad-hoc commands)
     - Use supervisor from master  branch (Py3 support will come with release 4.0, currently dev branch)
-- Switch ssl on in dev env
+- Switch ssl in dev env
 - nginx
     - fix errors [emerg] bind() to 0.0.0.0:8000 failed (98: Address already in use)
 - Set up redis for template render caching
