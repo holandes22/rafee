@@ -1,7 +1,6 @@
 -r requirements.txt
 ansible==1.8.2
 coverage==3.7.1
-Fabric==1.10.1
 factory-boy==2.4.1
 ipython==2.3.1
 mock==1.0.1
