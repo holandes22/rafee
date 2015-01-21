@@ -3,7 +3,6 @@
 
 VAGRANTFILE_API_VERSION = "2"
 
-VAGRANT_NETWORK_IP = "10.0.0.10"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "utopic64"
@@ -13,7 +12,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network :forwarded_port, guest: 8000, host: 8888
   config.vm.network :forwarded_port, guest: 9001, host: 9002
   config.vm.network :forwarded_port, guest: 4200, host: 4201
-  config.vm.network :private_network, ip: VAGRANT_NETWORK_IP
 
   config.vm.provider :virtualbox do |vb|
     vb.name = "rafee"
@@ -23,7 +21,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       ansible.playbook = "provisioning/site.yml"
       ansible.sudo = true
       ansible.limit = "vagrant"
-      ansible.inventory_path = "provisioning/inventory"
+      ansible.inventory_path = "provisioning/inventory/dev"
       # ansible.verbose = "vvvv"
   end
 
