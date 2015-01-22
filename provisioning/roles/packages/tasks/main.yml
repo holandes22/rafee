@@ -16,8 +16,13 @@
   pip: name={{ item }}
   with_items: python_packages
 
+- name: ensure latest pip
+  pip: name=pip state=latest
+
 - name: install python requirements
-  pip: requirements={{ project_root }}/requirements-dev.txt virtualenv={{ virtualenv_path }}
+  pip: requirements={{ project_python_requirements }} virtualenv={{ virtualenv_path }}
+  register: pip_install_requirements
 
 - name: change owner of virtualenvs folder to project user
   file: path=/home/{{ project_user }}/virtualenvs owner={{ project_user }} group={{ project_user_group }} recurse=yes
+  when: pip_install_requirements.changed
