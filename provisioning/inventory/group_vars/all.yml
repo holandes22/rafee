@@ -24,6 +24,10 @@ project_folders:
 project_python_requirements: "{{ project_root }}/requirements.txt"
 virtualenv_path: "/home/{{ project_user }}/virtualenvs/{{ project_name }}"
 
+apt_repos:
+    - "ppa:chris-lea/redis-server"
+    - "deb http://apt.postgresql.org/pub/repos/apt/ {{ db_distro }}-pgdg main"
+
 system_packages:
     - build-essential
     - postgresql-9.4
