@@ -3,6 +3,9 @@ TODO: open tickets for each item
 Backend
 -------
 
+- API
+    - Consider using drf router
+    - Use viewsets (were possible)
 - Add debug tools
     - Werkzeug (web interactive console)
     - Sentry? (or other monitoring tool)
@@ -19,10 +22,11 @@ Backend
     - Create a deployment playbook for staging/prod that pulls code from git
     - remove sudo: yes?
 - switch to python3
-    - Need to remove fabric usage (no much needed anyway, can just use ansible ad-hoc commands)
-    - Use supervisor from master  branch (Py3 support will come with release 4.0, currently dev branch)
-- Switch ssl on
-- use same security django settings for dev and prod
+    - Need to use supervisor from dev branch (Py3 support will come with release 4.0, currently dev branch)
+- Security
+    - Run with django-secure
+    - Switch ssl on (should be easy to switch off during dev)
+    - use same security django settings for dev and prod
 - nginx
     - fix errors [emerg] bind() to 0.0.0.0:8000 failed (98: Address already in use) (apparently the workers
       raise this error after the main process was started)
