@@ -50,12 +50,11 @@ class CommonUserTests(CommonTestsMixin, BaseAPITestCase):
     def extra_setup(self):
         self.detail_url_kwargs = {'pk': self.user.pk}
 
-    def test_detail(self):
+    def test_detail_returns_403(self):
         self.client.force_authenticate(user=self.user)
         url = reverse(self.detail_url_name, kwargs=self.detail_url_kwargs)
         response = self.client.get(url)
-        expected = get_data(self.user)
-        self.assertResponse200AndItemsEqual(expected, response)
+        self.assertEqual(status.HTTP_403_FORBIDDEN, response.status_code)
 
 
 class NonAdminUserTests(NonAdminListReadTestsMixin,

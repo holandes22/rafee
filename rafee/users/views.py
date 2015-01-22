@@ -1,10 +1,9 @@
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.generics import ListCreateAPIView
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.generics import RetrieveAPIView
-from rest_framework.generics import RetrieveUpdateDestroyAPIView
+
+from rest_framework.viewsets import ModelViewSet
 
 from rafee.users.models import User
-from rafee.users.permissions import IsAdminUserOrReadOnly
 from rafee.users.serializers import UserSerializer
 
 
@@ -22,10 +21,6 @@ class UserProfileAPIView(BaseUserAPIView, RetrieveAPIView):
         return self.request.user
 
 
-class UserListAPIView(BaseUserAPIView, ListCreateAPIView):
-    pass
+class UserViewSet(BaseUserAPIView, ModelViewSet):
 
-
-class UserDetailAPIView(BaseUserAPIView, RetrieveUpdateDestroyAPIView):
-
-    permission_classes = (IsAuthenticated, IsAdminUserOrReadOnly)
+    permission_classes = (IsAuthenticated, IsAdminUser)

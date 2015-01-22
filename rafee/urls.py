@@ -16,7 +16,7 @@ urlpatterns = patterns(
         'rest_framework_jwt.views.obtain_jwt_token',
         name='auth-token',
     ),
-    url(r'^{}/users/'.format(api_prefix), include('rafee.users.urls')),
+    url(r'^{}/users'.format(api_prefix), include('rafee.users.urls')),
     url(r'^{}/teams/'.format(api_prefix), include('rafee.teams.urls')),
     url(r'^{}/slideshows/'.format(api_prefix), include('rafee.slideshows.urls')),
     url(r'^{}/repositories/'.format(api_prefix), include('rafee.repositories.urls')),
