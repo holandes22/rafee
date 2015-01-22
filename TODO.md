@@ -37,6 +37,9 @@ Backend
 
 General
 -------
+- fix bug login page not showing error warning if bad credentials
+- fix bug: With admin user, enter wrong credentials once, then enter good credentials, admind dashboard link is not
+  shown until refresh
 - Add authenticated mixin to all routes (except login, about). Check if it can cascade down application maybe.
 - Slideshow main screen should not show dropdown if no slideshows
 - Add mixin that redirects to error page if user is not staff when browsing /admin
