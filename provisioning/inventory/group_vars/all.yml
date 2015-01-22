@@ -11,7 +11,6 @@ project_celery_conf_path: "{{ project_conf_path }}/celery"
 project_repos_path: "{{ project_path }}/repos"
 project_static_path: "{{ project_path }}/static"
 project_dist_path: "{{ project_root }}/frontend/dist"
-
 project_user_group: "{{ project_user }}"
 
 project_folders:
@@ -21,6 +20,8 @@ project_folders:
     - "{{ project_repos_path }}"
     - "{{ project_static_path }}"
 
+
+project_python_requirements: "{{ project_root }}/requirements.txt"
 virtualenv_path: "/home/{{ project_user }}/virtualenvs/{{ project_name }}"
 
 system_packages:
@@ -42,6 +43,7 @@ python_packages:
     - pip
     - virtualenv
     - psycopg2
+    - ipython
 
 django_superuser_username: admin
 
