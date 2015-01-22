@@ -18,7 +18,6 @@ Backend
     - For prod passwords and secret key, use var_prompt
     - Create a deployment playbook for staging/prod that pulls code from git
     - remove sudo: yes?
-    - create project user if needed
 - switch to python3
     - Need to remove fabric usage (no much needed anyway, can just use ansible ad-hoc commands)
     - Use supervisor from master  branch (Py3 support will come with release 4.0, currently dev branch)

@@ -10,3 +10,13 @@
 - name: create project dirs
   file: path={{ item }} state=directory mode=0777
   with_items: project_folders
+
+- name: create project user
+  user: >
+    name={{ project_user }}
+    password={{ project_user_password }}
+    shell=/bin/bash
+    group={{ project_user_group }}
+    groups=www-data
+    append=yes
+
