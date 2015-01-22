@@ -3,14 +3,26 @@
 - name: add apt repos
   apt_repository: repo="{{ item }}"
   with_items: apt_repos
-  register: add_aptrepos
+  register: add_apt_repos
 
 - name: add postgres repository key
-  apt_key: url=http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc state=present
+  apt_key: url=http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc
+  register: aptkey
+
+- name: update apt cache
+  apt: update-cache=yes
+  when: add_apt_repos.changed or aptkey.changed
 
 - name: install system packages
-  apt: pkg={{ item }} state=installed update-cache=yes
+  apt: pkg={{ item }}
   with_items: system_packages
+  ignore_errors: yes
+  register: install_packages_first_try
+
+- name: update apt cache and retry install system packages
+  apt: pkg={{ item }} update-cache=yes
+  with_items: system_packages
+  when: install_packages_first_try|failed
 
 - name: install python packages
   pip: name={{ item }}
