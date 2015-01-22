@@ -4,31 +4,33 @@ Backend
 -------
 
 - Add debug tools
-    - Werkzeug
-    - Sentry?
+    - Werkzeug (web interactive console)
+    - Sentry? (or other monitoring tool)
+    - Profiling (perf)
     - Django debug tool bar
     - Set django logs properly. Maybe use email notification too.
     - Set uwsgi and nginx logs properly
 - Ansible:
-    - check best practices
+    - check we comply with best practices
         - http://goodcode.io/blog/ansible-tips/
         - https://gist.github.com/marktheunissen/2979474
         - http://docs.ansible.com/playbooks_best_practices.html#best-practices
-    - For prod password and secret key, use var_prompt
+    - For prod passwords and secret key, use var_prompt
     - Create a deployment playbook for staging/prod that pulls code from git
     - remove sudo: yes?
     - create project user if needed
-    - create django superuser only in dev
-    - Update vars for dev and prod
 - switch to python3
     - Need to remove fabric usage (no much needed anyway, can just use ansible ad-hoc commands)
     - Use supervisor from master  branch (Py3 support will come with release 4.0, currently dev branch)
-- Switch ssl in dev env
+- Switch ssl on
+- use same security django settings for dev and prod
 - nginx
-    - fix errors [emerg] bind() to 0.0.0.0:8000 failed (98: Address already in use)
+    - fix errors [emerg] bind() to 0.0.0.0:8000 failed (98: Address already in use) (apparently the workers
+      raise this error after the main process was started)
 - Set up redis for template render caching
 - Test how would work to add new task (which services need restart and document how to do so)
 - Test how would work to do a change to a model (document how to run the migration)
+
 
 General
 -------

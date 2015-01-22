@@ -1,8 +1,11 @@
 - name: generate locale
   command: /usr/sbin/locale-gen {{ locale }}
+  register: gen_locale
+  changed_when: not "up-to-date" in "{{ gen_locale.stdout_lines }}"
 
 - name: set locale
   command: /usr/sbin/update-locale LANG={{ locale }} LC_ALL={{ locale }}
+  when: gen_locale.changed
 
 - name: create project dirs
   file: path={{ item }} state=directory mode=0777
