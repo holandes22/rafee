@@ -1,0 +1,4 @@
+---
+project_user: "pablo"
+
+django_settings_module: "{{ project_name }}.settings.prod"

@@ -21,7 +21,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       ansible.playbook = "provisioning/site.yml"
       ansible.sudo = true
       ansible.limit = "vagrant"
-      ansible.inventory_path = "provisioning/inventory/dev"
+      ansible.inventory_path = "provisioning/inventory"
       # ansible.verbose = "vvvv"
   end
 

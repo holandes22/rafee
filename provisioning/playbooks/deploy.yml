@@ -1,6 +1,14 @@
 ---
-- hosts: vagrant
+- hosts: staging,prod
   sudo: yes
+  vars_prompt:
+
+    - name: "django_superuser_password"
+      prompt: "Enter django superuser password"
+      private: yes
+      encrypt: "pbkdf2_sha256"
+      confirm: yes
+      salt_size: 7
   roles:
       - { role: common, tags: "common" }
       - { role: packages, tags: "packages" }

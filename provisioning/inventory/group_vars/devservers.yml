@@ -1,0 +1,12 @@
+---
+project_root: "/vagrant"
+project_user: "vagrant"
+project_user_password: "{{ project_user }}"
+
+django_settings_module: "{{ project_name }}.settings.dev"
+django_superuser_username: pp
+django_superuser_password: pbkdf2_sha256$12000$R4lki9GwepNR$t4GpUoMvO7Y/ZGXfPFHQAbIWK/5Xpex9qUBNUZ//SX4=
+django_superuser_full_name: Pepe Juarez
+django_superuser_email: pp@pp.com
+
+nginx_disable_assets_caching: true
