@@ -5,8 +5,6 @@ from rafee.users.permissions import IsAdminUserOrReadOnly
 from rafee.slideshows.models import Slideshow
 from rafee.slideshows.serializers import SlideshowSerializer
 
-# pylint: disable=protected-access
-
 
 class SlideshowViewSet(ModelViewSet):
 
@@ -18,8 +16,7 @@ class SlideshowViewSet(ModelViewSet):
 
     def get_queryset(self):
         if self.request.user.is_staff:
-            return self.model._default_manager.all()
-        else:
-            return self.model._default_manager.filter(
-                team__in=self.request.user.teams.all(),
-            )
+            return self.model.objects.all()
+        return self.model.objects.filter(
+            team__in=self.request.user.teams.all(),
+        )
