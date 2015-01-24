@@ -5,7 +5,7 @@ import {
 
 moduleForModel('team', 'Team', {
   // Specify the other units that are required for this test.
-  needs: []
+  needs: ['model:user', 'model:slideshow']
 });
 
 test('it exists', function() {

@@ -20,6 +20,7 @@ module.exports = function(environment) {
     }
   };
 
+  ENV['simple-auth'] = {}
 
   if (environment === 'development') {
     // ENV.APP.LOG_RESOLVER = true;
@@ -30,7 +31,6 @@ module.exports = function(environment) {
 
     ENV.APP.API_HOST = 'http://localhost:8888';
     ENV.APP.API_NAMESPACE = 'api/v1';
-
   }
 
   if (environment === 'test') {
@@ -46,6 +46,8 @@ module.exports = function(environment) {
 
     ENV.APP.API_HOST = '';
     ENV.APP.API_NAMESPACE = 'api/v1';
+
+    ENV['simple-auth'].store = 'simple-auth-session-store:ephemeral';
   }
 
   if (environment === 'production') {
@@ -56,10 +58,8 @@ module.exports = function(environment) {
 
   ENV.APP.API_URL = ENV.APP.API_HOST + '/' + ENV.APP.API_NAMESPACE;
 
-  ENV['simple-auth'] = {
-    authorizer: 'simple-auth-authorizer:token',
-    crossOriginWhitelist: [ENV.APP.API_HOST]
-  };
+  ENV['simple-auth'].authorizer = 'simple-auth-authorizer:token';
+  ENV['simple-auth'].crossOriginWhitelist = [ENV.APP.API_HOST];
 
   ENV['simple-auth-token'] = {
     serverTokenEndpoint: ENV.APP.API_URL + '/auth-token',
