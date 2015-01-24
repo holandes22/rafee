@@ -1,16 +1,17 @@
-TODO: open tickets for each item
+### TODO: open tickets for each item
+
+General
+-------
+
+- try json api
 
 Backend
 -------
 
-- API
-    - Consider using drf router
-    - Use viewsets (were possible)
 - Add debug tools
-    - Werkzeug (web interactive console)
     - Sentry? (or other monitoring tool)
     - Profiling (perf)
-    - Django debug tool bar
+    - Django debug tool bar or django-queryinspect (might work better than dt for API)
     - Set django logs properly. Maybe use email notification too.
     - Set uwsgi and nginx logs properly
 - Ansible:
@@ -18,8 +19,8 @@ Backend
         - http://goodcode.io/blog/ansible-tips/
         - https://gist.github.com/marktheunissen/2979474
         - http://docs.ansible.com/playbooks_best_practices.html#best-practices
-    - For prod passwords and secret key, use var_prompt
     - Create a deployment playbook for staging/prod that pulls code from git
+        - For prod passwords and secret key, use var_prompt
     - remove sudo: yes?
 - switch to python3
     - Need to use supervisor from dev branch (Py3 support will come with release 4.0, currently dev branch)
@@ -35,47 +36,42 @@ Backend
 - Test how would work to do a change to a model (document how to run the migration)
 
 
-General
--------
-- fix bug login page not showing error warning if bad credentials
-- fix bug: With admin user, enter wrong credentials once, then enter good credentials, admind dashboard link is not
-  shown until refresh
-- Add authenticated mixin to all routes (except login, about). Check if it can cascade down application maybe.
-- Slideshow main screen should not show dropdown if no slideshows
-- Add mixin that redirects to error page if user is not staff when browsing /admin
-- Fix confirm delete component redirect to resource list
-- Refactor confirm delete component to bubble up delete action to router
-- Refactor code to pave the upgrade for ember 2.0 https://gist.github.com/samselikoff/1d7300ce59d216fdaf97
-- try json api
-- fix text overflow when name on list is long (overflows to edit form)
-- Add bulk selection of list items (for delete for example)
-- Search bars and filters in sections
-- Redirect to error page if server is down (now it just shows the loading icon)
+Frontend
+--------
+- General
+    - Add slideshows flow logic diagram to DESIGN.md
+    - Add error and loading states templates
+    - Refactor code to pave the upgrade for ember 2.0 https://gist.github.com/samselikoff/1d7300ce59d216fdaf97
+    - Redirect to error page if server is down (now it just shows the loading icon)
+    - Search bars and filters in sections
+    - Generic error handler mixin
+    - Show 404 and 500 error (specially after delete if user presses back button)
+    - Admin dashboard index add cards counting objects in each class or something similar
+    - Unify colors in less: For example use a details-color class (which points to success in bootstrap) to have it one place
+    - Add error handlers for promises
+    - Add/Edit forms where missing (check ember forms)
+    - Use jquery knob to indicate polling intervals
+    - Fix nav bar not staying on top when scrolling right pane content
+    - Details box of resources should always stay on top (when we have a long list of users for example and need to scroll down) --> position: fixed
 - Maybe move loading icon to topbar
-- active classes on sections
-- Lists of resources should be ordered
-- Generic error handler mixin
-- try to move stuff in application template to somewhere else (should just contain the outlet, annoying each update of ember)
-- Mostrar 404 y 500 error (specially after delete if user presses back button)
-- slideshow dropdown should not appear at main page if slideshow list is empty
-- Admin dashboard index add cards counting objects in each class or something similar
-- Unify colors in less: For example use a details-color class (which points to success in bootstrap) to have it one place
-- Add error handlers for promises
-- Add/Edit forms (check ember forms)
-- Add delete view
-- Add slideshows screen and flow logic
-- Add error and loading states templates
-- Templates rendered should appear as html
-- Use jquery knob to indicate polling intervals
-- Fix nav bar not staying on top when scrolling right pane content
-- Details box of resources should always stay on top (when we have a long list of users for example and need to scroll down) --> position: fixed
-- Add active classes when navigating (to everythin!)
-- Fix CSS in login screen (use less secific stuff)
-- Adding repo
-- fix  http://0.0.0.0:4200/assets/bootstrap-theme.css.map 404 (Not Found)
-- Template screen
-    - Add details section
-    - Add template string to details
+- User
+    - Changing user in edit form is not bound to user detail list (should be changed live)
+- Login / Auth
+    - Fix CSS in login screen (use less secific stuff)
+    - fix bug login page not showing error warning if bad credentials
+    - fix bug: With admin user, enter wrong credentials once, then enter good credentials, admind dashboard link is not
+      shown until refresh
+    - Add authenticated mixin to all routes (except login, about). Check if it can cascade down application maybe.
+    - Add mixin that redirects to error page if user is not staff when browsing /admin
+- Slideshows
+    - slideshow dropdown should not appear at main page if slideshow list is empty
+- Components
+    - fix text overflow when name on list is long (overflows to edit form)
+    - Fix confirm delete component redirect to resource list
+    - Refactor confirm delete component to bubble up delete action to router
+    - Add bulk selection of list items (for delete for example)
+    - Lists of resources should be ordered
+- Templates
     - Render should be shown full page
 
 Tests
