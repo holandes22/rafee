@@ -8,6 +8,10 @@ General
 Backend
 -------
 
+- nginx
+    - if uwsgi is down, nginx should time out inmediately (it keeps waiting from django,
+      delaying the response)
+
 - Add debug tools
     - Sentry? (or other monitoring tool)
     - Profiling (perf)
@@ -58,9 +62,6 @@ Frontend
     - Changing user in edit form is not bound to user detail list (should be changed live)
 - Login / Auth
     - Fix CSS in login screen (use less secific stuff)
-    - fix bug login page not showing error warning if bad credentials
-    - fix bug: With admin user, enter wrong credentials once, then enter good credentials, admind dashboard link is not
-      shown until refresh
     - Add authenticated mixin to all routes (except login, about). Check if it can cascade down application maybe.
     - Add mixin that redirects to error page if user is not staff when browsing /admin
 - Slideshows
