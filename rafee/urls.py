@@ -7,50 +7,53 @@ from rafee.slideshows.views import SlideshowViewSet
 from rafee.templates.views import TemplateListAPIView
 from rafee.templates.views import TemplateRenderAPIView
 from rafee.templates.views import TemplatePreviewAPIView
+from rafee.users.views import UserProfileAPIView
+from rafee.users.views import UserViewSet
 
-api_prefix = settings.API_PREFIX
+# pylint: disable=invalid-name
 
-urlpatterns = patterns(
+
+api_urlpatterns = patterns(
     '',
     url(
-        r'^{}/docs/'.format(api_prefix), include('rest_framework_swagger.urls')
+        r'docs/', include('rest_framework_swagger.urls')
     ),
     url(
-        r'^{}/auth-token'.format(api_prefix),
+        r'auth-token',
         'rest_framework_jwt.views.obtain_jwt_token',
         name='auth-token',
     ),
-    url(r'^{}/users'.format(api_prefix), include('rafee.users.urls')),
-    url(r'^{}/teams/'.format(api_prefix), include('rafee.teams.urls')),
-    url(r'^{}/repositories/'.format(api_prefix), include('rafee.repositories.urls')),
+    url(r'teams/', include('rafee.teams.urls')),
+    url(r'repositories/', include('rafee.repositories.urls')),
+    url(r'templates/$', TemplateListAPIView.as_view(), name='template-list'),
     url(
-        r'^{}/templates/$'.format(api_prefix),
-        TemplateListAPIView.as_view(),
-        name='template-list',
-    ),
-    url(
-        r'^{}/templates/preview$'.format(api_prefix),
+        r'templates/preview$',
         TemplatePreviewAPIView.as_view(),
         name='template-preview',
     ),
+    url(r'slide/$', TemplateRenderAPIView.as_view(), name='template-render'),
     url(
-        r'^{}/slide/$'.format(api_prefix),
-        TemplateRenderAPIView.as_view(),
-        name='template-render',
-    ),
-    url(
-        r'^{}/tasks/(?P<task_id>[a-z0-9\-]+)'.format(api_prefix),
+        r'tasks/(?P<task_id>[a-z0-9\-]+)',
         TaskDetail.as_view(),
         name='task-detail',
     ),
+    url(r'^users/profile/$', UserProfileAPIView.as_view(), name='user-profile')
 )
 
 
 router = routers.SimpleRouter()
-router.register(r'{}/slideshows'.format(api_prefix), SlideshowViewSet)
+router.register(r'slideshows', SlideshowViewSet)
+router.register(r'users', UserViewSet)
 
-urlpatterns += router.urls
+api_urlpatterns += router.urls
 
+urlpatterns = patterns(
+    '',
+    url(
+        r'^{}/'.format(settings.API_PREFIX),
+        include(api_urlpatterns),
+    )
+)
 
 if settings.DEBUG:
     # Allow login via DRF browsable API
