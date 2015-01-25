@@ -1,14 +1,21 @@
-<h2 id='title'>Rafee Login</h2>
+<h3 class="text-center">Enter your credentials</h3>
 
-<form class="form-signin" role="form" {{action "authenticate" on="submit"}}>
-  {{input id="identification" value=identification class="form-control login-username" placeholder="Username"}}
-  {{input id="password" type="password" value=password class="form-control login-password" placeholder="Password"}}
-  <button type="submit" class="btn btn-lg btn-primary btn-block" {{bind-attr disabled=disabled}}>Sign in</button>
-</form>
+<div class="row row-centered">
+  <div class="col-md-3 col-centered">
+    <form class="form-signin" role="form" {{action "authenticate" on="submit"}}>
+      {{input id="identification" value=identification class="form-control login-username" placeholder="Username"}}
+      {{input id="password" type="password" value=password class="form-control login-password" placeholder="Password"}}
+      <button type="submit" class="btn btn-lg btn-primary btn-block" {{bind-attr disabled=disabled}}>Sign in</button>
+    </form>
+  </div>
+</div>
 
 {{#if loginFailure}}
-  <div class="alert alert-danger alert-dismissible" role="alert">
-    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-    <strong>Login failure: </strong><p id="loginFailureMessage">{{ errorMessage }}</p>
+<div class="row row-centered margin-top-20">
+  <div class="col-md-4 col-centered">
+    <div class="alert alert-danger" role="alert">
+      <strong>Login failure: </strong><p id="loginFailureMessage">{{ errorMessage }}</p>
+    </div>
   </div>
+</div>
 {{/if}}
