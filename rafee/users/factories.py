@@ -3,7 +3,8 @@ import random
 import factory
 from factory.django import DjangoModelFactory
 from django.conf import settings
-from rest_framework.authtoken.models import Token
+from django.contrib.auth.hashers import make_password
+from django.utils.module_loading import import_string
 
 
 NAMES = [
@@ -43,7 +44,9 @@ class UserFactory(DjangoModelFactory):
         lambda o: '{}@afa.com'.format(o.full_name.replace(' ', '.').lower())
     )
     username = factory.Sequence(lambda x: 'username{}'.format(x))
-    password = '1'
+    password = make_password(
+        '1',
+        hasher=import_string(settings.PASSWORD_HASHERS[0])().algorithm)
 
     @factory.post_generation
     def teams(self, create, extracted, **kwargs):
