@@ -55,6 +55,7 @@ Router.map(function() {
       });
     });
   });
+  this.route("error");
 });
 
 export default Router;
