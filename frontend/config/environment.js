@@ -20,7 +20,7 @@ module.exports = function(environment) {
     }
   };
 
-  ENV['simple-auth'] = {}
+  ENV['simple-auth'] = {};
 
   if (environment === 'development') {
     // ENV.APP.LOG_RESOLVER = true;
