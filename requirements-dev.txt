@@ -2,9 +2,8 @@
 ansible==1.8.2
 coverage==3.7.1
 factory-boy==2.4.1
-ipython==2.3.1
+ipython==2.4.0
 mock==1.0.1
-pip-tools==0.3.5
 py==1.4.26
 cov-core==1.15.0
 pytest==2.6.4
