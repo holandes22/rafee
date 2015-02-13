@@ -1,8 +1,8 @@
 import os
 
-from mock import patch, Mock
+import pytest
 from celery import states
-from django.test import TestCase
+from mock import patch, Mock
 from django.conf import settings
 
 from rafee.repositories.models import Repository
@@ -11,49 +11,57 @@ from rafee.repositories.tasks import clone_and_create_repo
 from rafee.repositories.tasks import pull_repo, pull_all_repos
 
 
-class RepositoryTasksTests(TestCase):
+# pylint: disable=invalid-name,redefined-outer-name
 
-    def setUp(self):
-        self.gm_patcher = patch('rafee.repositories.tasks.GitManager')
-        self.gm_mock = self.gm_patcher.start()
 
-    def tearDown(self):
-        self.gm_patcher.stop()
+@pytest.yield_fixture
+def gm_mock():
+    gm_patcher = patch('rafee.repositories.tasks.GitManager')
+    yield gm_patcher.start()
+    gm_patcher.stop()
 
-    def test_task_includes_error(self):
-        error = IOError('Cannot clone there')
-        self.gm_mock.side_effect = error
-        result = clone_and_create_repo.delay('http://some.url/fake')
-        self.assertEqual(error, result.result)
-        self.assertEqual(states.FAILURE, result.status)
 
-    @patch('rafee.repositories.tasks.get_dst_path')
-    def test_clone_and_create(self, get_dst_path):
-        url = 'http://some.url/fake'
-        get_dst_path.return_value = 'fake'
-        result = clone_and_create_repo.delay(url)
-        self.gm_mock.assert_called_with(url, 'fake')
-        repo = Repository.objects.get(id=result.result)
-        self.assertEqual(url, repo.url)
+def test_task_includes_error(gm_mock):
+    error = IOError('Cannot clone there')
+    gm_mock.side_effect = error
+    result = clone_and_create_repo.delay('http://some.url/fake')
+    assert error == result.result
+    assert states.FAILURE == result.status
 
-    def test_clone_and_create_removes_git_extension_from_folder(self):
-        url = 'http://some.url/fake.git'
-        clone_and_create_repo.delay(url)
-        path = os.path.join(settings.RAFEE_REPO_DIR, 'fake')
-        self.gm_mock.assert_called_with(url, path)
 
-    @patch('rafee.repositories.tasks.get_dst_path')
-    def test_pull_all_repos(self, get_dst_path):
-        git_manager = self.gm_mock.return_value
+@pytest.mark.django_db
+@patch('rafee.repositories.tasks.get_dst_path')
+def test_clone_and_create(get_dst_path, gm_mock):
+    url = 'http://some.url/fake'
+    get_dst_path.return_value = 'fake'
+    result = clone_and_create_repo.delay(url)
+    gm_mock.assert_called_with(url, 'fake')
+    repo = Repository.objects.get(id=result.result)
+    assert url == repo.url
+
+
+def test_clone_and_create_removes_git_extension_from_folder(gm_mock):
+    url = 'http://some.url/fake.git'
+    clone_and_create_repo.delay(url)
+    path = os.path.join(settings.RAFEE_REPO_DIR, 'fake')
+    gm_mock.assert_called_with(url, path)
+
+
+@pytest.mark.django_db
+def test_pull_all_repos(gm_mock):
+    with patch('rafee.repositories.tasks.get_dst_path'):
+        git_manager = gm_mock.return_value
         RepositoryFactory()
         RepositoryFactory()
         result = pull_all_repos.delay()
-        self.assertListEqual([], result.result['errors'])
-        self.assertEqual(2, git_manager.pull.call_count)
+        assert [] == result.result['errors']
+        assert 2 == git_manager.pull.call_count
 
-    @patch('rafee.repositories.tasks.get_dst_path')
-    def test_pull_all_repos_return_error_info(self, get_dst_path):
-        git_manager = self.gm_mock.return_value
+
+@pytest.mark.django_db
+def test_pull_all_repos_return_error_info(gm_mock):
+    with patch('rafee.repositories.tasks.get_dst_path'):
+        git_manager = gm_mock.return_value
         RepositoryFactory()
         repo2 = RepositoryFactory()
         repo3 = RepositoryFactory()
@@ -65,14 +73,15 @@ class RepositoryTasksTests(TestCase):
             {'repo': repo2.id, 'message': str(error2), 'error': 'ValueError'},
             {'repo': repo3.id, 'message': str(error3), 'error': 'IOError'},
         ]
-        self.assertEqual(expected, result.result['errors'])
+        assert expected == result.result['errors']
 
-    @patch('rafee.repositories.tasks.get_dst_path')
-    def test_pull_repo(self, get_dst_path):
-        git_manager = self.gm_mock.return_value
-        url = 'http://some.url/fake'
-        get_dst_path.return_value = 'fake'
-        result = pull_repo.delay(url)
-        self.assertIsNone(result.result)
-        self.gm_mock.assert_called_with(url, 'fake')
-        git_manager.pull.assert_called_with()
+
+@patch('rafee.repositories.tasks.get_dst_path')
+def test_pull_repo(get_dst_path, gm_mock):
+    git_manager = gm_mock.return_value
+    url = 'http://some.url/fake'
+    get_dst_path.return_value = 'fake'
+    result = pull_repo.delay(url)
+    assert result.result is None
+    gm_mock.assert_called_with(url, 'fake')
+    git_manager.pull.assert_called_with()

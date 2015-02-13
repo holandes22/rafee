@@ -11,11 +11,6 @@ from rafee.repositories.factories import RepositoryFactory
 # pylint: disable=invalid-name
 
 
-def nottest(func):
-    func.__test__ = False
-    return func
-
-
 test_params = [
     (UserFactory, 'pk'),
     (TeamFactory, 'id'),
