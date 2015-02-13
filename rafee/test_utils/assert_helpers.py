@@ -1,11 +1,14 @@
 from rest_framework import status
 
 
+def assert_items_equal(expected, actual):
+    assert sorted(actual) == sorted(expected)
+
+
 def assert_status_and_items_equal(expected_code, expected, response):
     actual = response.data
     assert expected_code == response.status_code
-    assert len(actual) == len(expected)
-    assert sorted(actual) == sorted(expected)
+    assert_items_equal(expected, actual)
 
 
 def assert_200_and_items_equal(expected, response):
