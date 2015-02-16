@@ -7,7 +7,7 @@ from rafee.templates.tasks import render
 # pylint: disable=redefined-outer-name
 
 
-@pytest.yield_fixture
+@pytest.yield_fixture(scope='module')
 def manager():
     with patch('rafee.templates.tasks.TemplateManager') as manager:
         yield manager.return_value

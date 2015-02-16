@@ -10,7 +10,7 @@ from rafee.test_utils.assert_helpers import assert_200_and_items_equal
 task_id = 'aa-11'
 
 
-@pytest.yield_fixture
+@pytest.yield_fixture(scope='module')
 def result():
     with patch('rafee.tasks.views.app.AsyncResult') as AsyncResult:
         yield AsyncResult.return_value
