@@ -2,7 +2,7 @@
 ansible==1.8.2
 coverage==3.7.1
 factory-boy==2.4.1
-ipython==2.4.0
+ipython==2.4.1
 mock==1.0.1
 py==1.4.26
 cov-core==1.15.0
