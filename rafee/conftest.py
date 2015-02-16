@@ -1,35 +1,43 @@
+from contextlib import contextmanager
+
 import pytest
 from rest_framework.test import APIClient
 
 from rafee.users.factories import UserFactory
 
+# pylint: disable=redefined-outer-name,unused-argument,invalid-name
 
-@pytest.fixture()
+
+@contextmanager
+def api_client(user):
+    client = APIClient()
+    client.force_authenticate(user=user)
+    yield client
+    client.logout()
+
+
+@pytest.fixture
 def user(db):
     return UserFactory()
 
 
-@pytest.fixture()
+@pytest.fixture
 def admin_user(db):
     return UserFactory(is_staff=True)
 
 
-@pytest.yield_fixture()
+@pytest.yield_fixture
 def client(user):
-    api_client = APIClient()
-    api_client.force_authenticate(user=user)
-    yield api_client
-    api_client.logout()
+    with api_client(user) as authenticated_client:
+        yield authenticated_client
 
 
-@pytest.yield_fixture()
+@pytest.yield_fixture
 def admin_client(admin_user):
-    api_client = APIClient()
-    api_client.force_authenticate(user=admin_user)
-    yield api_client
-    api_client.logout()
+    with api_client(admin_user) as authenticated_client:
+        yield authenticated_client
 
 
-@pytest.fixture()
+@pytest.fixture
 def anon_client():
     return APIClient()
