@@ -1,4 +1,7 @@
 #!/bin/bash
+
+set -e  # Abort on first error
+
 function usage()
 {
 cat <<-ENDOFMESSAGE
@@ -10,9 +13,11 @@ options:
     -c With coverage.
     -p Path to tests. Accepts specific test/test suite.
     -h Display this message.
+    -m Run migrations before pytest. Needed for first time
+       after cloning or after modifying the DB schema.
 
 ENDOFMESSAGE
-    exit 1
+exit 1
 }
 
 
@@ -27,11 +32,16 @@ export PYTHONPATH=$PYTHONPATH:./
 export DJANGO_SETTINGS_MODULE=rafee.settings.test
 
 
-while getopts "hp:c" opt; do
+while getopts "hp:cm" opt; do
   case $opt in
     c)
       echo "Running tests with coverage!" >&2
       COVERAGE="--cov rafee --cov-report html"
+      ;;
+    m)
+      echo "Running migrations!" >&2
+      find . -name "*.pyc" -exec rm -rf {} \;
+      python manage.py makemigrations && python manage.py migrate
       ;;
     p)
       TEST_PATH=$OPTARG
@@ -45,7 +55,4 @@ while getopts "hp:c" opt; do
   esac
 done
 
-
-find . -name "*.pyc" -exec rm -rf {} \;
-python manage.py makemigrations && python manage.py migrate
 py.test -q --durations=3 $COVERAGE $TEST_PATH
