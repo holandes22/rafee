@@ -28,7 +28,6 @@ fi
 
 COVERAGE=""
 TEST_PATH=rafee
-export PYTHONPATH=$PYTHONPATH:./
 export DJANGO_SETTINGS_MODULE=rafee.settings.test
 
 
