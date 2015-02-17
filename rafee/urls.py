@@ -42,7 +42,7 @@ api_urlpatterns = patterns(
 
 
 router = routers.SimpleRouter()
-router.register(r'slideshows', SlideshowViewSet)
+router.register(r'slideshows', SlideshowViewSet, base_name='slideshow')
 router.register(r'users', UserViewSet)
 
 api_urlpatterns += router.urls
