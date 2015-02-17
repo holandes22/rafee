@@ -3,6 +3,4 @@ python:
     - "2.7.9"
 install: pip install -r requirements-dev.txt
 script:
-    - export DJANGO_SETTINGS_MODULE=rafee.settings.test
-    - python manage.py makemigrations && python manage.py migrate
-    - py.test --cov rafee --cov-report xml
+    - ./runtest.sh -c -m

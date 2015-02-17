@@ -35,7 +35,7 @@ while getopts "hp:cm" opt; do
   case $opt in
     c)
       echo "Running tests with coverage!" >&2
-      COVERAGE="--cov rafee --cov-report html"
+      COVERAGE="--cov rafee --cov-report html --cov-report xml"
       ;;
     m)
       echo "Running migrations!" >&2

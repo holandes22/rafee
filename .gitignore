@@ -10,7 +10,7 @@ logs/*.log
 # misc
 .DS_Store
 Thumbs.db
-coverage
+coverage.*
 .coverage
 htmlcov
 vagrant_ansible_inventory_default
