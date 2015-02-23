@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import { module, test } from 'ember-qunit';
 import startApp from '../helpers/start-app';
 import Pretender from 'pretender';
 import ENV from 'rafee/config/environment';
@@ -30,7 +31,7 @@ var users = [admin, user];
 
 
 module('Acceptance: Users', {
-  setup: function() {
+  beforeEach: function() {
     application = startApp();
     server = new Pretender(function() {
       this.get(ENV.APP.API_NAMESPACE + '/users/', function(request) {
@@ -42,39 +43,39 @@ module('Acceptance: Users', {
     });
     preparePretender(server);
   },
-  teardown: function() {
+  afterEach: function() {
     Ember.run(application, 'destroy');
     server.shutdown();
   }
 });
 
-test('visiting /admin/users', function() {
+test('visiting /admin/users', function(assert) {
   authenticateSession();
   currentSession().set('currentUser', admin);
   visit('/admin/users');
 
   andThen(function() {
-    equal(currentRouteName(), 'admin.users.index');
+    assert.equal(currentRouteName(), 'admin.users.index');
   });
 });
 
-test('visiting /admin/users redirects to login if not authenticated', function() {
+test('visiting /admin/users redirects to login if not authenticated', function(assert) {
   invalidateSession();
   visit('/admin/users');
 
   andThen(function() {
-    equal(currentRouteName(), 'login');
+    assert.equal(currentRouteName(), 'login');
   });
 });
 
 
-test('visiting /admin/users gives error if user not admin', function() {
+test('visiting /admin/users gives error if user not admin', function(assert) {
   authenticateSession();
   currentSession().set('currentUser', user);
   visit('/admin/users');
 
   andThen(function() {
-    equal(currentRouteName(), 'error');
-    equal(find('#error-message').text(), 'You must be a staff member to access this path.');
+    assert.equal(currentRouteName(), 'error');
+    assert.equal(find('#error-message').text(), 'You must be a staff member to access this path.');
   });
 });

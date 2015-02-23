@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import { module, test } from 'ember-qunit';
 import Pretender from 'pretender';
 import startApp from '../helpers/start-app';
 import preparePretender from '../helpers/prepare-pretender';
@@ -18,7 +19,7 @@ var user = {
 
 
 module('Integration - Login', {
-  setup: function() {
+  beforeEach: function() {
     application = startApp();
     server = new Pretender(function() {
       this.post(ENV.APP.API_NAMESPACE + '/auth-token', function(request) {
@@ -43,62 +44,62 @@ module('Integration - Login', {
     });
     preparePretender(server);
   },
-  teardown: function() {
+  afterEach: function() {
     Ember.run(application, 'destroy');
     server.shutdown();
   }
 });
 
-test('it redirects to main page on succesful login', function() {
-  expect(2);
+test('it redirects to main page on succesful login', function(assert) {
+  assert.expect(2);
   visit('/login');
   fillIn('.login-username', 'admin');
   fillIn('.login-password', 'good');
   click('.form-signin button');
   andThen(function() {
-    equal(currentRouteName(), 'index');
-    equal(find('.navbar-admin').length, 1, 'it shows the admin dashboar link');
+    assert.equal(currentRouteName(), 'index');
+    assert.equal(find('.navbar-admin').length, 1, 'it shows the admin dashboar link');
   });
 });
 
-test('it hides admin dashboard link if user is not staff', function() {
-  expect(2);
+test('it hides admin dashboard link if user is not staff', function(assert) {
+  assert.expect(2);
   visit('/login');
   fillIn('.login-username', 'notAdmin');
   fillIn('.login-password', 'good');
   click('.form-signin button');
   andThen(function() {
-    equal(currentRouteName(), 'index');
-    equal(find('.navbar-admin').length, 0, 'it hides the admin dashboar link');
+    assert.equal(currentRouteName(), 'index');
+    assert.equal(find('.navbar-admin').length, 0, 'it hides the admin dashboar link');
   });
 });
 
 
-test('it shows error message on failed login', function() {
-  expect(3);
+test('it shows error message on failed login', function(assert) {
+  assert.expect(3);
   visit('/login');
   fillIn('.login-username', 'admin');
   fillIn('.login-password', 'bad');
   click('.form-signin button');
 
   andThen(function() {
-    equal(find('.alert-danger').length, 1, 'it shows the failure messsage');
-    equal(find('#loginFailureMessage').text(), 'fake', 'it shows message from server');
-    equal(find('.navbar-admin').length, 0, 'it hides the admin dashboar link');
+    assert.equal(find('.alert-danger').length, 1, 'it shows the failure messsage');
+    assert.equal(find('#loginFailureMessage').text(), 'fake', 'it shows message from server');
+    assert.equal(find('.navbar-admin').length, 0, 'it hides the admin dashboar link');
   });
 });
 
 
-test('it shows error message on failed login', function() {
-  expect(3);
+test('it shows error message on failed login', function(assert) {
+  assert.expect(3);
   visit('/login');
   fillIn('.login-username', 'admin');
   fillIn('.login-password', 'bad');
   click('.form-signin button');
 
   andThen(function() {
-    equal(find('.alert-danger').length, 1, 'it shows the failure messsage');
-    equal(find('#loginFailureMessage').text(), 'fake', 'it shows message from server');
-    equal(find('.navbar-admin').length, 0, 'it hides the admin dashboar link');
+    assert.equal(find('.alert-danger').length, 1, 'it shows the failure messsage');
+    assert.equal(find('#loginFailureMessage').text(), 'fake', 'it shows message from server');
+    assert.equal(find('.navbar-admin').length, 0, 'it hides the admin dashboar link');
   });
 });
