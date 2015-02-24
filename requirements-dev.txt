@@ -1,5 +1,5 @@
 -r requirements.txt
-ansible==1.8.2
+ansible==1.8.4
 coverage==3.7.1
 factory-boy==2.4.1
 ipython==2.4.1
