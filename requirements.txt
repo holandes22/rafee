@@ -30,3 +30,4 @@ django-cors-headers==1.0.0
 djangorestframework-jwt==1.2.0
 PyJWT==0.4.3
 uwsgi==2.0.9
+flower==0.7.3

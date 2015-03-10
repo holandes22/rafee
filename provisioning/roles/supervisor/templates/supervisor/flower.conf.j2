@@ -1,0 +1,10 @@
+[program:flower]
+command={{ virtualenv_path }}/bin/celery flower -A {{ project_name }} --pidfile=/tmp/{{ project_name }}_flower.pid
+
+environment=PYTHONPATH={{ project_root }},DJANGO_SETTINGS_MODULE={{ django_settings_module }}
+user={{ project_user }}
+stdout_logfile=/var/log/celery/flower.log
+stderr_logfile=/var/log/celery/flower.log
+autostart=true
+autorestart=true
+startsecs=10

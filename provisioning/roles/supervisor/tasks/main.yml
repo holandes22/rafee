@@ -21,6 +21,7 @@
       - celerybeat.conf
       - nginx.conf
       - uwsgi.conf
+      - flower.conf
   notify:
     - restart supervisord
 
