@@ -1,7 +1,43 @@
-{{resource-list
-  tableHeaders="URL"
-  addDelete=true
-  resourceName="repository"
-  actionLinks="details"
-  tableValuesTemplate="resource-table-link-values"
-  list=model}}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="input-group input-group-sm">
+        {{input type="text" value="Filter" placeholder="Filter..." class="form-control"}}
+        <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+      </div>
+    </div>
+    <div class="col-md-2">
+      {{link-to "Add" "admin.repositories.add" class='btn btn-primary btn-sm'}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-5">
+      {{#if model}}
+        <table class="table">
+          <thead>
+            <tr>
+              <th>URL</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each repository in model}}
+              <tr>
+                <td><a {{bind-attr href=repository.url}}>{{repository.url}}</a></td>
+                <td>
+                  {{#link-to "admin.repositories.repository" repository title="Details"}}
+                    <span class="glyphicon glyphicon-list"></span>
+                  {{/link-to}}
+                  {{delete-confirmation resource=repository}}
+                </td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      {{/if}}
+    </div>
+    <div class="col-md-7 details-pane">
+      {{outlet}}
+    </div>
+  </div>
+</div>
