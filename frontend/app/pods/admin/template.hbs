@@ -1,26 +1,24 @@
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-md-2 sidebar">
-      <ul class="nav nav-sidebar">
-        <li>
-          {{link-to 'Users' 'admin.users'}}
-        </li>
-        <li>
-          {{link-to 'Teams' 'admin.teams'}}
-        </li>
-        <li>
-          {{link-to 'Repositories' 'admin.repositories'}}
-        </li>
-        <li>
-          {{link-to 'Slideshows' 'admin.slideshows'}}
-        </li>
-        <li>
-          {{link-to 'Templates' 'admin.templates'}}
-        </li>
-      </ul>
-    </div>
-    <div class="col-md-offset-2 col-md-10 main">
-      {{outlet}}
-    </div>
-  </div>
+<div class="large-2 columns">
+  <nav>
+    <ul class="side-nav">
+      <li>
+        {{link-to 'Users' 'admin.users'}}
+      </li>
+      <li>
+        {{link-to 'Teams' 'admin.teams'}}
+      </li>
+      <li>
+        {{link-to 'Repositories' 'admin.repositories'}}
+      </li>
+      <li>
+        {{link-to 'Slideshows' 'admin.slideshows'}}
+      </li>
+      <li>
+        {{link-to 'Templates' 'admin.templates'}}
+      </li>
+    </ul>
+  </nav>
+</div>
+<div class="large-10 columns">
+{{outlet}}
 </div>

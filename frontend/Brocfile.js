@@ -2,17 +2,24 @@
 
 var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
-var app = new EmberApp();
+var app = new EmberApp({
+  'ember-cli-foundation-sass': {
+    'modernizr': true,
+    'fastclick': true,
+    'foundationJs': 'all'
+  },
+  compassOptions: {
+    importPath: [
+      'bower_components/foundation/scss/'
+    ]
+  }
+});
 
-app.import('bower_components/bootstrap/dist/css/bootstrap.min.css');
-app.import('bower_components/bootstrap/dist/css/bootstrap-theme.min.css');
-app.import('bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.svg', { destDir: '/fonts'});
-app.import('bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.eot', { destDir: '/fonts'});
-app.import('bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf', { destDir: '/fonts'});
-app.import('bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.woff', { destDir: '/fonts'});
-app.import('bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.woff2', { destDir: '/fonts'});
-
-app.import('bower_components/bootstrap/dist/js/bootstrap.js');
+app.import('bower_components/foundation-icon-fonts/foundation-icons.css');
+app.import('bower_components/foundation-icon-fonts/foundation-icons.eot', { destDir: '/assets'});
+app.import('bower_components/foundation-icon-fonts/foundation-icons.ttf', { destDir: '/assets'});
+app.import('bower_components/foundation-icon-fonts/foundation-icons.svg', { destDir: '/assets'});
+app.import('bower_components/foundation-icon-fonts/foundation-icons.woff', { destDir: '/assets'});
 
 // Use `app.import` to add additional libraries to the generated
 // output files.

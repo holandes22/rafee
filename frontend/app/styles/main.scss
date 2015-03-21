@@ -1,0 +1,13 @@
+@import "base";
+
+body {
+  background-color: $background-gray;
+}
+
+.main {
+  @include scrollable-content-mixin();
+}
+
+.form-signin input[type="password"] {
+  margin-bottom: 0.5em
+}

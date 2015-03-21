@@ -1,4 +1,8 @@
-.scrollable-content-mixin() {
+$nice-gray: #f5f5f5;
+$background-gray: #eee;
+$light-gray: #428bca;
+
+@mixin scrollable-content-mixin() {
   position: fixed;
   top: 51px;
   bottom: 0;

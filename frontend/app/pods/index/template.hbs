@@ -1,40 +1,39 @@
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-md-offset-3 col-md-6">
-      <legend>Select a slideshow</legend>
-      <form class="form-inline" role="form">
-        <div class="form-group">
+<div class="row">
+  <div class="small-7 small-centered columns">
+    <legend>Select a slideshow</legend>
+    <form>
+      <div class="row collapse">
+        <div class="small-10 columns">
           {{view "select"
                  content=model
                  optionValuePath="content.id"
                  optionLabelPath="content.name"
-                 selection=selectedSlideshow
-                 classNames="form-control"}}
+                 selection=selectedSlideshow}}
         </div>
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary">Go!</button>
+        <div class="small-2 columns">
+          <button type="submit" class="postfix">Go!</button>
         </div>
-      </form>
-      <br/>
-      {{#if selectedSlideshow}}
-        <h4>Template names in slideshow: {{selectedSlideshow.name}}</h4>
-        <table class="table table-condensed table-striped">
-          <thead>
+      </div>
+    </form>
+    <br/>
+    {{#if selectedSlideshow}}
+      <h4>Template names in {{selectedSlideshow.name}}</h4>
+      <table>
+        <thead>
+          <tr>
+            <th>Position</th>
+            <th>Template name</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each templateName in selectedSlideshow.templateNames}}
             <tr>
-              <th>Position</th>
-              <th>Template name</th>
+              <td>{{_view.contentIndex}}</td>
+              <td>{{templateName}}</td>
             </tr>
-          </thead>
-          <tbody>
-            {{#each templateName in selectedSlideshow.templateNames}}
-              <tr>
-                <td>{{_view.contentIndex}}</td>
-                <td>{{templateName}}</td>
-              </tr>
-            {{/each}}
-          </tbody>
-        </table>
-      {{/if}}
-    </div>
+          {{/each}}
+        </tbody>
+      </table>
+    {{/if}}
   </div>
 </div>
