@@ -1,30 +1,22 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  tagName: 'a',
   didInsertElement: function() {
-      var component = this,
-      content = this.$('.delete-confirmation-popover-content');
-      component.$().popover({
-          title: 'Are you sure?',
-          animation: true,
-          html: true,
-          content: content,
-          placement: 'auto',
-      }).on('show.bs.popover', function() {
-          // TODO: Hide all other popovers
-          content.removeClass('hide');
-      });
+    this.$().foundation();
   },
-  willDestroyElement: function() {
-    this.$().popover('destroy');
-  },
+  dataDropdownId: function() {
+    return 'drop-delete-confirmation-' + this.resource.id;
+  }.property('resource'),
   actions: {
     delete: function() {
-      this.get('resource').destroyRecord();
+      this.$().foundation('dropdown', 'closeall');
+      this.resource.destroyRecord();
     },
     cancel: function() {
-      this.$().popover('hide');
+      // TODO: For some reason, when I use data-dropdown-content
+      // in the template, actions are not being triggered so we
+      // the logic to close the active ones
+      this.$().foundation('dropdown', 'closeall');
     }
   }
 });

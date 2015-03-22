@@ -1,46 +1,44 @@
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-md-3">
-      <div class="input-group input-group-sm">
-        {{input type="text" value="Filter" placeholder="Filter..." class="form-control"}}
-        <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
-      </div>
-    </div>
-    <div class="col-md-2">
-      {{link-to "Add" "admin.users.add" class='btn btn-primary btn-sm'}}
-    </div>
+<div class="row">
+  <div class="small-2 column">
+    {{link-to "Add" "admin.users.add" class='button expand'}}
   </div>
-  <div class="row">
-    <div class="col-md-5">
-      {{#if model}}
-        <table class="table">
-          <thead>
+</div>
+<div class="row">
+  <div class="small-4 columns">
+    {{#if model}}
+      <table>
+        <thead>
+          <tr>
+            <th>Full name</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each model as |user|}}
             <tr>
-              <th>Full name</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {{#each user in model}}
-              <tr>
-                <td>{{user.fullName}}</td>
-                <td>
-                  {{#link-to "admin.users.user.edit" user title="Edit"}}
-                    <span class="glyphicon glyphicon-edit"></span>
-                  {{/link-to}}
-                  {{#link-to "admin.users.user" user title="Details"}}
-                    <span class="glyphicon glyphicon-list"></span>
-                  {{/link-to}}
+              <td>{{user.fullName}} - {{user.id}}</td>
+              <td>
+                <ul class="button-group">
+                  <li>
+                    {{#link-to "admin.users.user.edit" user title="Edit" class="button tiny"}}
+                      <i class="fi-pencil"></i>
+                    {{/link-to}}
+                    </li>
+                  <li>
+                    {{#link-to "admin.users.user" user title="Details" class="button tiny"}}
+                      <i class="fi-list"></i>
+                    {{/link-to}}
+                  </li>
                   {{delete-confirmation resource=user}}
-                </td>
-              </tr>
-            {{/each}}
-          </tbody>
-        </table>
-      {{/if}}
-    </div>
-    <div class="col-md-7 details-pane">
-      {{outlet}}
-    </div>
+                </ul>
+              </td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    {{/if}}
+  </div>
+  <div class="small-8 columns details-pane">
+    {{outlet}}
   </div>
 </div>

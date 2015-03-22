@@ -1,5 +1,6 @@
-<span class="glyphicon glyphicon-remove"></span>
-<div class="delete-confirmation-popover-content hide">
-  <button type="button" class="btn btn-xs btn-danger" {{action "delete"}}>Delete</button>
-  <button type="button" class="btn btn-xs btn-default" {{action "cancel"}}>Cancel</button>
+<a {{bind-attr data-dropdown=dataDropdownId}} class="button tiny" data-options="align:right"><i class="fi-x"></i></a>
+<div {{bind-attr id=dataDropdownId}} class="f-dropdown content tiny">
+  <p>Are you sure?</p>
+  <a class="button tiny alert" {{action "delete"}}>Delete</a>
+  <a class="button tiny" {{action "cancel"}}>Cancel</a>
 </div>
