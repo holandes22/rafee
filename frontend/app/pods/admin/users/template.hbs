@@ -1,44 +1,35 @@
 <div class="row">
-  <div class="small-2 column">
-    {{link-to "Add" "admin.users.add" class='button expand'}}
+  <div class="small-4 columns">
+    {{link-to "Add" "admin.users.add" class='button'}}
   </div>
 </div>
+{{#if model}}
 <div class="row">
-  <div class="small-4 columns">
-    {{#if model}}
-      <table>
-        <thead>
-          <tr>
-            <th>Full name</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {{#each model as |user|}}
-            <tr>
-              <td>{{user.fullName}} - {{user.id}}</td>
-              <td>
-                <ul class="button-group">
-                  <li>
-                    {{#link-to "admin.users.user.edit" user title="Edit" class="button tiny"}}
-                      <i class="fi-pencil"></i>
-                    {{/link-to}}
-                    </li>
-                  <li>
-                    {{#link-to "admin.users.user" user title="Details" class="button tiny"}}
-                      <i class="fi-list"></i>
-                    {{/link-to}}
-                  </li>
-                  {{delete-confirmation resource=user}}
-                </ul>
-              </td>
-            </tr>
-          {{/each}}
-        </tbody>
-      </table>
-    {{/if}}
+  <div class="small-5 columns">
+    {{#each model as |user|}}
+      {{#if user.fullName}}
+      <div class="row">
+        <div class="small-8 columns">
+          {{link-to user.fullName "admin.users.user" user title="Details" class="button secondary small expand"}}
+        </div>
+        <div class="small-4 columns">
+          <ul class="button-group">
+            <li>
+              {{#link-to "admin.users.user.edit" user title="Edit" class="button small"}}
+                <i class="fi-pencil"></i>
+              {{/link-to}}
+            </li>
+            <li>
+            {{delete-confirmation resource=user}}
+            </li>
+          </ul>
+        </div>
+      </div>
+      {{/if}}
+    {{/each}}
   </div>
-  <div class="small-8 columns details-pane">
+  <div class="small-7 columns">
     {{outlet}}
   </div>
 </div>
+{{/if}}

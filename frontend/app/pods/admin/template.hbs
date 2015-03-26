@@ -1,24 +1,26 @@
-<div class="large-2 columns">
-  <nav>
-    <ul class="side-nav">
-      <li>
-        {{link-to 'Users' 'admin.users'}}
-      </li>
-      <li>
-        {{link-to 'Teams' 'admin.teams'}}
-      </li>
-      <li>
-        {{link-to 'Repositories' 'admin.repositories'}}
-      </li>
-      <li>
-        {{link-to 'Slideshows' 'admin.slideshows'}}
-      </li>
-      <li>
-        {{link-to 'Templates' 'admin.templates'}}
-      </li>
-    </ul>
-  </nav>
-</div>
-<div class="large-10 columns">
-{{outlet}}
+<div class="row">
+  <div class="small-2 columns">
+    <nav>
+      <ul class="side-nav">
+        <li>
+          {{link-to 'Users' 'admin.users'}}
+        </li>
+        <li>
+          {{link-to 'Teams' 'admin.teams'}}
+        </li>
+        <li>
+          {{link-to 'Repositories' 'admin.repositories'}}
+        </li>
+        <li>
+          {{link-to 'Slideshows' 'admin.slideshows'}}
+        </li>
+        <li>
+          {{link-to 'Templates' 'admin.templates'}}
+        </li>
+      </ul>
+    </nav>
+  </div>
+  <div class="small-10 columns main-pane">
+    {{outlet}}
+  </div>
 </div>

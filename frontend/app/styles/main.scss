@@ -4,10 +4,7 @@ body {
   background-color: $background-gray;
 }
 
-.main {
-  @include scrollable-content-mixin();
-}
 
-.form-signin input[type="password"] {
-  margin-bottom: 0.5em
+.main-pane {
+  padding-top: 1em,
 }
