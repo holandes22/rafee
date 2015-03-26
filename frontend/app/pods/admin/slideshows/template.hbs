@@ -1,46 +1,33 @@
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-md-3">
-      <div class="input-group input-group-sm">
-        {{input type="text" value="Filter" placeholder="Filter..." class="form-control"}}
-        <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
-      </div>
-    </div>
-    <div class="col-md-2">
-      {{link-to "Add" "admin.slideshows.add" class='btn btn-primary btn-sm'}}
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-5">
-      {{#if model}}
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Full name</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {{#each slideshow in model}}
-              <tr>
-                <td>{{slideshow.name}}</td>
-                <td>
-                  {{#link-to "admin.slideshows.slideshow.edit" slideshow title="Edit"}}
-                    <span class="glyphicon glyphicon-edit"></span>
-                  {{/link-to}}
-                  {{#link-to "admin.slideshows.slideshow" slideshow title="Details"}}
-                    <span class="glyphicon glyphicon-list"></span>
-                  {{/link-to}}
-                  {{delete-confirmation resource=slideshow}}
-                </td>
-              </tr>
-            {{/each}}
-          </tbody>
-        </table>
-      {{/if}}
-    </div>
-    <div class="col-md-7 details-pane">
-      {{outlet}}
-    </div>
+<div class="row">
+  <div class="small-4 columns">
+    {{link-to "Add" "admin.slideshows.add" class='button'}}
   </div>
 </div>
+{{#if model}}
+<div class="row">
+  <div class="small-5 columns">
+    {{#each model as |slideshow|}}
+      <div class="row">
+        <div class="small-8 columns">
+          {{link-to slideshow.name "admin.slideshows.slideshow" slideshow title="Details" class="button secondary small expand"}}
+        </div>
+        <div class="small-4 columns">
+          <ul class="button-group">
+            <li>
+              {{#link-to "admin.slideshows.slideshow.edit" slideshow title="Edit" class="button small"}}
+                <i class="fi-pencil"></i>
+              {{/link-to}}
+            </li>
+            <li>
+            {{delete-confirmation resource=slideshow}}
+            </li>
+          </ul>
+        </div>
+      </div>
+    {{/each}}
+  </div>
+  <div class="small-7 columns">
+    {{outlet}}
+  </div>
+</div>
+{{/if}}

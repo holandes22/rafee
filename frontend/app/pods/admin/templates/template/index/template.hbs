@@ -1,19 +1,12 @@
-<div class="panel panel-success">
-  <div class="panel-heading">
-    <h3 class="panel-title">Template details</h3>
+<div class="panel">
+  <div class="row">
+    <div class="small-3 columns"><strong>Name</strong></div>
+    <div class="small-9 columns">{{name}}</div>
   </div>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Data source URL</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td>{{name}}</td>
-          <td>{{#if dataSourceUrl}}<a {{bind-attr href=dataSourceUrl}}>{{dataSourceUrl}}</a>{{else}}None{{/if}}</td>
-        </tr>
-    </tbody>
-  </table>
+  <div class="row">
+    <div class="small-3 columns"><strong>Data source URL</strong></div>
+    <div class="small-9 columns">
+      {{#if dataSourceUrl}}<a {{bind-attr href=dataSourceUrl}}>{{dataSourceUrl}}</a>{{else}}None{{/if}}
+    </div>
+  </div>
 </div>

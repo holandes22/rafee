@@ -1,43 +1,24 @@
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-md-3">
-      <div class="input-group input-group-sm">
-        {{input type="text" value="Filter" placeholder="Filter..." class="form-control"}}
-        <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
-      </div>
-    </div>
-    <div class="col-md-2">
-      {{link-to "Add" "admin.repositories.add" class='btn btn-primary btn-sm'}}
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-5">
-      {{#if model}}
-        <table class="table">
-          <thead>
-            <tr>
-              <th>URL</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {{#each repository in model}}
-              <tr>
-                <td><a {{bind-attr href=repository.url}}>{{repository.url}}</a></td>
-                <td>
-                  {{#link-to "admin.repositories.repository" repository title="Details"}}
-                    <span class="glyphicon glyphicon-list"></span>
-                  {{/link-to}}
-                  {{delete-confirmation resource=repository}}
-                </td>
-              </tr>
-            {{/each}}
-          </tbody>
-        </table>
-      {{/if}}
-    </div>
-    <div class="col-md-7 details-pane">
-      {{outlet}}
-    </div>
+<div class="row">
+  <div class="small-4 columns">
+    {{link-to "Add" "admin.repositories.add" class='button'}}
   </div>
 </div>
+{{#if model}}
+<div class="row">
+  <div class="small-10 columns">
+    {{#each model as |repo|}}
+      <div class="row">
+        <div class="small-7 columns">
+          <a {{bind-attr href=repo.url}}>{{repo.url}}</a>
+        </div>
+        <div class="small-5 columns">
+          {{delete-confirmation resource=repo}}
+        </div>
+      </div>
+    {{/each}}
+  </div>
+  <div class="small-7 columns">
+    {{outlet}}
+  </div>
+</div>
+{{/if}}

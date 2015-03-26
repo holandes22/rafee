@@ -1,10 +1,8 @@
-<div class="panel panel-success">
-  <div class="panel-heading">
-    <h3 class="panel-title">Users in team <strong>{{name}}</strong></h3>
-  </div>
-  <div class="list-group">
+<div class="panel">
+  <h4 class="panel-title">Users in team <strong>{{name}}</strong></h4>
   {{#each user in users}}
-    {{link-to user.fullName  'admin.users.user' user class="list-group-item"}}
+    <div>
+    {{link-to user.fullName 'admin.users.user' user}}
+    </div>
   {{/each}}
-  </div>
 </div>

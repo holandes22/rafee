@@ -15,12 +15,12 @@
 
 {{#if teams}}
   <div class="panel">
-      <h4>Teams</h4>
-      {{#each team in teams}}
-      <div>
-        {{link-to team.name  'admin.teams.team' team}}
-      </div>
-      {{/each}}
+    <h4>Teams</h4>
+    {{#each team in teams}}
+    <div>
+      {{link-to team.name  'admin.teams.team' team}}
+    </div>
+    {{/each}}
   </div>
 {{/if}}
 

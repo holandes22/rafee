@@ -1,36 +1,25 @@
-<div class="panel panel-success">
-  <div class="panel-heading">
-    <h3 class="panel-title">Slideshow details</h3>
+<div class="panel">
+  <div class="row">
+    <div class="small-3 columns"><strong>ID</strong></div>
+    <div class="small-9 columns">{{id}}</div>
   </div>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>id</th>
-        <th>name</th>
-        <th>team</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td>{{id}}</td>
-          <td>{{name}}</td>
-          <td>{{#link-to "admin.teams.team" team.id}}{{team.name}}{{/link-to}}</td>
-        </tr>
-    </tbody>
-  </table>
+  <div class="row">
+    <div class="small-3 columns"><strong>Name</strong></div>
+    <div class="small-9 columns">{{name}}</div>
+  </div>
+  <div class="row">
+    <div class="small-3 columns"><strong>Team</strong></div>
+    <div class="small-9 columns">{{link-to team.name "admin.teams.team" team}}</div>
+  </div>
 </div>
 
 {{#if templates}}
   <div class="panel">
-    <div class="panel-heading">
-      <strong class="panel-title">Templates</strong>
-    </div>
-    <div class="list-group">
+    <h4>Templates</h4>
     {{#each template in templateList}}
-      <div class="list-group-item">
-        {{#link-to "admin.templates.template" template.key}}{{template.name}}{{/link-to}}
-      </div>
-    {{/each}}
+    <div>
+      {{link-to template.name "admin.templates.template" template.key}}
     </div>
+    {{/each}}
   </div>
 {{/if}}

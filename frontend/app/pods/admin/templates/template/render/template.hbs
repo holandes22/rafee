@@ -1,36 +1,22 @@
 {{#if isLoading}}
-  {{partial "loading"}}
-{{else}}
-  <div class="panel-group" id="accordion">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">
-          <a data-toggle="collapse" data-parent="#accordion" href="#collapse-one">
-            Rendered template
-          </a>
-        </h4>
-      </div>
-      <div id="collapse-one" class="panel-collapse collapse in">
-        <div class="panel-body">
-          {{rendered-template renderResult}}
-        </div>
-      </div>
-    </div>
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">
-          <a data-toggle="collapse" data-parent="#accordion" href="#collapse-two">
-            Rendered template (raw string)
-          </a>
-        </h4>
-      </div>
-      <div id="collapse-two" class="panel-collapse collapse">
-        <div class="panel-body">
-          {{renderResult}}
-        </div>
-      </div>
+  <div class="row">
+    <div class="small-3 small-centered column">
+      {{partial "loading"}}
     </div>
   </div>
+{{else}}
+  <ul class="accordion" data-accordion>
+    <li class="accordion-navigation">
+      <a href="#panel-rendered-html">Rendered template</a>
+      <div id="panel-rendered-html" class="content active">
+        {{rendered-template renderResult}}
+      </div>
+    </li>
+    <li class="accordion-navigation">
+      <a href="#panel-rendered-raw">Rendered template (raw string)</a>
+      <div id="panel-rendered-raw" class="content">
+        {{renderResult}}
+      </div>
+    </li>
+  </ul>
 {{/if}}
-
-
