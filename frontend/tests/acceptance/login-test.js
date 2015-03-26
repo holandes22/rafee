@@ -83,23 +83,8 @@ test('it shows error message on failed login', function(assert) {
   click('.form-signin button');
 
   andThen(function() {
-    assert.equal(find('.alert-danger').length, 1, 'it shows the failure messsage');
+    assert.equal(find('.alert-box').length, 1, 'it shows the failure messsage');
     assert.equal(find('#loginFailureMessage').text(), 'fake', 'it shows message from server');
-    assert.equal(find('.navbar-admin').length, 0, 'it hides the admin dashboar link');
-  });
-});
-
-
-test('it shows error message on failed login', function(assert) {
-  assert.expect(3);
-  visit('/login');
-  fillIn('.login-username', 'admin');
-  fillIn('.login-password', 'bad');
-  click('.form-signin button');
-
-  andThen(function() {
-    assert.equal(find('.alert-danger').length, 1, 'it shows the failure messsage');
-    assert.equal(find('#loginFailureMessage').text(), 'fake', 'it shows message from server');
-    assert.equal(find('.navbar-admin').length, 0, 'it hides the admin dashboar link');
+    assert.equal(find('.navbar-admin').length, 0, 'it hides the admin dashboard link');
   });
 });
