@@ -9,7 +9,7 @@
     <form class="form-signin" role="form" {{action "authenticate" on="submit"}}>
       {{input id="identification" value=identification class="form-control login-username" placeholder="Username"}}
       {{input id="password" type="password" value=password class="form-control login-password" placeholder="Password"}}
-      <button type="submit" class="expand" {{bind-attr disabled=disabled}}>Sign in</button>
+      <button type="submit" class="expand" disabled={{disabled}}>Sign in</button>
     </form>
   </div>
 </div>
@@ -18,7 +18,7 @@
 <div class="row">
   <div class="small-3 small-centered columns">
     <div data-alert class="alert-box alert text-center">
-      <strong>Login failure: </strong><p id="loginFailureMessage">{{ errorMessage }}</p>
+      <strong>Login failure: </strong><p id="loginFailureMessage">{{errorMessage}}</p>
     </div>
   </div>
 </div>

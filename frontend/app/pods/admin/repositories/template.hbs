@@ -9,7 +9,7 @@
     {{#each model as |repo|}}
       <div class="row">
         <div class="small-7 columns">
-          <a {{bind-attr href=repo.url}}>{{repo.url}}</a>
+          <a href="{{repo.url}}">{{repo.url}}</a>
         </div>
         <div class="small-5 columns">
           {{delete-confirmation resource=repo}}

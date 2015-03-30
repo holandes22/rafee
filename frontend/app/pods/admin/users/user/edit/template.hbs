@@ -2,19 +2,19 @@
   <div class="row">
     <div class="small-12 columns">
       <label>Username
-        {{input type="text" value=username}}
+        {{input type="text" value=model.username}}
         <small class="hide">{{errors.username}}</small>
       </label>
       <label>e-mail
-        {{input type="email" value=email}}
+        {{input type="email" value=model.email}}
         <small class="hide">{{errors.email}}</small>
       </label>
       <label>Full name
-        {{input type="text" value=fullName}}
+        {{input type="text" value=model.fullName}}
         <small class="hide">{{errors.fullName}}</small>
       </label>
       <label>Is staff?
-        {{input type="checkbox" checked=isStaff}}
+        {{input type="checkbox" checked=model.isStaff}}
       </label>
       <label>Teams
         {{view "select"
@@ -22,7 +22,7 @@
             content=allTeams
             optionValuePath="content.id"
             optionLabelPath="content.name"
-            selectionBinding="teams"
+            selectionBinding="model.teams"
             class="form-control"}}
       </label>
     </div>
