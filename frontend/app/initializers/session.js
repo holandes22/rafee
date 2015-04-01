@@ -2,14 +2,14 @@ import Ember from 'ember';
 import Session from 'simple-auth/session';
 
 
-export var initialize = function(container) {
+export var initialize = function() {
   Session.reopen({
-    setCurrentUser: function() {
+    setCurrentUser: function(instance) {
       var token = this.get('token');
       var self = this;
 
       if (!Ember.isEmpty(token)) {
-        return container.lookup('store:main').find('user', 'profile').then(function(user) {
+        return instance.container.lookup('store:main').find('user', 'profile').then(function(user) {
           self.set('currentUser', user);
         });
       }
