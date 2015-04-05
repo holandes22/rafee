@@ -1,17 +1,17 @@
 <form>
   <div class="row">
     <div class="small-12 columns">
-      <label>Username
+      <label class="form-field-username">Username
         {{input type="text" value=model.username}}
-        <small class="hide">{{errors.username}}</small>
+        <small class="form-field-username">{{controller.errors.username}}</small>
       </label>
-      <label>e-mail
+      <label class="form-field-email">e-mail
         {{input type="email" value=model.email}}
-        <small class="hide">{{errors.email}}</small>
+        <small class="form-field-email">{{controller.errors.email}}</small>
       </label>
-      <label>Full name
+      <label class="form-field-fullName">Full name
         {{input type="text" value=model.fullName}}
-        <small class="hide">{{errors.fullName}}</small>
+        <small class="form-field-fullName">{{controller.errors.fullName}}</small>
       </label>
       <label>Is staff?
         {{input type="checkbox" checked=model.isStaff}}
@@ -19,7 +19,7 @@
       <label>Teams
         {{view "select"
             multiple="true"
-            content=allTeams
+            content=controller.allTeams
             optionValuePath="content.id"
             optionLabelPath="content.name"
             selectionBinding="model.teams"

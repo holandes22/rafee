@@ -3,7 +3,8 @@ import Ember from 'ember';
 export default Ember.Route.extend({
 
   setupController: function(controller, model) {
-    controller.set('model', model);
+    this._super(controller, model);
+    this.controller.set('errors', null);
     this.store.find('team').then(function(teams) {
       controller.set('allTeams', teams);
     });
@@ -18,15 +19,4 @@ export default Ember.Route.extend({
     });
   },
 
-  actions: {
-    submit: function(model) {
-      var self = this;
-      model.save().then(function(){
-        self.transitionTo('admin.users');
-      }, function(reason){
-        //TODO: Handle the error properly
-        window.console.log(reason);
-      });
-    }
-  }
 });
