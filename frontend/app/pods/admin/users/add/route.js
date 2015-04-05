@@ -2,29 +2,26 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
 
-  setupController: function(controller) {
+  setupController: function(controller, model) {
+    controller.set('model', model);
     this.store.find('team').then(function(teams) {
       controller.set('allTeams', teams);
     });
   },
 
-  actions: {
-    submit: function() {
-      var user = this.store.createRecord('user', {
-        username: this.controller.get('username'),
-        email: this.controller.get('email'),
-        fullName: this.controller.get('fullName'),
-        isStaff: this.controller.get('isStaff'),
-      });
-      var self = this;
+  model: function() {
+    return this.store.createRecord('user', {
+      username: null,
+      email: null,
+      fullName: null,
+      isStaff: null,
+    });
+  },
 
-      user.save().then(function(){
-        var teams = self.controller.get('teams');
-        if (teams) {
-          user.get('teams').addObjects(teams);
-        }
-        user.save();
-      }).then(function(){
+  actions: {
+    submit: function(model) {
+      var self = this;
+      model.save().then(function(){
         self.transitionTo('admin.users');
       }, function(reason){
         //TODO: Handle the error properly
