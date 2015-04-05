@@ -7,7 +7,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # Rafee specific
 RAFEE_REPO_DIR = '/var/www/rafee/repos'
-RAFEE_REPO_POLLING_INTERVAL = os.environ.get('RAFEE_REPO_POLLING_INTERVAL', 45)
+RAFEE_REPO_POLLING_INTERVAL = os.environ.get('RAFEE_REPO_POLLING_INTERVAL', 60)
 
 # Celery
 BROKER_URL = 'redis://localhost:6379/0'
