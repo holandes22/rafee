@@ -1,22 +1,22 @@
 <div class="panel">
   <div class="row">
     <div class="small-3 columns"><strong>Username</strong></div>
-    <div class="small-9 columns">{{username}}</div>
+    <div class="small-9 columns">{{model.username}}</div>
   </div>
   <div class="row">
     <div class="small-3 columns"><strong>Full name</strong></div>
-    <div class="small-9 columns">{{fullName}}</div>
+    <div class="small-9 columns">{{model.fullName}}</div>
   </div>
   <div class="row">
     <div class="small-3 columns"><strong>email</strong></div>
-    <div class="small-9 columns">{{email}}</div>
+    <div class="small-9 columns">{{model.email}}</div>
   </div>
 </div>
 
-{{#if teams}}
+{{#if model.teams}}
   <div class="panel">
     <h4>Teams</h4>
-    {{#each team in teams}}
+    {{#each model.teams as |team|}}
     <div>
       {{link-to team.name  'admin.teams.team' team}}
     </div>

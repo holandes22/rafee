@@ -1,14 +1,7 @@
 import Ember from 'ember';
+import UserRouteMixin from 'rafee/mixins/user-route';
 
-export default Ember.Route.extend({
-
-  setupController: function(controller, model) {
-    this._super(controller, model);
-    this.controller.set('errors', null);
-    this.store.find('team').then(function(teams) {
-      controller.set('allTeams', teams);
-    });
-  },
+export default Ember.Route.extend(UserRouteMixin, {
 
   model: function() {
     return this.store.createRecord('user', {
@@ -17,6 +10,6 @@ export default Ember.Route.extend({
       fullName: null,
       isStaff: null,
     });
-  },
+  }
 
 });

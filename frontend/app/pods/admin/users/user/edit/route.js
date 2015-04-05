@@ -1,22 +1,9 @@
 import Ember from 'ember';
+import UserRouteMixin from 'rafee/mixins/user-route';
 
-export default Ember.Route.extend({
-  setupController: function(controller, model) {
-    controller.set('model', model);
-    this.store.find('team').then(function(teams) {
-      controller.set('allTeams', teams);
-    });
-  },
+export default Ember.Route.extend(UserRouteMixin, {
 
   actions: {
-    submit: function(user) {
-      var self = this;
-      user.save().then(function(){
-        self.transitionTo('admin.users.user', user.get('id'));
-      }, function(reason){
-        window.console.log(reason);
-      });
-    },
     //TODO: put this in a mixin
     willTransition: function(transition) {
       var model = this.controller.get('model');
