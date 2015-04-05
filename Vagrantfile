@@ -16,6 +16,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.provider :virtualbox do |vb|
     vb.name = "rafee"
+    vb.memory = 768
   end
 
   config.vm.provision :ansible do |ansible|
