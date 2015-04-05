@@ -1,18 +1,15 @@
 <form>
   <div class="row">
     <div class="small-12 columns">
-      <label class="form-field-username">Username
+      {{#form-field errors=controller.errors key="username" label="Username"}}
         {{input type="text" value=model.username}}
-        <small class="form-field-username">{{controller.errors.username}}</small>
-      </label>
-      <label class="form-field-email">e-mail
+      {{/form-field}}
+      {{#form-field errors=controller.errors key="email" label="e-mail"}}
         {{input type="email" value=model.email}}
-        <small class="form-field-email">{{controller.errors.email}}</small>
-      </label>
-      <label class="form-field-fullName">Full name
+      {{/form-field}}
+      {{#form-field errors=controller.errors key="fullName" label="Full name"}}
         {{input type="text" value=model.fullName}}
-        <small class="form-field-fullName">{{controller.errors.fullName}}</small>
-      </label>
+      {{/form-field}}
       <label>Is staff?
         {{input type="checkbox" checked=model.isStaff}}
       </label>

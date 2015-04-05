@@ -1,6 +1,8 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
+
+  // TODO: Move to a mixin for re-use
   actions: {
     submit: function(model) {
       Ember.$('[class^="form-field-"]').removeClass('error');
