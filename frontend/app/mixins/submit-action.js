@@ -7,6 +7,7 @@ export default Ember.Mixin.create({
       Ember.$('[class^="form-field-"]').removeClass('error');
 
       model.save().then(() => {
+        this.flashMessages.success(this.get('flashSuccessMessage'));
         this.transitionToRoute.apply(this, this.get('transitionToArgs'));
       }, (reason) => {
         this.set('errors', reason.errors);
