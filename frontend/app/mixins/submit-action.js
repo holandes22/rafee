@@ -10,6 +10,9 @@ export default Ember.Mixin.create({
         this.flashMessages.success(this.get('flashSuccessMessage'));
         this.transitionToRoute.apply(this, this.get('transitionToArgs'));
       }, (reason) => {
+        // TODO: If error is 400, show errors in form
+        // otherwise, show a sticky flash message with
+        // the error message
         this.set('errors', reason.errors);
         Ember.$.each(reason.errors, function(key) {
           Ember.$('.form-field-' + key).addClass('error');

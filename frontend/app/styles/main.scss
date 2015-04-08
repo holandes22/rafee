@@ -4,18 +4,24 @@ body {
   background-color: $background-gray;
 }
 
-
 .main-pane {
   padding-top: 1em,
 }
 
-
-
-.alert-box {
-  cursor: pointer;
+.flash-wrapper .alert-box {
   -webkit-animation: animation 1000ms linear both;
-  animation: animation 1000ms linear both;
 }
+
+.flash-wrapper {
+  cursor: pointer;
+  width: 32em;
+  top: 3.5em;
+  right: -0.1em;
+  display: block;
+  position: fixed;
+  z-index: 98;
+}
+
 
 /* TODO: use compass animations instead */
 /* Generated with Bounce.js. Edit at http://goo.gl/Vn2Euz */
