@@ -35,7 +35,10 @@ You can checkout the API docs at http://localhost:8888/api/v1/docs
 
 In order to run the unittests:
 
-    ./runtests.sh  # Linux only, for windows you can check the script to know what to do
+    ./runtests.sh [-m] # Linux only, for windows you can check the script to know what to do
+
+The -m flag run the migrations. This is only needed to generate initial migrations (until they are comitted) or whenever a change in the
+models is done. Otherwise it can be left out to run the tests faster
 
 running tests with coverage:
 
@@ -60,7 +63,12 @@ Install the latest stable version of Node. To verify is properly installed, both
     node --help
     npm --help
 
-Install ember-cli (0.1.17 or later is required) and bower (you might need sudo for this):
+Install the sass and compass Gems to preprocess style:
+
+    gem install sass
+    gem install compass
+
+Install ember-cli (0.2.2 or later is required) and bower (you might need sudo for this):
 
     npm install -g ember-cli
     npm install -g bower
