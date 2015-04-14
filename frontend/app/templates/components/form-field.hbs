@@ -1,4 +1,4 @@
-<label class="form-field-{{key}}">{{label}}
+<label class="{{if hasErrors 'error' ''}}">{{label}}
   {{yield}}
-  <small class="form-field-{{key}}">{{errorMessages}}</small>
+  <small class="{{if hasErrors 'error' ''}}">{{errorMessages}}</small>
 </label>
