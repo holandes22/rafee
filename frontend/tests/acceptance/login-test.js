@@ -17,6 +17,7 @@ var user = {
   is_staff: true
 };
 
+var token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBwIiwidXNlcl9pZCI6MSwiZW1haWwiOiJwcEBwcC5jb20iLCJleHAiOjE0MjkyNTA1NDZ9.C8WtJ7Glnw7-IqbI1muJtdkpGgEkf1S6CooMn34tQZo';
 
 module('Integration - Login', {
   beforeEach: function() {
@@ -30,7 +31,7 @@ module('Integration - Login', {
           user.is_staff = false;
         }
         if (data.password === 'good') {
-            return [200, {}, { token: 'token' }];
+            return [200, {}, { token: token }];
         } else {
             return [400, {}, { non_field_errors: ['fake'] }];
         }
