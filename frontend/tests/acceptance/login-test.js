@@ -77,7 +77,7 @@ test('it hides admin dashboard link if user is not staff', function(assert) {
 
 
 test('it shows error message on failed login', function(assert) {
-  assert.expect(3);
+  assert.expect(4);
   visit('/login');
   fillIn('.login-username', 'admin');
   fillIn('.login-password', 'bad');
