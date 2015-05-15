@@ -1,10 +1,9 @@
 -r requirements.txt
-ansible==1.9.0.1
+ansible==1.9.1
 coverage==3.7.1
-factory-boy==2.5.1
+factory-boy==2.5.2
 ipython==3.1.0
 mock==1.0.1
-py==1.4.26
 cov-core==1.15.0
 pytest==2.7.0
 pytest-cov==1.8.1
