@@ -15,6 +15,6 @@
     "foundation": "~5.5.0",
     "foundation-icon-fonts": "*",
     "pretender": "0.1.0",
-    "ember-simple-auth": "0.7.3"
+    "ember-simple-auth": "0.8.0"
   }
 }
