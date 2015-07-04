@@ -110,3 +110,8 @@ SWAGGER_SETTINGS = {
     'enabled_methods': [],
     'api_version': API_VERSION,
 }
+
+# JWT
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': timedelta(days=1),
+}
