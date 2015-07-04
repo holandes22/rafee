@@ -6,7 +6,7 @@
       </li>
     </ul>
     <section class="top-bar-section">
-      {{#if session.currentUser.isStaff}}
+      {{#if currentUser.isStaff}}
       <ul class="left">
         <li>
           {{link-to "Admin dashboard" "admin" class="navbar-admin"}}
@@ -17,7 +17,7 @@
         <li class="divider"></li>
         {{#if session.isAuthenticated}}
         <li class="has-dropdown">
-          <a href="#">{{session.currentUser.username}}</a>
+          <a href="#">{{currentUser.username}}</a>
           <ul class="dropdown">
             <li>
               {{link-to "Profile" "profile"}}
