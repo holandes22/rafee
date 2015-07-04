@@ -16,8 +16,6 @@ var app = new EmberApp({
 });
 
 app.import('bower_components/foundation-icon-fonts/foundation-icons.css');
-app.import('bower_components/foundation-icon-fonts/foundation-icons.eot', { destDir: '/assets'});
-app.import('bower_components/foundation-icon-fonts/foundation-icons.ttf', { destDir: '/assets'});
 app.import('bower_components/foundation-icon-fonts/foundation-icons.svg', { destDir: '/assets'});
 app.import('bower_components/foundation-icon-fonts/foundation-icons.woff', { destDir: '/assets'});
 
