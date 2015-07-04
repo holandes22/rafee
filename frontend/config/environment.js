@@ -19,6 +19,10 @@ module.exports = function(environment) {
       // when it is created
     }
   };
+  ENV.contentSecurityPolicy = {
+    'img-src': "'self'",
+    'style-src': "'self' 'unsafe-inline'"
+  };
 
   ENV['simple-auth'] = {};
 
