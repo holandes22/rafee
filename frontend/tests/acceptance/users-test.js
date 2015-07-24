@@ -34,10 +34,10 @@ module('Acceptance: Users', {
   beforeEach: function() {
     application = startApp();
     server = new Pretender(function() {
-      this.get(ENV.APP.API_NAMESPACE + '/users/', function(request) {
+      this.get(ENV.APP.API_NAMESPACE + '/users/', function() {
         return [200, {}, users];
       });
-      this.get(ENV.APP.API_NAMESPACE + '/users/:user_id', function(request) {
+      this.get(ENV.APP.API_NAMESPACE + '/users/:user_id', function() {
         return [200, {}, currentSession().get('currentUser')];
       });
     });

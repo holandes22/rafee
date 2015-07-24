@@ -36,10 +36,10 @@ module('Integration - Login', {
             return [400, {}, { non_field_errors: ['fake'] }];
         }
       });
-      this.get(ENV.APP.API_NAMESPACE + '/users/profile/', function(request) {
+      this.get(ENV.APP.API_NAMESPACE + '/users/profile/', function() {
         return [200, {}, user];
       });
-      this.get(ENV.APP.API_NAMESPACE + '/slideshows/', function(request) {
+      this.get(ENV.APP.API_NAMESPACE + '/slideshows/', function() {
         return [200, {}, []];
       });
     });
