@@ -7,7 +7,7 @@ export default Ember.Component.extend({
   actions: {
     delete: function() {
       this.$().foundation('dropdown', 'closeall');
-      this.resource.destroyRecord();
+      this.get('resource').destroyRecord();
     },
     cancel: function() {
       // TODO: For some reason, when I use data-dropdown-content

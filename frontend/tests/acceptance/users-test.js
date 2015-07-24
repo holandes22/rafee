@@ -60,6 +60,7 @@ test('visiting /admin/users', function(assert) {
 });
 
 test('visiting /admin/users redirects to login if not authenticated', function(assert) {
+  currentSession().set('currentUser', admin);
   invalidateSession();
   visit('/admin/users');
 
